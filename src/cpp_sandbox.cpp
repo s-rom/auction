@@ -42,14 +42,15 @@ struct Auction::RobotManager
 
     void message_server(boost::atomic<bool> & running)
     {
-        int socket_descriptor = RcSocket::passiveSocket(net_list[id]->port, "udp", 0);
+
+        int socket_descriptor = RcSocket::passiveSocket(net_list[id]->port,"udp", 0);
         if (socket_descriptor < 0)
             std::cout << "Error in RcSocket::passiveSocket"<< std::endl;
-            
+        std::cout << "Server listening on port " << net_list[id]->port << std::endl;
+
 
         while (running)
         {
-            std::cout << "Server listening on port " << net_list[id]->port << std::endl;
             struct sockaddr sender;
             uint addrlen;
             char msg[256];
@@ -63,6 +64,7 @@ struct Auction::RobotManager
             { 
                 Message * m = this->message_system.create_message_from(msg);
                 message_queue.push(m);
+                std::cout << "Received: " << msg << "|"<<m->serialize() << std::endl;
             }
         }
     }
@@ -87,11 +89,11 @@ int main()
     using std::endl;
     using namespace Auction;
 
-    signal(SIGINT, sigint_handler);
+    // signal(SIGINT, sigint_handler);
    
-    RobotManager r(0);
-    boost::thread server_thread(&RobotManager::message_server, &r, boost::ref(running));
-    server_thread.join();
+    // RobotManager r(0);
+    // boost::thread server_thread(&RobotManager::message_server, &r, boost::ref(running));
+    // server_thread.join();
 }
 
 

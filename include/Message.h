@@ -3,6 +3,7 @@
 #include <sstream>
 #include <algorithm>
 #include "Task.h"
+#include <iostream>
 
 namespace Auction
 {
@@ -68,8 +69,8 @@ public:
 	/**
 	 * Creates a Message given a serialized string
 	 * 
-	 * Format:  
-	 * #task_id#src#dst#bid#
+	 * Format required:  
+	 * #type#task_id#src#dst#bid#
 	 */
 	LeaderRequestMessage(string serialized_message)
 	{
@@ -78,16 +79,22 @@ public:
 		using std::stoi;
 		using std::stof;
 
+		this->type = MessageType::LEADER_REQUEST;
+
 		stringstream ss(serialized_message);
 		string token;
+		
 		getline(ss,token,DELIM); // DELIM
 		getline(ss,token,DELIM); // type
 		getline(ss,token,DELIM); // task_id
 		task_id = stoi(token);
+
 		getline(ss,token,DELIM); // src
 		robot_src_id = stoi(token);
+
 		getline(ss,token,DELIM); // dst
 		robot_dst_id = stoi(token);
+
 		getline(ss,token,DELIM); // bid
 		bid = stof(token);
 	}
@@ -96,18 +103,19 @@ public:
      * Creates a serialized string of this Message
      * 
      * Format:  
-     * #task_id#src#dst#bid#
+     * #type#task_id#src#dst#bid#
 	 */
 	string serialize()
 	{
 		using std::to_string;
 		string s;
 		s = DELIM +	
-			to_string(type) + DELIM +
-			to_string(task_id) + DELIM +
-			to_string(robot_src_id) + DELIM +
-			to_string(robot_dst_id) + DELIM +
-			to_string(bid) + DELIM;
+				to_string(type) + DELIM +
+				to_string(task_id) + DELIM +
+				to_string(robot_src_id) + DELIM +
+				to_string(robot_dst_id) + DELIM +
+				to_string(bid) +
+			DELIM;
 		return s;
 	}
 
@@ -130,7 +138,7 @@ public:
 	 * Creates a Message given a serialized string
 	 * 
 	 * Format:  
-	 * #task_id#leader_id#
+	 * #type#task_id#leader_id#
 	 */
 	LeaderOfTaskMessage(string serialized_message)
 	{
