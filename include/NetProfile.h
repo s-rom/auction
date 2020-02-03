@@ -13,7 +13,7 @@ namespace Auction
 
 struct Auction::NetProfile
 {
-	NetProfile(string host_param, string port_param)
+	NetProfile(const string host_param, const string port_param)
 	{
 		host = new char[host_param.length() + 1];
 		port = new char[port_param.length() + 1];
@@ -45,6 +45,11 @@ struct Auction::NetProfile
 
 		strcpy(host, other.host);
 		strcpy(port, other.port);
+	}
+
+	NetProfile operator=(const NetProfile& other)
+	{
+		return NetProfile(other);
 	}
 
 

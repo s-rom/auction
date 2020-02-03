@@ -14,7 +14,7 @@ void MessageSystem::send_message(Message &m, NetProfile &dst)
 }
 
 
-Message* MessageSystem::createMessageFrom(char * msg)
+Message* MessageSystem::create_message_from(char * msg)
 {
     using std::string;
     using std::stringstream;
