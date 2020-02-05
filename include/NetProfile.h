@@ -1,4 +1,6 @@
-#pragma once
+#ifndef NET_PROFILE
+#define NET_PROFILE
+
 #include <string>
 #include <cstring>
 
@@ -13,6 +15,13 @@ namespace Auction
 
 struct Auction::NetProfile
 {
+
+	NetProfile()
+	{
+		host = nullptr;
+		port = nullptr;
+	}
+
 	NetProfile(const string host_param, const string port_param)
 	{
 		host = new char[host_param.length() + 1];
@@ -47,9 +56,24 @@ struct Auction::NetProfile
 		strcpy(port, other.port);
 	}
 
-	NetProfile operator=(const NetProfile& other)
+	NetProfile& operator=(const NetProfile& other)
 	{
-		return NetProfile(other);
+		// self assignation
+		if (this == &other) return *this;
+
+		if (this->host) delete [] host;
+		if (this->port) delete [] port;
+
+		size_t len_host = strlen(other.host);
+		size_t len_port = strlen(other.port);
+
+		host = new char[len_host + 1];															
+		port = new char[len_port + 1];
+
+		strcpy(this->host, other.host);
+		strcpy(this->port, other.port);
+
+		return *this;
 	}
 
 
@@ -65,7 +89,7 @@ struct Auction::NetProfile
 		if (host == NULL || port == NULL)
 			return "error";
 		else
-			return "host: " + string(host) + ",port: " + string(port);
+			return "host: " + string(host) + ", port: " + string(port);
 	}
 
 	char* host; // ip
@@ -74,3 +98,5 @@ struct Auction::NetProfile
 
 
 };
+
+#endif

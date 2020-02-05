@@ -1,4 +1,6 @@
-#pragma once
+#ifndef POINT_2D
+#define POINT_2D
+
 #include <string>
 #include <cmath>
 
@@ -46,3 +48,5 @@ struct Auction::Point2D
 		else return 0;
 	}
 };
+
+#endif

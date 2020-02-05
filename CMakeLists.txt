@@ -25,15 +25,21 @@ include_directories(
 
 add_executable(auction src/cpp_sandbox.cpp)
 add_executable(sender src/message_sender.cpp)
+
 add_library(RcSocket src/RcSocket.cpp)
 add_library(MessageSystem src/MessageSystem.cpp)
+add_library(RobotManager src/RobotManager.cpp)
 
 target_link_libraries(sender MessageSystem)
 target_link_libraries(sender RcSocket)
+
+target_link_libraries(RobotManager RcSocket)
+target_link_libraries(RobotManager MessageSystem)
 
 target_link_libraries(auction ${catkin_LIBRARIES})
 target_link_libraries(auction ${boost_LIBRARIES})
 target_link_libraries(auction RcSocket)
 target_link_libraries(auction MessageSystem)
+target_link_libraries(auction RobotManager)
 
 

@@ -1,4 +1,7 @@
-#pragma once
+#ifndef MESSAGE_SYSTEM
+#define MESSAGE_SYSTEM
+
+
 #include "Message.h"
 #include "NetProfile.h"
 #include "RcSocket.h"
@@ -29,3 +32,5 @@ public:
 	void cast_message(Message * m, LeaderOfTaskMessage * ltm);
 	void cast_message(Message * m, LeaderRequestMessage * lreq);
 };
+
+#endif

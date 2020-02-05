@@ -1,7 +1,9 @@
 #include "Point2D.h"
 #include <sstream>
 #include <algorithm>
-#pragma once
+
+#ifndef TASK
+#define TASK
 
 namespace Auction
 {
@@ -108,3 +110,4 @@ struct Auction::Task
 
 };
 
+#endif

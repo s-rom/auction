@@ -1,4 +1,6 @@
-#pragma once
+#ifndef MESSAGE
+#define MESSAGE
+
 #include <string>
 #include <sstream>
 #include <algorithm>
@@ -179,3 +181,5 @@ public:
 	int task_id;
 	int robot_leader;
 };
+
+#endif
