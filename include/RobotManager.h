@@ -17,6 +17,7 @@
 #include <algorithm>
 #include <vector>
 #include <unordered_map>
+#include <chrono>
 
 // Boost
 #include <boost/thread.hpp>
@@ -25,6 +26,8 @@
 
 namespace Auction
 {
+    using std::chrono::system_clock;
+    using std::chrono::duration_cast;
     using namespace Auction;
     class RobotManager;
 }
@@ -34,13 +37,15 @@ class Auction::RobotManager
 {
 public:
     // Constructors
-    RobotManager(int id);
+    RobotManager(int id, NetProfile & net_info);
 
-    // Member functions
+    
+    // Thread functions
     void message_server(boost::atomic<bool> & running);
     void auction_process(boost::atomic<bool> & running);
 
-    void leader_request();
+    // Auction algorithms
+    void leader_request(Task & t);
     
 
     // Member attributes
@@ -49,6 +54,13 @@ public:
     std::unordered_map<int, NetProfile> net_list;      // List of net profiles of other robots
     std::unordered_map<int, Task> task_list;           // List of known tasks
     SafeQueue<Message*> message_queue;                 // Queue of received messages
+
+
+private:
+    float get_work_capacity(Task & t);
+    const float LOAD_CAPACITY = 1;                      // Maximum load capacity - kg (PLACEHOLDER)
+    const float V_MAX = 10;                             // Max linear velocity - m/s  (PLACEHOLDER)                   
+    const int TIME_LEADERSHIP = 3000;                   // Max time for the leader request - millis (PLACEHOLDER)
 };
 
 #endif

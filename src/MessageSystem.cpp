@@ -45,3 +45,14 @@ Message* MessageSystem::create_message_from(char * msg)
 
 }
 
+void MessageSystem::broadcast_message(Message &m, std::unordered_map<int,NetProfile> &net_list)
+{
+    auto it = net_list.begin();
+    auto end = net_list.end();
+    while (it != end)
+    {
+        std::pair<int,NetProfile> element = *it;
+        send_message(m,element.second);
+        it++;
+    }
+}

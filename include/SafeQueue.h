@@ -2,7 +2,7 @@
 #define SAFE_QUEUE
 
 #include <boost/thread/mutex.hpp>
-#include <queue>
+#include <deque>
 
 
 namespace Auction {
@@ -11,13 +11,14 @@ template<class T>
 class SafeQueue {
 
 public:
+
     SafeQueue()
     {}
 
     void push(T t)
     {
         m.lock();
-        q.push(t);
+        q.push_back(t);
         m.unlock();
     }
 
@@ -32,10 +33,30 @@ public:
     {
         m.lock();
         t = q.front();
-        q.pop();
+        q.pop_front();
         m.unlock();
     }
     
+    typename std::deque<T>::iterator begin()
+    {
+        typename std::deque<T>::iterator it;
+        m.lock();
+        it = q.begin();
+        m.unlock();
+        return it;
+    }
+
+    typename std::deque<T>::iterator end()
+    {
+        typename std::deque<T>::iterator it;
+        m.lock();
+        it = q.end();
+        m.unlock();
+        return it;
+    }
+
+
+
     bool isEmpty()
     {
         m.lock();
@@ -45,7 +66,7 @@ public:
     
 private:
     boost::mutex m; //< boost mutex for locking acces to the queue 
-    std::queue<T> q; //< STL fifo queue
+    std::deque<T> q; //< STL deque
 };
 }
 

@@ -67,6 +67,9 @@ public:
 		this->type = Auction::MessageType::LEADER_REQUEST;
 	};
 
+	// TODO
+	// #define get_float_token(ss, token, DELIM, id) (getline(ss,token,DELIM); td = stof(token);)
+	// #define get_int_token(ss, token, DELIM, id) (getline(ss,token,DELIM); td = stoi(token);)
 
 	/**
 	 * Creates a Message given a serialized string

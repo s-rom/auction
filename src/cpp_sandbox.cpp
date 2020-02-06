@@ -3,6 +3,7 @@
 #include <boost/thread.hpp>
 #include <boost/atomic/atomic.hpp>
 
+#include "SafeQueue.h"
 
 #include "RobotManager.h"
 
@@ -26,16 +27,30 @@ void prueba_robot(Auction::RobotManager& r)
     server_thread.join();
 }
 
-int main()
+void prueba_lider(Auction::RobotManager & r)
+{
+    using namespace Auction;
+    Task task(Point2D(0,0), Point2D(1,2), 1, 1, 1);
+    
+    boost::thread leader_thread(&Auction::RobotManager::leader_request, &r, boost::ref(task));
+    leader_thread.join();
+}
+
+
+int main(int argc, char ** argv)
 {
     using std::cout;
     using std::endl;
     using namespace Auction;
 
-    RobotManager r(0);
 
-    signal(SIGINT, sigint_handler);
-    prueba_robot(r);
+    // RobotManager r(0,);
+
+    // signal(SIGINT, sigint_handler);
+    // // prueba_lider(r);
+    // prueba_robot(r);
+
 }
+
 
 

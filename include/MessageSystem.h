@@ -5,7 +5,7 @@
 #include "Message.h"
 #include "NetProfile.h"
 #include "RcSocket.h"
-
+#include <unordered_map>
 
 namespace Auction
 {
@@ -24,6 +24,7 @@ public:
 		RcSocket::initRcSocket();
 	}
 	void send_message(Message &m, NetProfile &dst);
+	void broadcast_message(Message &m, std::unordered_map<int,NetProfile> &net_list);
 	Message* create_message_from(char * msg);
 
 

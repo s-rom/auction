@@ -2,12 +2,11 @@
 
 using Auction::RobotManager;
 
-RobotManager::RobotManager(int id)
+RobotManager::RobotManager(int id, NetProfile & net_info)
 :
     id(id)
 {
-    NetProfile my_netp("localhost", "25555");
-    net_list[id] = my_netp;
+    net_list[id] = net_info;
 }
 
 void RobotManager::message_server(boost::atomic<bool> & running)
@@ -59,8 +58,66 @@ void RobotManager::auction_process(boost::atomic<bool> & running)
 
 }
 
-void RobotManager::leader_request()
-{
 
+// #define now system_clock::now()
+// #define elapsed(t1, t2) (duration_cast<std::chrono::milliseconds>(t1 - t1).count())
+
+void RobotManager::leader_request(Task & t)
+{
+    std::cout << "Comenzado algoritmo de leader" << std::endl;
+    auto time_init = system_clock::now();
+    auto delta_time = duration_cast<std::chrono::milliseconds>
+                        (time_init - time_init).count();
+    float bid = this->get_work_capacity(t); // bid
+
+
+    while (delta_time < TIME_LEADERSHIP)
+    {
+        // snapshot of the message queue
+        auto end = this->message_queue.end();
+        auto it = this->message_queue.begin();
+        while (it != end)
+        {   
+            Message * m = *it;
+            if (m->type == MessageType::LEADER_REQUEST)
+            {
+                LeaderRequestMessage * lreq = dynamic_cast<LeaderRequestMessage *>(m);
+                // Found message requesting this task with a better bid
+                if (lreq->task_id == t.task_id && lreq->bid > bid)
+                {
+                    //remove this message
+                    //delete this message memory
+                    //give up
+                    std::cout << "Found message "<<lreq->task_id<<" requesting task "<<t.task_id<<
+                    "with a better bid ----> Give up"<< std::endl;
+                    return;
+                } 
+            } 
+            else if (m->type == MessageType::LEADER_OF_TASK)
+            {
+                LeaderOfTaskMessage * lmess = dynamic_cast<LeaderOfTaskMessage *>(m);
+                //remove this message
+                //delete this message memory
+                //give up
+                std::cout << "Found message "<<lmess->task_id<<" requesting task "<<t.task_id<<
+                "as a new leader ----> Give up"<< std::endl;
+                return;
+            }
+            it++;
+        }
+
+        // Update delta time
+        delta_time = duration_cast<std::chrono::milliseconds>
+                        (system_clock::now() - time_init).count();
+    }
+
+    std::cout << "I'm new leader of task "<<t.task_id<<std::endl;
 }
 
+float RobotManager::get_work_capacity(Task& t)
+{
+    float distance = Point2D::euclidean_distance(t.delivery_point,t.task_location);
+    float a = LOAD_CAPACITY * V_MAX;
+    float b = 2 * (LOAD_CAPACITY * V_MAX + distance);
+    return b == 0? 0 : a / b;
+}
