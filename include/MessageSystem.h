@@ -20,18 +20,17 @@ class Auction::MessageSystem
 {
 public:
 	MessageSystem()
+	:
+		monitor_info("localhost","25555")
 	{
 		RcSocket::initRcSocket();
 	}
-	void send_message(Message &m, NetProfile &dst);
+
+	void send_message_monitor(Message &m);
+	void send_message(Message &m,NetProfile &dst);
 	void broadcast_message(Message &m, std::unordered_map<int,NetProfile> &net_list);
 	Message* create_message_from(char * msg);
-
-
-	// buena o mala idea??
-	void cast_message(Message * m, NewTaskMessage * ntm);
-	void cast_message(Message * m, LeaderOfTaskMessage * ltm);
-	void cast_message(Message * m, LeaderRequestMessage * lreq);
+	NetProfile monitor_info;
 };
 
 #endif

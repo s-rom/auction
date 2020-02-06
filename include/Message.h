@@ -5,6 +5,7 @@
 #include <sstream>
 #include <algorithm>
 #include "Task.h"
+#include "NetProfile.h"
 #include <iostream>
 
 namespace Auction
@@ -15,7 +16,8 @@ namespace Auction
 	class NewTaskMessage;
 	class LeaderRequestMessage;
 	class LeaderOfTaskMessage;
-	enum MessageType{ NEW_TASK = 0, LEADER_REQUEST, LEADER_OF_TASK};
+	class NewRobot;
+	enum MessageType{ NEW_TASK = 0, LEADER_REQUEST, LEADER_OF_TASK, NEW_ROBOT, NEW_ID};
 
 }
 
@@ -28,6 +30,10 @@ public:
 	string virtual serialize() = 0; 
 };
 
+
+#define next_float_token(id) getline(ss,token,DELIM); id = stof(token);
+#define next_int_token(id) getline(ss,token,DELIM); id = stoi(token);
+#define next_token(id) getline(ss,token,DELIM); id = token;
 
 class Auction::NewTaskMessage : public Auction::Message
 {
@@ -67,10 +73,6 @@ public:
 		this->type = Auction::MessageType::LEADER_REQUEST;
 	};
 
-	// TODO
-	// #define get_float_token(ss, token, DELIM, id) (getline(ss,token,DELIM); td = stof(token);)
-	// #define get_int_token(ss, token, DELIM, id) (getline(ss,token,DELIM); td = stoi(token);)
-
 	/**
 	 * Creates a Message given a serialized string
 	 * 
@@ -91,17 +93,23 @@ public:
 		
 		getline(ss,token,DELIM); // DELIM
 		getline(ss,token,DELIM); // type
-		getline(ss,token,DELIM); // task_id
-		task_id = stoi(token);
+		// getline(ss,token,DELIM); // task_id
+		// task_id = stoi(token);
 
-		getline(ss,token,DELIM); // src
-		robot_src_id = stoi(token);
+		// getline(ss,token,DELIM); // src
+		// robot_src_id = stoi(token);
 
-		getline(ss,token,DELIM); // dst
-		robot_dst_id = stoi(token);
+		// getline(ss,token,DELIM); // dst
+		// robot_dst_id = stoi(token);
 
-		getline(ss,token,DELIM); // bid
-		bid = stof(token);
+		// getline(ss,token,DELIM); // bid
+		// bid = stof(token);
+	
+	
+		next_int_token(task_id);
+		next_int_token(robot_src_id);
+		next_int_token(robot_dst_id);
+		next_float_token(bid);
 	}
  	
 	/**
@@ -183,6 +191,60 @@ public:
 
 	int task_id;
 	int robot_leader;
+};
+
+
+class Auction::NewRobot : public Auction::Message
+{
+public:
+	NewRobot(int unique_id, NetProfile np)
+	:
+		unique_id(unique_id)
+	{
+		this->np = np;
+		this->type = Auction::MessageType::NEW_ROBOT;
+	};
+
+	/**
+	 * Format: #type#unique_id#host#port# 
+	 */
+	NewRobot(string serialized_message)
+	{
+		this->type = Auction::MessageType::NEW_ROBOT;
+
+		using std::stringstream;
+		using std::getline;
+		using std::stoi;
+		using std::stof;
+
+		stringstream ss(serialized_message);
+		string token;
+		getline(ss,token,DELIM); 	// DELIM
+		getline(ss,token,DELIM); 	// type
+		next_int_token(unique_id); 	// unique_id
+		string host, port;
+		next_token(host); next_token(port);
+		this->np = NetProfile(host, port);
+
+	}
+
+	/**
+	 * Format: #type#unique_id#host#port# 
+	 */
+	string serialize()
+	{
+		using std::to_string;
+		string s = DELIM + 
+				to_string(this->type) + DELIM +
+				to_string(this->unique_id) + DELIM +
+				string(np.host) + DELIM +
+				string(np.port) + 
+			DELIM; 
+	}
+
+	NetProfile np;
+	int unique_id;
+
 };
 
 #endif

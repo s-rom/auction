@@ -56,3 +56,7 @@ void MessageSystem::broadcast_message(Message &m, std::unordered_map<int,NetProf
         it++;
     }
 }
+void MessageSystem::send_message_monitor(Message &m)
+{
+    send_message(m,this->monitor_info);
+}

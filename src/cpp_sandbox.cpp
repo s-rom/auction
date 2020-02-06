@@ -44,6 +44,12 @@ int main(int argc, char ** argv)
     using namespace Auction;
 
 
+    LeaderRequestMessage lreq("#1#1#2#3#4#");
+    LeaderRequestMessage lreq2(1,2,3,4);
+    cout << lreq.serialize() << endl;
+    cout << lreq2.serialize() << endl;
+
+
     // RobotManager r(0,);
 
     // signal(SIGINT, sigint_handler);

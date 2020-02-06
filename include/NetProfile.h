@@ -44,6 +44,18 @@ struct Auction::NetProfile
 		strcpy(port, port_param);
 	}
 
+	NetProfile(const char* host_param, const char* port_param)
+	{
+		size_t len_host = strlen(host_param);
+		size_t len_port = strlen(port_param);
+
+		host = new char[len_host + 1];
+		port = new char[len_port + 1];
+
+		strcpy(host, host_param);
+		strcpy(port, port_param);
+	}
+
 	NetProfile(const NetProfile& other)
 	{
 		size_t len_host = strlen(other.host);
