@@ -37,7 +37,7 @@ class Auction::RobotManager
 {
 public:
     // Constructors
-    RobotManager(int id, NetProfile & net_info);
+    RobotManager(NetProfile & net_info);
 
     
     // Thread functions
@@ -54,13 +54,18 @@ public:
     std::unordered_map<int, NetProfile> net_list;      // List of net profiles of other robots
     std::unordered_map<int, Task> task_list;           // List of known tasks
     SafeQueue<Message*> message_queue;                 // Queue of received messages
-
+    NetProfile net_info;                               // Own net profile
 
 private:
+    // Called in constructor. Requests unique id and broadcasts net profile 
+    void request_id(NetProfile & np);
+    void new_robot_message_handler(NewRobotMessage & nr);                                                       
+    
+
     float get_work_capacity(Task & t);
-    const float LOAD_CAPACITY = 1;                      // Maximum load capacity - kg (PLACEHOLDER)
-    const float V_MAX = 10;                             // Max linear velocity - m/s  (PLACEHOLDER)                   
-    const int TIME_LEADERSHIP = 3000;                   // Max time for the leader request - millis (PLACEHOLDER)
+    const float LOAD_CAPACITY = 1;                     // Maximum load capacity - kg (PLACEHOLDER)
+    const float V_MAX = 10;                            // Max linear velocity - m/s  (PLACEHOLDER)                   
+    const int TIME_LEADERSHIP = 3000;                  // Max time for the leader request - millis (PLACEHOLDER)
 };
 
 #endif

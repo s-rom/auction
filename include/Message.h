@@ -16,8 +16,8 @@ namespace Auction
 	class NewTaskMessage;
 	class LeaderRequestMessage;
 	class LeaderOfTaskMessage;
-	class NewRobot;
-	enum MessageType{ NEW_TASK = 0, LEADER_REQUEST, LEADER_OF_TASK, NEW_ROBOT, NEW_ID};
+	class NewRobotMessage;
+	enum MessageType{ NEW_TASK = 0, LEADER_REQUEST, LEADER_OF_TASK, NEW_ROBOT};
 
 }
 
@@ -194,10 +194,10 @@ public:
 };
 
 
-class Auction::NewRobot : public Auction::Message
+class Auction::NewRobotMessage : public Auction::Message
 {
 public:
-	NewRobot(int unique_id, NetProfile np)
+	NewRobotMessage(int unique_id, NetProfile np)
 	:
 		unique_id(unique_id)
 	{
@@ -208,7 +208,7 @@ public:
 	/**
 	 * Format: #type#unique_id#host#port# 
 	 */
-	NewRobot(string serialized_message)
+	NewRobotMessage(string serialized_message)
 	{
 		this->type = Auction::MessageType::NEW_ROBOT;
 
@@ -240,11 +240,15 @@ public:
 				string(np.host) + DELIM +
 				string(np.port) + 
 			DELIM; 
+		return s;
 	}
 
 	NetProfile np;
 	int unique_id;
-
+	// if monitor receives a NewRobot message with a unique_id == REQUEST_ID
+	// it answers the robot with its unique id
+	const static int REQUEST_ID = -1; 
 };
+
 
 #endif

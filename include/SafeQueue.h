@@ -59,9 +59,11 @@ public:
 
     bool isEmpty()
     {
+        bool ret;
         m.lock();
-        return q.empty();
+        ret = q.empty();
         m.unlock();
+        return ret;
     }
     
 private:

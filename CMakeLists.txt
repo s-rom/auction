@@ -1,14 +1,18 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(auction)
 
+find_package(Boost REQUIRED COMPONENTS system)
+
 
 find_package(catkin REQUIRED COMPONENTS
     nav_msgs
     roscpp
     actionlib
-    Boost REQUIRED COMPONENTS system
 )
 add_compile_options(-std=c++11)
+add_definitions(-DBOOST_LOG_DYN_LINK=1)
+
+
 
 catkin_package(
 #  INCLUDE_DIRS include
@@ -20,8 +24,9 @@ catkin_package(
 include_directories(
     include 
     ${catkin_INCLUDE_DIRS}
-    ${boost_INCLUDE_DIRS}
+    ${Boost_INCLUDE_DIRS}
 )
+
 
 #---- Executables ----#
 add_executable(auction src/cpp_sandbox.cpp)
@@ -43,12 +48,13 @@ target_link_libraries(RobotManager MessageSystem)
 
 #---- Auction ----#
 target_link_libraries(auction ${catkin_LIBRARIES})
-target_link_libraries(auction ${boost_LIBRARIES})
+target_link_libraries(auction ${Boost_LIBRARIES})
 target_link_libraries(auction RcSocket)
 target_link_libraries(auction MessageSystem)
 target_link_libraries(auction RobotManager)
 
 #---- Monitor ----#
-target_link_libraries(monitor ${boost_LIBRARIES})
+target_link_libraries(monitor ${catkin_LIBRARIES})
+target_link_libraries(monitor ${Boost_LIBRARIES})
 target_link_libraries(monitor RcSocket)
 target_link_libraries(monitor MessageSystem)

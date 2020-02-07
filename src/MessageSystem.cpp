@@ -40,6 +40,9 @@ Message* MessageSystem::create_message_from(char * msg)
         case MessageType::LEADER_REQUEST:
             std::cout << "leader request" << std::endl;
             return new LeaderRequestMessage(serialized_message);
+        case MessageType::NEW_ROBOT:
+            std::cout << "new robot" <<std::endl;
+            return new NewRobotMessage(serialized_message);
             break;
     }
 
@@ -47,11 +50,13 @@ Message* MessageSystem::create_message_from(char * msg)
 
 void MessageSystem::broadcast_message(Message &m, std::unordered_map<int,NetProfile> &net_list)
 {
+    std::cout << "Broadcasting to:"<<std::endl;
     auto it = net_list.begin();
     auto end = net_list.end();
     while (it != end)
     {
         std::pair<int,NetProfile> element = *it;
+        std::cout << "\t"<<element.second.to_string() << std::endl;
         send_message(m,element.second);
         it++;
     }

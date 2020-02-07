@@ -20,22 +20,6 @@ void sigint_handler(int signal)
 }
 
 
-void prueba_robot(Auction::RobotManager& r)
-{
-    using namespace Auction;
-    boost::thread server_thread(&RobotManager::message_server, &r, boost::ref(running));
-    server_thread.join();
-}
-
-void prueba_lider(Auction::RobotManager & r)
-{
-    using namespace Auction;
-    Task task(Point2D(0,0), Point2D(1,2), 1, 1, 1);
-    
-    boost::thread leader_thread(&Auction::RobotManager::leader_request, &r, boost::ref(task));
-    leader_thread.join();
-}
-
 
 int main(int argc, char ** argv)
 {
@@ -44,17 +28,24 @@ int main(int argc, char ** argv)
     using namespace Auction;
 
 
-    LeaderRequestMessage lreq("#1#1#2#3#4#");
-    LeaderRequestMessage lreq2(1,2,3,4);
-    cout << lreq.serialize() << endl;
-    cout << lreq2.serialize() << endl;
+    if (argc < 3)
+    {
+        cout << "Usage: auction host port" << endl;
+        return -1;
+    }
 
 
-    // RobotManager r(0,);
+    char * host = argv[1];
+    char * port = argv[2];
+    NetProfile np(host,port);
 
-    // signal(SIGINT, sigint_handler);
-    // // prueba_lider(r);
-    // prueba_robot(r);
+
+    RobotManager r(np);
+    boost::thread server_thread(&RobotManager::message_server, &r, boost::ref(running));
+    boost::thread auction_thread(&RobotManager::auction_process, &r, boost::ref(running));
+    
+    server_thread.join();
+    auction_thread.join();
 
 }
 

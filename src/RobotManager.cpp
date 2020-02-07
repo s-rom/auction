@@ -2,37 +2,25 @@
 
 using Auction::RobotManager;
 
-RobotManager::RobotManager(int id, NetProfile & net_info)
+RobotManager::RobotManager(NetProfile & net_info)
 :
-    id(id)
+    net_info(net_info)
 {
-    net_list[id] = net_info;
+    request_id(net_info);
 }
 
 void RobotManager::message_server(boost::atomic<bool> & running)
 {
-    NetProfile * nptr = &(net_list.at(id));
-    if (nptr == nullptr) 
-    {
-        std::cout << "NULL NetProfile" << std::endl;
-        return;
-    }
-    
-    if (nptr->host == NULL || nptr->port == NULL)
-    {
-        std::cout << "NULL member" << std::endl;
-        return;
-    }
 
 
-    int socket_descriptor = RcSocket::passiveSocket(net_list[id].port,"udp", 0);
+    int socket_descriptor = RcSocket::passiveSocket(net_info.port,"udp", 0);
     if (socket_descriptor < 0)
     {
         std::cout << "Error in RcSocket::passiveSocket"<< std::endl;
         return;
     }
 
-    std::cout << "Server listening on port " << net_list[id].port << std::endl;
+    std::cout << "Server listening on port " << net_info.port << std::endl;
 
     while (running)
     {
@@ -47,6 +35,7 @@ void RobotManager::message_server(boost::atomic<bool> & running)
         }
         else
         { 
+            std::cout << "[Server thread] Received new message" << std::endl;
             Message * m = this->message_system.create_message_from(msg);
             message_queue.push(m);
         }
@@ -55,9 +44,49 @@ void RobotManager::message_server(boost::atomic<bool> & running)
 
 void RobotManager::auction_process(boost::atomic<bool> & running)
 {
-
+    std::cout << "[Auction process]  Running" <<std::endl;
+    
+    while(running)
+    {
+        /**
+         * PROBAR CON POP MENSAJES  
+         * 
+         */
+        auto end = this->message_queue.end();
+        auto it = this->message_queue.begin();
+        while (it != end)
+        {
+            std::cout << "[Auction process] Processing new message" <<std::endl;
+            switch((*it)->type)
+            {
+                case NEW_ROBOT:
+                    std::cout << "Received NEW_ROBOT message" <<std::endl;
+                    NewRobotMessage * nr = dynamic_cast<NewRobotMessage*>(*it);
+                    new_robot_message_handler(*nr);
+                break;
+            }
+            
+            // consider deletion
+            it++;
+        }
+    }
 }
 
+void RobotManager::new_robot_message_handler(NewRobotMessage & nr)
+{
+    // net profile equals own net profile -> store unique id
+    if (nr.np == this->net_info)
+    {
+        this->id = nr.unique_id;
+        std::cout << "Received my own id: "<<id<<std::endl;
+    } 
+    else // store other robot id 
+    {
+        std::cout << "Received other robot profile: "<<nr.np.to_string()<<
+        ", "<<nr.unique_id<<std::endl;
+        this->net_list[nr.unique_id] = nr.np;
+    }
+}                                                       
 
 // #define now system_clock::now()
 // #define elapsed(t1, t2) (duration_cast<std::chrono::milliseconds>(t1 - t1).count())
@@ -121,3 +150,9 @@ float RobotManager::get_work_capacity(Task& t)
     float b = 2 * (LOAD_CAPACITY * V_MAX + distance);
     return b == 0? 0 : a / b;
 }
+
+void RobotManager::request_id(NetProfile & np)
+{
+    NewRobotMessage m(NewRobotMessage::REQUEST_ID, np);
+    message_system.send_message_monitor(m);
+}                         

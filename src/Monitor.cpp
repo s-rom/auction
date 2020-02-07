@@ -2,12 +2,15 @@
 #include "Message.h"
 #include "NetProfile.h"
 #include "SafeQueue.h"
-#include <boost/thread.hpp>
-#include <boost/atomic.hpp>
 #include <unordered_map>
+
+#include <boost/thread.hpp>
+#include <boost/atomic/atomic.hpp>
 
 namespace Auction
 {
+    using std::cout;
+    using std::endl;
     using namespace Auction;
     class Monitor;
 }
@@ -20,23 +23,35 @@ public:
 
     void message_processor(boost::atomic<bool>& running)
     {
+        std::cout << "Message processor is running" << std::endl;
         while(running)
         {
-            auto it = message_list.begin();
-            auto end = message_list.end();
-            while (it != end)
-            {
-                Message * m = *it;
-                if (m->type == NEW_ROBOT)
-                {
-                    // dynamic cast
-                    // add netprofile to unordered map
-                    // broadcast to all other robots with NewRobot
-                    // message NewId to robot src
-                }
+            if (message_list.isEmpty()) continue;
+            std::cout << "[Message thread] Processing new message"<<std::endl;
+            Message * m;
+            message_list.pop(m);
 
-                it++;
+            switch (m->type)
+            {
+                case NEW_ROBOT:
+                    NewRobotMessage * nr = dynamic_cast<NewRobotMessage*>(m);
+                    new_robot_message_handler(nr);
+                    break;
             }
+            delete m;            
+        }
+    }
+
+    void new_robot_message_handler(NewRobotMessage * nr)
+    {
+        // add netprofile to unordered map
+        if (nr->unique_id == NewRobotMessage::REQUEST_ID)
+        {
+            std::cout << "Received NewRobot message from "<<nr->np.to_string()<< std::endl;
+            nr->unique_id = next_robot_id();    // replace REQUEST_ID with the new unique_id
+            net_list[nr->unique_id] = nr->np;   // store new robot net profile
+            ms.broadcast_message(*nr,net_list); // broadcast to all robots the new one 
+            std::cout << "Broadcast id: "<<nr->unique_id<< std::endl;
         }
     }
 
@@ -73,6 +88,7 @@ public:
             }
             else
             { 
+                cout << "[Server thread] Received message: "<<string(msg)<<endl;
                 Message * m = this->ms.create_message_from(msg);
                 message_list.push(m);
             }
@@ -93,14 +109,16 @@ public:
 };
 
 
-boost::atomic<bool> running;
 
 int main()
 {
-    using namespace Auction;
-    MessageSystem ms;    
+    using namespace Auction; 
+    Monitor m;
+    boost::atomic<bool> running(true);
+    boost::thread server_thread(&Auction::Monitor::message_server, &m, boost::ref(running));
+    boost::thread message_thread(&Auction::Monitor::message_processor, &m, boost::ref(running));
 
-    
 
-
+    server_thread.join();
+    message_thread.join();
 }
