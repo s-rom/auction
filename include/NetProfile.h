@@ -16,6 +16,10 @@ namespace Auction
 struct Auction::NetProfile
 {
 
+	/**
+	 * Default constructor. 
+	 * host and port are set to nullptr
+	 */
 	NetProfile()
 	{
 		host = nullptr;

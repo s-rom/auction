@@ -59,7 +59,13 @@ void RobotManager::auction_process(boost::atomic<bool> & running)
                 NewRobotMessage * nr = dynamic_cast<NewRobotMessage*>(m);
                 new_robot_message_handler(*nr);
                 delete nr;
-            break;
+                break;
+            // case NEW_TASK:
+            //     std::cout << "Received NEW_TASK message"<<std::endl;
+            //     NewTaskMessage * nt = dynamic_cast<NewTaskMessage*>(nt);
+            //     new_task_message_handler(*nt);
+            //     delete nt;
+            //     break;
         }
         
 
@@ -74,13 +80,21 @@ void RobotManager::new_robot_message_handler(NewRobotMessage & nr)
         this->id = nr.unique_id;
         std::cout << "Received my own id: "<<id<<std::endl;
     } 
-    else // store other robot id 
+    else // stores other robot id 
     {
         std::cout << "Received other robot profile: "<<nr.np.to_string()<<
         ", "<<nr.unique_id<<std::endl;
         this->net_list[nr.unique_id] = nr.np;
     }
+}                
+
+void RobotManager::new_task_message_handler(NewTaskMessage & nt)
+{
+    Task & new_task = nt.t;
+    this->task_list[new_task.task_id] = new_task;
+    std::cout << "Discovered new task: "+task_list[new_task.task_id].serialize('#') << std::endl;
 }                                                       
+
 
 // #define now system_clock::now()
 // #define elapsed(t1, t2) (duration_cast<std::chrono::milliseconds>(t1 - t1).count())

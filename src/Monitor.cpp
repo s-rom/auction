@@ -6,6 +6,9 @@
 
 #include <boost/thread.hpp>
 #include <boost/atomic/atomic.hpp>
+#include <cstdlib>
+#include <ctime>
+
 
 namespace Auction
 {
@@ -18,7 +21,10 @@ namespace Auction
 class Auction::Monitor
 {
 public:
-    Monitor(){}
+    Monitor()
+    {
+        srand(time(NULL));
+    }
 
 
     void message_processor(boost::atomic<bool>& running)
@@ -30,6 +36,7 @@ public:
             std::cout << "[Message thread] Processing new message"<<std::endl;
             Message * m;
             message_list.pop(m);
+            boost::this_thread::sleep_for(boost::chrono::milliseconds(1));
 
             switch (m->type)
             {
@@ -52,7 +59,6 @@ public:
             net_list[nr->unique_id] = nr->np;   // store new robot net profile
             
 
-             boost::this_thread::sleep_for(boost::chrono::milliseconds(1));
             
             // brodcast all net_profiles to all robots, including the new one
             auto it = net_list.begin();
@@ -112,6 +118,17 @@ public:
     }
 
 
+    Task generate_random_task(){
+        Task t(Point2D(rand()%20,rand()%20), Point2D(rand()%20,rand()%20), 1,1,next_task_id());
+        return t;
+    }
+
+
+    int next_task_id()
+    {
+        return ++num_of_tasks;
+    }
+
     int next_robot_id()
     {
         return ++num_of_robots;
@@ -122,6 +139,7 @@ public:
     std::unordered_map<int, NetProfile> net_list;
     int robot_id = 0;
     int num_of_robots = 0;
+    int num_of_tasks = 0;
 };
 
 
@@ -130,11 +148,17 @@ int main()
 {
     using namespace Auction; 
     Monitor m;
-    boost::atomic<bool> running(true);
-    boost::thread server_thread(&Auction::Monitor::message_server, &m, boost::ref(running));
-    boost::thread message_thread(&Auction::Monitor::message_processor, &m, boost::ref(running));
+    // boost::atomic<bool> running(true);
+    // boost::thread server_thread(&Auction::Monitor::message_server, &m, boost::ref(running));
+    // boost::thread message_thread(&Auction::Monitor::message_processor, &m, boost::ref(running));
 
 
-    server_thread.join();
-    message_thread.join();
+
+    for (int i = 0; i< 10; i++)
+    {
+        cout << "Task: " + m.generate_random_task().serialize('#') << endl;
+    }
+
+    // server_thread.join();
+    // message_thread.join();
 }

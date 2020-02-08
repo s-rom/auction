@@ -20,6 +20,10 @@ struct Auction::Task
     float task_work_load;    // Weigh units of the task object
     float dead_line;         // Deadline of the task, in milliseconds
 
+    /**
+     * Default constructor. 
+     * 
+     */
     Task()
     :
         MAX_UTILITY(1.0f)
@@ -27,6 +31,15 @@ struct Auction::Task
 
     }
 
+    /**
+     * Constructor.
+     * 
+     * @param location location of the task load
+     * @param delivery location of the delivery point
+     * @param workload weight (in kg) of the task load
+     * @param dead_line deadline of the task (in ms) 
+     * @param id unique task id
+     */
     Task(Point2D location, Point2D delivery, float workload, float dead_line, float id)
     :
         task_location(location),
@@ -45,6 +58,8 @@ struct Auction::Task
      *      -> Uj = MAX_UTILITY  if delta_time < dead_line
      *      -> Uj = 0            otherwise
      *  Uj (tj) where tj is the time elapsed since the task started (delta_time)
+     * 
+     * @param delta_time elapsed time from the beginning of the task
      */
     float utility_function(float delta_time)
     {
@@ -107,6 +122,16 @@ struct Auction::Task
         return s;
     }
 
+
+    Task& operator=(const Task& other)
+    {
+        this->dead_line = other.dead_line;
+        this->delivery_point = other.delivery_point;
+        this->task_id = other.task_id;
+        this->task_location = other.task_location;
+        this->task_work_load = other.task_work_load;
+        return *this;
+    }
 
 };
 

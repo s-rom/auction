@@ -38,18 +38,15 @@ Message* MessageSystem::create_message_from(char * msg)
     switch(type_id)
     {
         case MessageType::NEW_TASK:
-            std::cout << "new task" << std::endl;
             return new NewTaskMessage(serialized_message);
             break;
         case MessageType::LEADER_OF_TASK:
-            std::cout << "leader of task" << std::endl;
             return new LeaderOfTaskMessage(serialized_message);
             break;
         case MessageType::LEADER_REQUEST:
-            std::cout << "leader request" << std::endl;
             return new LeaderRequestMessage(serialized_message);
+            break;
         case MessageType::NEW_ROBOT:
-            std::cout << "new robot" <<std::endl;
             return new NewRobotMessage(serialized_message);
             break;
     }
