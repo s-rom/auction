@@ -38,9 +38,8 @@ int main(int argc, char ** argv)
     char * host = argv[1];
     char * port = argv[2];
     NetProfile np(host,port);
-
-
     RobotManager r(np);
+    
     boost::thread server_thread(&RobotManager::message_server, &r, boost::ref(running));
     boost::thread auction_thread(&RobotManager::auction_process, &r, boost::ref(running));
     

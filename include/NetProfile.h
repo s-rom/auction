@@ -99,7 +99,8 @@ struct Auction::NetProfile
 	bool operator==(const NetProfile & other)
 	{
 		int eq_host = strcmp(host,other.host);
-		int eq_port = strcmp(host,other.port);
+		int eq_port = strcmp(port,other.port);
+
 		return eq_host == 0 && eq_port == 0;
 	}
 

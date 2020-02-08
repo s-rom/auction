@@ -4,6 +4,14 @@
 
 using namespace Auction;
 
+
+MessageSystem::MessageSystem()
+:
+    monitor_info("localhost","25555")
+{
+    RcSocket::initRcSocket();
+}
+
 void MessageSystem::send_message(Message &m, NetProfile &dst)
 {
     string msg_str = m.serialize();

@@ -50,7 +50,23 @@ public:
             std::cout << "Received NewRobot message from "<<nr->np.to_string()<< std::endl;
             nr->unique_id = next_robot_id();    // replace REQUEST_ID with the new unique_id
             net_list[nr->unique_id] = nr->np;   // store new robot net profile
-            ms.broadcast_message(*nr,net_list); // broadcast to all robots the new one 
+            
+
+             boost::this_thread::sleep_for(boost::chrono::milliseconds(1));
+            
+            // brodcast all net_profiles to all robots, including the new one
+            auto it = net_list.begin();
+            auto end = net_list.end();
+            while (it != end)
+            {
+                int id = (*it).first;
+                NetProfile & np = (*it).second;
+                nr->unique_id = id;
+                nr->np = np;
+
+                ms.broadcast_message(*nr, net_list); // broadcast to all robots the new one 
+                it++;
+            }
             std::cout << "Broadcast id: "<<nr->unique_id<< std::endl;
         }
     }

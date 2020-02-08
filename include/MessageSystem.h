@@ -19,12 +19,7 @@ namespace Auction
 class Auction::MessageSystem
 {
 public:
-	MessageSystem()
-	:
-		monitor_info("localhost","25555")
-	{
-		RcSocket::initRcSocket();
-	}
+	MessageSystem();
 
 	void send_message_monitor(Message &m);
 	void send_message(Message &m,NetProfile &dst);

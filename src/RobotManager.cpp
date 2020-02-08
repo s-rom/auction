@@ -31,7 +31,7 @@ void RobotManager::message_server(boost::atomic<bool> & running)
         // Recibe la informacion y la guarda en el buffer
         if (!recvfrom(socket_descriptor, msg, sizeof(msg), 0, &sender, &addrlen))
         {
-            printf("Error de recepcion \n");
+            std::cout << "Error de recepcion \n";
         }
         else
         { 
@@ -48,27 +48,21 @@ void RobotManager::auction_process(boost::atomic<bool> & running)
     
     while(running)
     {
-        /**
-         * PROBAR CON POP MENSAJES  
-         * 
-         */
-        auto end = this->message_queue.end();
-        auto it = this->message_queue.begin();
-        while (it != end)
+        if (message_queue.isEmpty()) continue;
+        Message * m;
+        message_queue.pop(m);        
+        std::cout << "[Auction process] Processing new message" <<std::endl;
+        switch(m->type)
         {
-            std::cout << "[Auction process] Processing new message" <<std::endl;
-            switch((*it)->type)
-            {
-                case NEW_ROBOT:
-                    std::cout << "Received NEW_ROBOT message" <<std::endl;
-                    NewRobotMessage * nr = dynamic_cast<NewRobotMessage*>(*it);
-                    new_robot_message_handler(*nr);
-                break;
-            }
-            
-            // consider deletion
-            it++;
+            case NEW_ROBOT:
+                std::cout << "Received NEW_ROBOT message" <<std::endl;
+                NewRobotMessage * nr = dynamic_cast<NewRobotMessage*>(m);
+                new_robot_message_handler(*nr);
+                delete nr;
+            break;
         }
+        
+
     }
 }
 
