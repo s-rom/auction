@@ -4,23 +4,23 @@ using Auction::RobotManager;
 
 RobotManager::RobotManager(NetProfile & net_info)
 :
-    net_info(net_info)
+    message_system(net_info)
 {
-    request_id(net_info);
+    message_system.request_unique_id();
 }
 
 void RobotManager::message_server(boost::atomic<bool> & running)
 {
 
 
-    int socket_descriptor = RcSocket::passiveSocket(net_info.port,"udp", 0);
+    int socket_descriptor = RcSocket::passiveSocket(message_system.net_info.port,"udp", 0);
     if (socket_descriptor < 0)
     {
         std::cout << "Error in RcSocket::passiveSocket"<< std::endl;
         return;
     }
 
-    std::cout << "[Message Server] ---> listening on port " << net_info.port << std::endl;
+    std::cout << "[Message Server] ---> listening on port " << message_system.net_info.port << std::endl;
 
     while (running)
     {
@@ -75,7 +75,7 @@ void RobotManager::auction_process(boost::atomic<bool> & running)
 void RobotManager::new_robot_message_handler(NewRobotMessage & nr)
 {
     // net profile equals own net profile -> store unique id
-    if (nr.np == this->net_info)
+    if (nr.np == message_system.net_info)
     {
         this->id = nr.unique_id;
         std::cout << "[NewRobotHandler] Received my own id: "<<id<<std::endl;
@@ -84,7 +84,7 @@ void RobotManager::new_robot_message_handler(NewRobotMessage & nr)
     {
         std::cout << "[NewRobotHandler] Received other robot profile: "<<nr.np.to_string()<<
         ", "<<nr.unique_id<<std::endl;
-        this->net_list[nr.unique_id] = nr.np;
+        message_system.add_robot_info(nr.unique_id, nr.np);
     }
 }                
 
@@ -158,9 +158,3 @@ float RobotManager::get_work_capacity(Task& t)
     float b = 2 * (LOAD_CAPACITY * V_MAX + distance);
     return b == 0? 0 : a / b;
 }
-
-void RobotManager::request_id(NetProfile & np)
-{
-    NewRobotMessage m(NewRobotMessage::REQUEST_ID, np);
-    message_system.send_message_monitor(m);
-}                         

@@ -21,9 +21,9 @@ namespace Auction
 class Auction::Monitor
 {
 public:
+
     Monitor()
     {
-
     }
 
 
@@ -53,7 +53,7 @@ public:
             //     for (int i = 0; i<3; i++)
             //     {
             //         NewTaskMessage nt(generate_random_task());
-            //         ms.broadcast_message(nt, net_list);
+            //         message_system.broadcast_message(nt, net_list);
             //     }
             // }
 
@@ -67,23 +67,31 @@ public:
         {
             std::cout << "Received NewRobot message from "<<nr->np.to_string()<< std::endl;
             nr->unique_id = next_robot_id();    // replace REQUEST_ID with the new unique_id
-            net_list[nr->unique_id] = nr->np;   // store new robot net profile
-            
+            message_system.add_robot_info(nr->unique_id, nr->np); // store new robot net profile
 
             
-            // brodcast all net_profiles to all robots, including the new one
-            auto it = net_list.begin();
-            auto end = net_list.end();
-            while (it != end)
+            for (int id = 1; id<=num_of_robots; id++)
             {
-                int id = (*it).first;
-                NetProfile & np = (*it).second;
-                nr->unique_id = id;
+                NetProfile np = message_system.get_robot_info(id);
                 nr->np = np;
+                nr->unique_id = id;
 
-                ms.broadcast_message(*nr, net_list); // broadcast to all robots the new one 
-                it++;
+                message_system.broadcast_message(*nr);
             }
+
+            // brodcast all net_profiles to all robots, including the new one
+            // auto it = net_list.begin();
+            // auto end = net_list.end();
+            // while (it != end)
+            // {
+            //     int id = (*it).first;
+            //     NetProfile & np = (*it).second;
+            //     nr->unique_id = id;
+            //     nr->np = np;
+
+            //     message_system.broadcast_message(*nr); // broadcast to all robots the new one 
+            //     it++;
+            // }
             //std::cout << "[Message processor] Broadcast id: "<<nr->unique_id<< std::endl;
         }
     }
@@ -91,7 +99,7 @@ public:
     
     void message_server(boost::atomic<bool>& running)
     {
-        NetProfile& monitor_info = ms.monitor_info;
+        NetProfile monitor_info = message_system.get_monitor_info();
         if (monitor_info.host == NULL || monitor_info.port == NULL)
         {
             std::cout << "NULL member" << std::endl;
@@ -99,7 +107,7 @@ public:
         }
 
 
-        int socket_descriptor = RcSocket::passiveSocket(monitor_info.port,"udp", 0);
+        int socket_descriptor = RcSocket::passiveSocket(monitor_info.port, "udp", 0);
         if (socket_descriptor < 0)
         {
             std::cout << "Error in RcSocket::passiveSocket"<< std::endl;
@@ -112,16 +120,16 @@ public:
         {
             struct sockaddr sender;
             uint addrlen;
-            char msg[256];
-            memset(&msg, 0, 256);
+            char message_systemg[256];
+            memset(&message_systemg, 0, 256);
             // Recibe la informacion y la guarda en el buffer
-            if (!recvfrom(socket_descriptor, msg, sizeof(msg), 0, &sender, &addrlen))
+            if (!recvfrom(socket_descriptor, message_systemg, sizeof(message_systemg), 0, &sender, &addrlen))
             {
                 printf("[Server thread] Error de recepcion \n");
             }
             else
             { 
-                Message * m = this->ms.create_message_from(msg);
+                Message * m = this->message_system.create_message_from(message_systemg);
                 message_list.push(m);
             }
         }
@@ -144,8 +152,7 @@ public:
     }
 
     SafeQueue<Message*> message_list;
-    MessageSystem ms;
-    std::unordered_map<int, NetProfile> net_list;
+    MessageSystem message_system;
     int robot_id = 0;
     int num_of_robots = 0;
     int num_of_tasks = 0;

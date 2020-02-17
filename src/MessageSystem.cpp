@@ -9,7 +9,29 @@ MessageSystem::MessageSystem()
 :
     monitor_info("localhost","25555")
 {
+    net_info = monitor_info;
     RcSocket::initRcSocket();
+}
+
+MessageSystem::MessageSystem(NetProfile & np)
+:
+    monitor_info("localhost","25555"),
+    net_info(np)
+{
+    RcSocket::initRcSocket();
+}
+
+void MessageSystem::send_message(Message &m, int robot_id)
+{
+    if (robot_id == MONITOR_ID)
+    {
+        this->send_message(m, MessageSystem::monitor_info);
+    }
+    else 
+    {
+        NetProfile & dst = net_list[robot_id];
+        this->send_message(m, dst);
+    }
 }
 
 void MessageSystem::send_message(Message &m, NetProfile &dst)
@@ -55,7 +77,7 @@ Message* MessageSystem::create_message_from(char * msg)
 
 }
 
-void MessageSystem::broadcast_message(Message &m, std::unordered_map<int,NetProfile> &net_list)
+void MessageSystem::broadcast_message(Message &m)
 {
     std::cout << "Broadcasting to:"<<std::endl;
     auto it = net_list.begin();
@@ -70,5 +92,28 @@ void MessageSystem::broadcast_message(Message &m, std::unordered_map<int,NetProf
 }
 void MessageSystem::send_message_monitor(Message &m)
 {
-    send_message(m,this->monitor_info);
+    send_message(m, this->monitor_info);
+}
+
+
+void MessageSystem::add_robot_info(int id, NetProfile & np)
+{
+    this->net_list[id] = np;
+}
+
+void MessageSystem::request_unique_id()
+{
+    NewRobotMessage m(NewRobotMessage::REQUEST_ID, this->net_info);
+    send_message_monitor(m);
+}
+
+
+NetProfile MessageSystem::get_monitor_info()
+{
+    return MessageSystem::monitor_info;
+}
+
+NetProfile MessageSystem::get_robot_info(int id)
+{
+    return net_list[id];
 }

@@ -73,19 +73,11 @@ public:
     // Member attributes
     int id;                                            // Robot unique id
     MessageSystem message_system;                      // Message system
-    std::unordered_map<int, NetProfile> net_list;      // List of net profiles of other robots
     std::unordered_map<int, Task> task_list;           // List of known tasks
     SafeQueue<Message*> message_queue;                 // Queue of received messages
-    NetProfile net_info;                               // Own net profile
 
 private:
-    /**
-     * Requests a unique id to the monitor. Called in constructor.
-     * @param np own net profile 
-     */
-    void request_id(NetProfile & np);
-
-
+  
     /**
      * Function executed when a NewRobotMessage is found in the queue 
      * by the auction_process
