@@ -8,12 +8,19 @@ int main()
     using std::cout;
     using std::endl;
     using namespace Auction;
+    Task t(Point2D(),Point2D(),1,2,3);
+    NewTaskMessage nt(t);
+    MessageSystem ms;
 
-    NetProfile n1("localhost", "25555");
-    NetProfile n2("localhost", "25555");
-    NetProfile n3("localhost", "25556");
-    
-    cout << (n1 == n2) << endl;
-    cout << (n1 == n3) << endl;
+    Message * m = ms.create_message_from("#0#1#1#1#1#1#2#3#");
+    if (m->type == MessageType::NEW_TASK)
+    {
+        NewTaskMessage * nt = dynamic_cast<NewTaskMessage*>(m);
+        cout << nt->serialize() << endl;
+    }
+    else
+    {
+        cout << "No es new task" << endl;
+    }
 
 }

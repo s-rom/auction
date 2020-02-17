@@ -113,12 +113,13 @@ struct Auction::Task
         using std::to_string;
         string s;
         s = delim +
-            to_string(0) + delim +
-            to_string(task_id) + 
-            task_location.serialize(delim) +
-            delivery_point.serialize(delim) + 
-            to_string(task_work_load) + delim +
-            to_string(dead_line) + delim; 
+                to_string(0) + delim +
+                to_string(task_id) + delim +
+                task_location.serialize(delim) + delim +
+                delivery_point.serialize(delim) + delim +
+                to_string(task_work_load) + delim +
+                to_string(dead_line) + 
+            delim; 
         return s;
     }
 

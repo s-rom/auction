@@ -45,12 +45,12 @@ struct Auction::Point2D
 
 	/**
 	 * Serializes the point, used by the MessageSystem 
-	 * 	Format (being delim #): #x#y#
+	 * 	Format (being delim #): x#y
 	 */
 	string serialize(char delim)
 	{
 		std::string s;
-		s = delim + std::to_string(x) + delim + std::to_string(y) + delim;
+		s = std::to_string(x) + delim + std::to_string(y);
 		return s;
 	}
 

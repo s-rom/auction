@@ -20,7 +20,7 @@ void RobotManager::message_server(boost::atomic<bool> & running)
         return;
     }
 
-    std::cout << "Server listening on port " << net_info.port << std::endl;
+    std::cout << "[Message Server] ---> listening on port " << net_info.port << std::endl;
 
     while (running)
     {
@@ -35,7 +35,6 @@ void RobotManager::message_server(boost::atomic<bool> & running)
         }
         else
         { 
-            std::cout << "[Server thread] Received new message" << std::endl;
             Message * m = this->message_system.create_message_from(msg);
             message_queue.push(m);
         }
@@ -44,28 +43,29 @@ void RobotManager::message_server(boost::atomic<bool> & running)
 
 void RobotManager::auction_process(boost::atomic<bool> & running)
 {
-    std::cout << "[Auction process]  Running" <<std::endl;
+    std::cout << "[Auction process] ---> Running" <<std::endl;
     
     while(running)
     {
         if (message_queue.isEmpty()) continue;
         Message * m;
         message_queue.pop(m);        
-        std::cout << "[Auction process] Processing new message" <<std::endl;
         switch(m->type)
         {
             case NEW_ROBOT:
-                std::cout << "Received NEW_ROBOT message" <<std::endl;
+            {
                 NewRobotMessage * nr = dynamic_cast<NewRobotMessage*>(m);
                 new_robot_message_handler(*nr);
                 delete nr;
                 break;
-            // case NEW_TASK:
-            //     std::cout << "Received NEW_TASK message"<<std::endl;
-            //     NewTaskMessage * nt = dynamic_cast<NewTaskMessage*>(nt);
-            //     new_task_message_handler(*nt);
-            //     delete nt;
-            //     break;
+            }
+            case NEW_TASK:
+            {
+                NewTaskMessage * nt = dynamic_cast<NewTaskMessage*>(m);
+                new_task_message_handler(*nt);
+                delete nt;
+                break;
+            }
         }
         
 
@@ -78,11 +78,11 @@ void RobotManager::new_robot_message_handler(NewRobotMessage & nr)
     if (nr.np == this->net_info)
     {
         this->id = nr.unique_id;
-        std::cout << "Received my own id: "<<id<<std::endl;
+        std::cout << "[NewRobotHandler] Received my own id: "<<id<<std::endl;
     } 
     else // stores other robot id 
     {
-        std::cout << "Received other robot profile: "<<nr.np.to_string()<<
+        std::cout << "[NewRobotHandler] Received other robot profile: "<<nr.np.to_string()<<
         ", "<<nr.unique_id<<std::endl;
         this->net_list[nr.unique_id] = nr.np;
     }
@@ -90,9 +90,9 @@ void RobotManager::new_robot_message_handler(NewRobotMessage & nr)
 
 void RobotManager::new_task_message_handler(NewTaskMessage & nt)
 {
-    Task & new_task = nt.t;
-    this->task_list[new_task.task_id] = new_task;
-    std::cout << "Discovered new task: "+task_list[new_task.task_id].serialize('#') << std::endl;
+    // Task & new_task = nt.t;
+    // this->task_list[new_task.task_id] = new_task;
+    // std::cout << "Discovered new task: "+task_list[new_task.task_id].serialize('#') << std::endl;
 }                                                       
 
 

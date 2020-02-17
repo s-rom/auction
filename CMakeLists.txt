@@ -64,6 +64,6 @@ target_link_libraries(monitor MessageSystem)
 #---- Tests ----#
 target_link_libraries(auction_test ${catkin_LIBRARIES})
 target_link_libraries(auction_test ${Boost_LIBRARIES})
-target_link_libraries(auction_test RcSocket)
+#target_link_libraries(auction_test RcSocket)
 target_link_libraries(auction_test MessageSystem)
 target_link_libraries(auction_test RobotManager)

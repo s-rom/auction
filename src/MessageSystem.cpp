@@ -29,11 +29,13 @@ Message* MessageSystem::create_message_from(char * msg)
     using std::getline;
 
     string serialized_message(msg);
+    // determines message type with a copy of the serialized message
     stringstream ss (serialized_message);
     string token;
     char delim = Message::DELIM;
     getline(ss, token, delim);
     getline(ss,token, delim);
+    // dynamically casts to its derived class
     int type_id  = std::stoi(token);
     switch(type_id)
     {

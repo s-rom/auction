@@ -1,3 +1,6 @@
+#include <cstdlib>
+#include <ctime>
+
 #include "MessageSystem.h"
 #include "Message.h"
 #include "NetProfile.h"
@@ -6,9 +9,6 @@
 
 #include <boost/thread.hpp>
 #include <boost/atomic/atomic.hpp>
-#include <cstdlib>
-#include <ctime>
-
 
 namespace Auction
 {
@@ -23,17 +23,17 @@ class Auction::Monitor
 public:
     Monitor()
     {
-        srand(time(NULL));
+
     }
 
 
     void message_processor(boost::atomic<bool>& running)
     {
-        std::cout << "Message processor is running" << std::endl;
+        std::cout << "[Message thread] ---> running" << std::endl;
         while(running)
         {
             if (message_list.isEmpty()) continue;
-            std::cout << "[Message thread] Processing new message"<<std::endl;
+            std::cout << "[Message processor] Processing new message"<<std::endl;
             Message * m;
             message_list.pop(m);
             boost::this_thread::sleep_for(boost::chrono::milliseconds(1));
@@ -45,7 +45,18 @@ public:
                     new_robot_message_handler(nr);
                     break;
             }
-            delete m;            
+            delete m;    
+
+            // if (num_of_robots == 2)
+            // {
+            //     std::cout << "[Message processor] Generating and sending 3 tasks" << endl;
+            //     for (int i = 0; i<3; i++)
+            //     {
+            //         NewTaskMessage nt(generate_random_task());
+            //         ms.broadcast_message(nt, net_list);
+            //     }
+            // }
+
         }
     }
 
@@ -73,7 +84,7 @@ public:
                 ms.broadcast_message(*nr, net_list); // broadcast to all robots the new one 
                 it++;
             }
-            std::cout << "Broadcast id: "<<nr->unique_id<< std::endl;
+            //std::cout << "[Message processor] Broadcast id: "<<nr->unique_id<< std::endl;
         }
     }
 
@@ -95,7 +106,7 @@ public:
             return;
         }
 
-        std::cout << "Monitor listening on port " << monitor_info.port << std::endl;
+        std::cout << "[Monitor] --> listening on port " << monitor_info.port << std::endl;
 
         while (running)
         {
@@ -106,11 +117,10 @@ public:
             // Recibe la informacion y la guarda en el buffer
             if (!recvfrom(socket_descriptor, msg, sizeof(msg), 0, &sender, &addrlen))
             {
-                printf("Error de recepcion \n");
+                printf("[Server thread] Error de recepcion \n");
             }
             else
             { 
-                cout << "[Server thread] Received message: "<<string(msg)<<endl;
                 Message * m = this->ms.create_message_from(msg);
                 message_list.push(m);
             }
@@ -119,10 +129,9 @@ public:
 
 
     Task generate_random_task(){
-        Task t(Point2D(rand()%20,rand()%20), Point2D(rand()%20,rand()%20), 1,1,next_task_id());
+        Task t(Point2D(), Point2D(), 1, 2, next_task_id());
         return t;
     }
-
 
     int next_task_id()
     {
@@ -146,19 +155,10 @@ public:
 
 int main()
 {
-    using namespace Auction; 
-    Monitor m;
-    // boost::atomic<bool> running(true);
-    // boost::thread server_thread(&Auction::Monitor::message_server, &m, boost::ref(running));
-    // boost::thread message_thread(&Auction::Monitor::message_processor, &m, boost::ref(running));
-
-
-
-    for (int i = 0; i< 10; i++)
-    {
-        cout << "Task: " + m.generate_random_task().serialize('#') << endl;
-    }
-
-    // server_thread.join();
-    // message_thread.join();
+    Auction::Monitor m;
+    boost::atomic<bool> running(true);
+    boost::thread server_thread(&Auction::Monitor::message_server, &m, boost::ref(running));
+    boost::thread message_thread(&Auction::Monitor::message_processor, &m, boost::ref(running));
+    server_thread.join();
+    message_thread.join();
 }
