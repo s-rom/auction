@@ -1,26 +1,23 @@
-#include <stdio.h>
-#include <iostream>
-#include "RobotManager.h"
+// #include "RobotManager.h"
+#include "InfoReporter.h"
 
 
-int main()
+int main(int argc, char ** argv)
 {
-    using std::cout;
-    using std::endl;
-    using namespace Auction;
-    Task t(Point2D(),Point2D(),1,2,3);
-    NewTaskMessage nt(t);
-    MessageSystem ms;
+    using Auction::InfoReporter;
+    using Auction::Mode;
+    
+    InfoReporter info("/home/sergi/Desktop/hola.txt", Mode::COUT | Mode::FILE);
 
-    Message * m = ms.create_message_from("#0#1#1#1#1#1#2#3#");
-    if (m->type == MessageType::NEW_TASK)
-    {
-        NewTaskMessage * nt = dynamic_cast<NewTaskMessage*>(m);
-        cout << nt->serialize() << endl;
-    }
-    else
-    {
-        cout << "No es new task" << endl;
-    }
+    int x = 7;
+    char msg[6];
+    strcpy(msg,"Hola");
 
+    info << x << "," << msg << "\n";
+
+    // info.check_options();
+    info.close();
 }
+
+
+

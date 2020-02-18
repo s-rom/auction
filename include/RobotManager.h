@@ -9,6 +9,7 @@
 #include "Message.h"
 #include "MessageSystem.h"
 #include "SafeQueue.h"
+#include "InfoReporter.h"
 
 // std
 #include <iostream>
@@ -100,9 +101,14 @@ private:
      * Implementation of equation 5 in reference paper
      */
     float get_work_capacity(Task & t);
+    
     const float LOAD_CAPACITY = 1;                     // Maximum load capacity - kg (PLACEHOLDER)
     const float V_MAX = 10;                            // Max linear velocity - m/s  (PLACEHOLDER)                   
     const int TIME_LEADERSHIP = 3000;                  // Max time for the leader request - millis (PLACEHOLDER)
+
+    
+    InfoReporter info;
+
 };
 
 #endif

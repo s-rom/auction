@@ -16,11 +16,11 @@ void RobotManager::message_server(boost::atomic<bool> & running)
     int socket_descriptor = RcSocket::passiveSocket(message_system.net_info.port,"udp", 0);
     if (socket_descriptor < 0)
     {
-        std::cout << "Error in RcSocket::passiveSocket"<< std::endl;
+        // info.out("Error in RcSocket:: passiveSocket");
         return;
     }
 
-    std::cout << "[Message Server] ---> listening on port " << message_system.net_info.port << std::endl;
+    // info.out("[Message Server] ---> listening on port " + (message_system.net_info.port));
 
     while (running)
     {
