@@ -17,8 +17,7 @@ namespace Auction
 class Auction::InfoReporter
 {
 public:
-
-
+    
     InfoReporter()
     {
         this->options = Mode::COUT;
@@ -43,31 +42,34 @@ public:
         this->options = Mode::FILE | Mode::COUT;
     }
 
+    ~InfoReporter()
+    {
+        close();
+    }
+
+
     template<class T>
     InfoReporter& operator<<(const T& obj)
     {
-        std::cout <<  obj;
-        return *this;
-    }
-
-    void out(std::string msg)
-    {
+        
         if (isFileMode() && f.is_open())
         {
-            f << msg << std::endl;
+            f << obj;
         }
 
         if (isCoutMode())
         {
-            std::cout << msg << std::endl;
+            std::cout << obj;
         }
 
         if (isROSMode())
         {
-            ROS_INFO_STREAM(msg << std::endl);
+            ROS_INFO_STREAM(obj);
         }
-
+        
+        return *this;
     }
+
 
     void check_options()
     {
@@ -82,11 +84,6 @@ public:
         this->options = options_param;
     }
 
-    ~InfoReporter()
-    {
-        close();
-    }
-
 
     void close()
     {
@@ -94,8 +91,11 @@ public:
     }
 
 private:
+
     std::fstream f;
     std::bitset<3> options;
+
+
 
     bool isFileMode()
     {
@@ -113,7 +113,5 @@ private:
     }
 
 };
-
-
 
 #endif

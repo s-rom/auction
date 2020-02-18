@@ -107,8 +107,6 @@ private:
     const int TIME_LEADERSHIP = 3000;                  // Max time for the leader request - millis (PLACEHOLDER)
 
     
-    InfoReporter info;
-
 };
 
 #endif
