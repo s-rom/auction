@@ -7,10 +7,11 @@
 #include <cmath>
 #include <bitset>
 #include <ros/ros.h>
+#include <chrono>
 
 namespace Auction
 {
-    enum Mode {FILE=1, COUT=2, ROS=4};
+    enum Mode {FILE=1, COUT=2, ROS=4, TIME=8};
     class InfoReporter;
 }
 
@@ -20,7 +21,7 @@ public:
     
     InfoReporter()
     {
-        this->options = Mode::COUT;
+        this->options = Mode::COUT | Mode::TIME;
     }
     
     InfoReporter(int mode)
@@ -51,15 +52,22 @@ public:
     template<class T>
     InfoReporter& operator<<(const T& obj)
     {
+        using std::chrono::system_clock;
+        using std::chrono::system_clock;
+        auto now_t = system_clock::to_time_t(system_clock::now());
         
         if (isFileMode() && f.is_open())
         {
-            f << obj;
+            if (isTimeMode()) f << std::put_time(std::localtime(&now_t),"<%T> ");
+            f << obj;        
+
         }
 
         if (isCoutMode())
         {
+            if(isTimeMode()) std::cout << std::put_time(std::localtime(&now_t),"<%T> ");
             std::cout << obj;
+
         }
 
         if (isROSMode())
@@ -77,6 +85,7 @@ public:
         std::cout << "FileMode: "<<isFileMode() << std::endl;
         std::cout << "RosMode: "<<isROSMode() << std::endl;
         std::cout << "CoutMode: "<<isCoutMode() << std::endl;
+        std::cout << "TimeMode: "<<isTimeMode() << std::endl;
     }
 
     void setOptions(Mode options_param)
@@ -93,9 +102,12 @@ public:
 private:
 
     std::fstream f;
-    std::bitset<3> options;
+    std::bitset<4> options;
 
-
+    bool isTimeMode()
+    {
+        return options[log2(TIME)];
+    }
 
     bool isFileMode()
     {

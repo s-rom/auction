@@ -49,15 +49,17 @@ public:
             }
             delete m;    
 
-            // if (num_of_robots == 2)
-            // {
-            //     std::cout << "[Message processor] Generating and sending 3 tasks" << endl;
-            //     for (int i = 0; i<3; i++)
-            //     {
-            //         NewTaskMessage nt(generate_random_task());
-            //         message_system.broadcast_message(nt, net_list);
-            //     }
-            // }
+            if (num_of_robots == 3)
+            {
+                const int TASK_NUM = 2;
+                std::cout << "[Message processor] Generating and sending " <<TASK_NUM<<(TASK_NUM>1?"tasks":"task") << endl;
+                for (int i = 0; i<TASK_NUM; i++)
+                {
+                    NewTaskMessage nt(generate_random_task());
+                    message_system.broadcast_message(nt);
+                    boost::this_thread::sleep_for(boost::chrono::milliseconds(500));
+                }
+            }
 
         }
     }
@@ -80,21 +82,6 @@ public:
 
                 message_system.broadcast_message(*nr);
             }
-
-            // brodcast all net_profiles to all robots, including the new one
-            // auto it = net_list.begin();
-            // auto end = net_list.end();
-            // while (it != end)
-            // {
-            //     int id = (*it).first;
-            //     NetProfile & np = (*it).second;
-            //     nr->unique_id = id;
-            //     nr->np = np;
-
-            //     message_system.broadcast_message(*nr); // broadcast to all robots the new one 
-            //     it++;
-            // }
-            //std::cout << "[Message processor] Broadcast id: "<<nr->unique_id<< std::endl;
         }
     }
 

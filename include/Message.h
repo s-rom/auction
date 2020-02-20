@@ -17,7 +17,18 @@ namespace Auction
 	class LeaderRequestMessage;
 	class LeaderOfTaskMessage;
 	class NewRobotMessage;
-	enum MessageType{ NEW_TASK = 0, LEADER_REQUEST, LEADER_OF_TASK, NEW_ROBOT};
+	enum MessageType
+	{ 
+		// Used by monitor to report a new task to all robots
+		NEW_TASK = 0, 
+		// Used by a robot that wants to request being the leader of a task
+		LEADER_REQUEST, 
+		// Used by a robot who won a Leader round auction to inform all robots
+		LEADER_OF_TASK, 
+		// Used between a robot and the monitor for reportin system information
+		NEW_ROBOT
+	};
+
 
 }
 
@@ -63,11 +74,10 @@ public:
 class Auction::LeaderRequestMessage : public Auction::Message
 {
 public:
-	LeaderRequestMessage(int task_id, int src_id, int dst_id, float bid)
+	LeaderRequestMessage(int task_id, int src_id, float bid)
 	:	
 		task_id(task_id),
 		robot_src_id(src_id),
-		robot_dst_id(dst_id),
 		bid(bid)
 	{
 		this->type = Auction::MessageType::LEADER_REQUEST;
@@ -93,22 +103,9 @@ public:
 		
 		getline(ss,token,DELIM); // DELIM
 		getline(ss,token,DELIM); // type
-		// getline(ss,token,DELIM); // task_id
-		// task_id = stoi(token);
-
-		// getline(ss,token,DELIM); // src
-		// robot_src_id = stoi(token);
-
-		// getline(ss,token,DELIM); // dst
-		// robot_dst_id = stoi(token);
-
-		// getline(ss,token,DELIM); // bid
-		// bid = stof(token);
-	
 	
 		next_int_token(task_id);
 		next_int_token(robot_src_id);
-		next_int_token(robot_dst_id);
 		next_float_token(bid);
 	}
  	
@@ -126,7 +123,6 @@ public:
 				to_string(type) + DELIM +
 				to_string(task_id) + DELIM +
 				to_string(robot_src_id) + DELIM +
-				to_string(robot_dst_id) + DELIM +
 				to_string(bid) +
 			DELIM;
 		return s;
@@ -142,7 +138,10 @@ public:
 class Auction::LeaderOfTaskMessage : public Auction::Message
 {
 public:
-	LeaderOfTaskMessage()
+	LeaderOfTaskMessage(int task_id, int lead_id)
+	:
+		task_id(task_id),
+		robot_leader(lead_id)
 	{
 		this->type = Auction::MessageType::LEADER_OF_TASK;
 	}
@@ -187,6 +186,7 @@ public:
 			to_string(type) + DELIM +
 			to_string(task_id) + DELIM +
 			to_string(robot_leader) + DELIM;
+		return s;
 	}
 
 	int task_id;

@@ -55,7 +55,12 @@ public:
         return it;
     }
 
-
+    void erase(typename std::deque<T>::iterator it)
+    {
+        m.lock();
+        q.erase(it);
+        m.unlock();
+    }
 
     bool isEmpty()
     {
@@ -67,7 +72,7 @@ public:
     }
     
 private:
-    boost::mutex m; //< boost mutex for locking acces to the queue 
+    boost::mutex m; //< boost mutex for locking access to the queue 
     std::deque<T> q; //< STL deque
 };
 }
