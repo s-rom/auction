@@ -13,24 +13,44 @@ namespace Auction
 	using std::string;
 	using Auction::Task;
 	class Message;
+	class SimpleMessage;
 	class NewTaskMessage;
-	class LeaderRequestMessage;
+	class BidMessage;
 	class LeaderOfTaskMessage;
 	class NewRobotMessage;
+
 	enum MessageType
 	{ 
-		// Used by monitor to report a new task to all robots
+		// Used by monitor to report a new task to all robots						- NewTaskMessage
 		NEW_TASK = 0, 
-		// Used by a robot that wants to request being the leader of a task
+		
+		// Used by a robot that wants to request being the leader of a task			- BidMessage
 		LEADER_REQUEST, 
-		// Used by a robot who won a Leader round auction to inform all robots
+		
+		// Used by a robot who won a Leader round auction to inform all robots		- LeaderOfTaskMessage
 		LEADER_OF_TASK, 
-		// Used between a robot and the monitor for reportin system information
-		NEW_ROBOT
+
+		// Used between a robot and the monitor for reporting system information	- NewRobotMessage
+		NEW_ROBOT,
+
+		// Used by leader, who requests robots to bid for his task					- SimpleMessage
+		BID_REQUEST,																
+		
+		// Used to bid for a task, in the first or second round. 					- BidMessage
+		BID_FOR_TASK,
+
+		// Used by a leader to accept a robot into the group						- SimpleMessage
+		AWARD
 	};
 
 
 }
+
+
+#define next_float_token(id) getline(ss,token,DELIM); id = stof(token);
+#define next_int_token(id) getline(ss,token,DELIM); id = stoi(token);
+#define next_token(id) getline(ss,token,DELIM); id = token;
+
 
 class Auction::Message
 {
@@ -42,9 +62,66 @@ public:
 };
 
 
-#define next_float_token(id) getline(ss,token,DELIM); id = stof(token);
-#define next_int_token(id) getline(ss,token,DELIM); id = stoi(token);
-#define next_token(id) getline(ss,token,DELIM); id = token;
+class Auction::SimpleMessage : public Auction::Message
+{
+public:
+
+	SimpleMessage(int task_id, int robot_src, MessageType type)
+	:
+		task_id(task_id),
+		robot_src(robot_src)
+	{
+		this->type = type;
+	}
+	
+	/**
+	 * Creates a Message given a serialized string
+	 * 
+	 * Format required:  
+	 * #type#task_id#src#
+	 */
+	SimpleMessage(string serialized_message)
+	{
+		using std::stringstream;
+		using std::getline;
+		using std::stoi;
+		using std::stof;
+
+		this->type = MessageType::LEADER_REQUEST;
+
+		stringstream ss(serialized_message);
+		string token;
+		
+		getline(ss,token,DELIM); // DELIM
+		getline(ss,token,DELIM); // type
+		this->type = static_cast<MessageType>(std::stoi(token));
+
+		next_int_token(task_id);
+		next_int_token(robot_src);
+	}
+ 	
+	/**
+     * Creates a serialized string of this Message
+     * 
+     * Format:  
+     * #type#task_id#src#
+	 */
+	string serialize()
+	{
+		using std::to_string;
+		string s;
+		s = DELIM +	
+				to_string(type) + DELIM +
+				to_string(task_id) + DELIM +
+				to_string(robot_src) + 
+			DELIM;
+		return s;
+	}
+
+	int robot_src;
+	int task_id;
+};
+
 
 class Auction::NewTaskMessage : public Auction::Message
 {
@@ -71,25 +148,25 @@ public:
 	Task t;
 };
 
-class Auction::LeaderRequestMessage : public Auction::Message
+class Auction::BidMessage : public Auction::Message
 {
 public:
-	LeaderRequestMessage(int task_id, int src_id, float bid)
+	BidMessage(int task_id, int src_id, float bid, MessageType type)
 	:	
 		task_id(task_id),
 		robot_src_id(src_id),
 		bid(bid)
 	{
-		this->type = Auction::MessageType::LEADER_REQUEST;
+		this->type = type;
 	};
 
 	/**
 	 * Creates a Message given a serialized string
 	 * 
 	 * Format required:  
-	 * #type#task_id#src#dst#bid#
+	 * #type#task_id#src#bid#
 	 */
-	LeaderRequestMessage(string serialized_message)
+	BidMessage(string serialized_message)
 	{
 		using std::stringstream;
 		using std::getline;
@@ -103,7 +180,8 @@ public:
 		
 		getline(ss,token,DELIM); // DELIM
 		getline(ss,token,DELIM); // type
-	
+		this->type = static_cast<MessageType>(std::stoi(token));
+
 		next_int_token(task_id);
 		next_int_token(robot_src_id);
 		next_float_token(bid);
@@ -113,7 +191,7 @@ public:
      * Creates a serialized string of this Message
      * 
      * Format:  
-     * #type#task_id#src#dst#bid#
+     * #type#task_id#src#bid#
 	 */
 	string serialize()
 	{
@@ -130,7 +208,6 @@ public:
 
 	int task_id;
 	int robot_src_id;
-	int robot_dst_id;
 	float bid;
 };
 

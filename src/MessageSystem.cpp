@@ -68,10 +68,16 @@ Message* MessageSystem::create_message_from(char * msg)
             return new LeaderOfTaskMessage(serialized_message);
             break;
         case MessageType::LEADER_REQUEST:
-            return new LeaderRequestMessage(serialized_message);
+        case MessageType::BID_FOR_TASK:
+            return new BidMessage(serialized_message);
             break;
         case MessageType::NEW_ROBOT:
             return new NewRobotMessage(serialized_message);
+            break;
+
+        case MessageType::AWARD:
+        case MessageType::BID_REQUEST:
+            return new SimpleMessage(serialized_message);
             break;
     }
 

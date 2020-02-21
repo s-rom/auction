@@ -86,8 +86,17 @@ public:
      *  
      * Implementation of algorithm 2 in reference paper
      */
-    void task_auction(Task & t);
+    void leader_task_auction(Task & t);
     
+    /**
+     * Aucton for a robot algorithm.
+     * Executed by a non-leader (assistant robot). The robot
+     * receives several bids from leaders and choose the one 
+     * at which he expects to contribute the most utility
+     *
+     */ 
+    void non_leader_task_auction(Task & t);
+
 
     // Member attributes
     int id;                                            // Robot unique id
@@ -129,6 +138,8 @@ private:
      */
     float get_work_capacity(Task & t);
     
+
+    int task_leader;                    // PLACEHOLDER
     const float LOAD_CAPACITY = 1;      // Maximum load capacity - kg (PLACEHOLDER)
     const float V_MAX = 10;             // Max linear velocity - m/s  (PLACEHOLDER)                   
     const int TIME_LEADERSHIP = 3000;   // Max time for the leader request - millis (PLACEHOLDER)

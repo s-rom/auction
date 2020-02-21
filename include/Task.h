@@ -1,4 +1,5 @@
 #include "Point2D.h"
+#include "MathUtil.h"
 #include <sstream>
 #include <algorithm>
 
@@ -14,7 +15,7 @@ namespace Auction
 struct Auction::Task
 {
     const float MAX_UTILITY; // Maximum utility of the task
-    float task_id;           // Unique (for each execution) id of the task
+    int task_id;             // Unique (for each execution) id of the task
     Point2D task_location;   // Location of the task object
     Point2D delivery_point;  // Location of the delivery point
     float task_work_load;    // Weigh units of the task object
@@ -54,19 +55,14 @@ struct Auction::Task
 
     /**
      * Returns the task utility Uj in function of the elapsed time.
-     *  Currently, a hard deadline function is implemented, where:
-     *      -> Uj = MAX_UTILITY  if delta_time < dead_line
-     *      -> Uj = 0            otherwise
-     *  Uj (tj) where tj is the time elapsed since the task started (delta_time)
+     * Currently, a soft deadline function is implemented, see MathUtil.h
      * 
      * @param delta_time elapsed time from the beginning of the task
      */
     float utility_function(float delta_time)
     {
-        if (delta_time < dead_line) return MAX_UTILITY;
-        else return 0;
+        return Auction::soft_deadline_utility(dead_line, MAX_UTILITY, delta_time);
     }
-
 
     /**
      * Creates a Task given a serialized string
@@ -132,6 +128,19 @@ struct Auction::Task
         this->task_location = other.task_location;
         this->task_work_load = other.task_work_load;
         return *this;
+    }
+
+
+    string to_string()
+    {
+        using std::to_string;
+        string s;
+        s = "Task "+to_string(task_id)+"\n"+
+            "\tDelivery: "+delivery_point.to_string()+"\n"+
+            "\tLocation: "+task_location.to_string()+"\n"+
+            "\tWorkLoad: "+to_string(task_work_load)+" kg\n"+
+            "\tDeadline: "+to_string((int)(dead_line/1000))+" s\n";
+        return s;
     }
 
 };
