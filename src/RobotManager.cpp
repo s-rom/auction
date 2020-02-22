@@ -228,6 +228,9 @@ void RobotManager::leader_task_auction(Task & t)
     // int - robot_src_id
     // float - bid
     std::vector<std::pair<int,float>> group_bid;
+    
+    // vector of selected robots IDs 
+    std::vector<int> selected_group;
 
 
     // Initializes timer to 0
@@ -235,6 +238,9 @@ void RobotManager::leader_task_auction(Task & t)
     auto delta_time = duration_cast<std::chrono::milliseconds>
                         (time_init - time_init).count();
 
+    // Broadcast a bid_request for this task
+    SimpleMessage bid_request(t.task_id, this->id, MessageType::BID_REQUEST);
+    message_system.broadcast_message(bid_request);
 
     // FIRST AUCTION ROUND: Receive bids for this task
     while (delta_time < TIME_AUCTION)
@@ -257,30 +263,106 @@ void RobotManager::leader_task_auction(Task & t)
                 group_bid.push_back(std::make_pair(bid_msg->robot_src_id, bid_msg->bid));
             }
         }
+        
+        // Update delta time
+        delta_time = duration_cast<std::chrono::milliseconds>
+            (system_clock::now() - time_init).count();
     }
 
     // Sort the set (descending) by bid (second element) 
     std::sort(group_bid.begin(), group_bid.end(), sort_descending_by_second);
     // Deadline to be acomplished, DLj
     float goal_deadline = t.dead_line;
-    // Total accumulated deadline in function of the choosen group, DLg,j
-    float accumulated_deadline = 0.0f;
+    
+    // Large enough number to be considered infinity
+    const float PSEUDO_INFINITY = 100000.0f;
+    // Total accumulated expected time in function of the choosen group, DLg,j
+    float accumulated_deadline = PSEUDO_INFINITY;
+
+    float accum_group_work_capacity = 0.0f;
 
     for (auto it = group_bid.begin(); 
-        it!=group_bid.end() && (accumulated_deadline < goal_deadline); it++)
+        it!=group_bid.end() && (accumulated_deadline >= goal_deadline); it++)
     {
         // Add first robot to the group
-        // Update DLg,j
+        int robot_id = it->first;
+        float robot_bid = it->second;
+        selected_group.push_back(robot_id);
+
+        // Increments Sum of all group workcapacity 
+        // with individual workcapacity (bid)
+        accum_group_work_capacity += robot_bid;
+
+        if (accum_group_work_capacity == 0)
+        {
+            // Avoids division by 0
+            accumulated_deadline = PSEUDO_INFINITY;
+        }
+        else 
+        {
+            // Updates DLg,j
+            accumulated_deadline = t.task_work_load / accum_group_work_capacity;
+        }
+
+        // TODO: Substract interference factor
     }
 
-    // SECOND AUCTION ROUND: Bid selected robots with Uj(DLg,j)
+    // Compute expected task's utility
+    float utility = t.utility_function(accumulated_deadline);
 
+    // ---------------------------- DEBUG PURPOSES --------------------------------------
+    std::cout << "[AuctionForTask - Round 2] ---> Selected group: \n";
+    for (auto it = selected_group.begin(); it != selected_group.end(); it++)
+    {
+        std::cout << "\tRobot "<< *it << "\n";
+    }
+    std::cout << "[AuctionForTask - Round 2] Total group_work_capacity: " << accum_group_work_capacity << "\n";
+    std::cout << "[AuctionForTask - Round 2] Expected deadline: " << accumulated_deadline << "\n";
+    std::cout << "[AuctionForTask - Round 2] TaskUtility(expected_deadline) <<Uj(DLgj)>>: "<<utility << "\n";
+    //------------------------------------------------------------------------------------
+
+
+    // SECOND AUCTION ROUND: Bid selected robots with Uj(DLg,j)
+    for (auto it = selected_group.begin(); it != selected_group.end(); it++)
+    {
+        int robot_id = *it;
+        BidMessage bid_msg(t.task_id, this->id, utility, MessageType::BID_FOR_TASK);
+        message_system.send_message(bid_msg, robot_id);
+    }
 
 }
 
-void RobotManager::non_leader_task_auction(Task & t)
+// REVISAR ESTO
+void RobotManager::non_leader_task_auction(Task & t, BidMessage m)
 {
-    // TODO: Implement
+    // Initializes timer to 0
+    auto time_init = system_clock::now();
+    auto delta_time = duration_cast<std::chrono::milliseconds>
+                        (time_init - time_init).count();
+
+    while (delta_time < TIME_BID_ACCEPTED)
+    {
+
+        // Creates a snapshot of the message queue
+        auto it = message_queue.begin();
+        auto end = message_queue.end();
+        while (it != end)
+        {
+            Message * m = *it;
+            if (m->type == MessageType::BID_FOR_TASK)
+            {
+            
+            }
+
+            it++;
+        }
+
+        // Update delta time
+        delta_time = duration_cast<std::chrono::milliseconds>
+            (system_clock::now() - time_init).count();
+    } 
+
+    
 }
 
 

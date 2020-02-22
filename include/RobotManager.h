@@ -95,7 +95,7 @@ public:
      * at which he expects to contribute the most utility
      *
      */ 
-    void non_leader_task_auction(Task & t);
+    void non_leader_task_auction(Task & t, BidMessage m);
 
 
     // Member attributes
@@ -144,6 +144,7 @@ private:
     const float V_MAX = 10;             // Max linear velocity - m/s  (PLACEHOLDER)                   
     const int TIME_LEADERSHIP = 3000;   // Max time for the leader request - millis (PLACEHOLDER)
     const int TIME_AUCTION = 3000;      // Max time for the auction for a task algorithm - millis (PLACEHOLDER)
+    const int TIME_BID_ACCEPTED = 6000; // Max time for the non leader auction algorithm - millis (PLACEHOLDER)
 };
 
 #endif

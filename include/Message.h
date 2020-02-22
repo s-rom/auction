@@ -37,10 +37,7 @@ namespace Auction
 		BID_REQUEST,																
 		
 		// Used to bid for a task, in the first or second round. 					- BidMessage
-		BID_FOR_TASK,
-
-		// Used by a leader to accept a robot into the group						- SimpleMessage
-		AWARD
+		BID_FOR_TASK
 	};
 
 

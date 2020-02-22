@@ -52,7 +52,6 @@ namespace Auction
                 ((elapsed_time - dead_line) + (0.07 * dead_line));
             return max_utility * factor;
         }
-             
     }
 
 }
