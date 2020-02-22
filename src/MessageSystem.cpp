@@ -75,7 +75,6 @@ Message* MessageSystem::create_message_from(char * msg)
             return new NewRobotMessage(serialized_message);
             break;
 
-        case MessageType::AWARD:
         case MessageType::BID_REQUEST:
             return new SimpleMessage(serialized_message);
             break;

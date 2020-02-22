@@ -57,26 +57,38 @@ void RobotManager::auction_process(boost::atomic<bool> & running)
             {
                 NewRobotMessage * nr = dynamic_cast<NewRobotMessage*>(m);
                 new_robot_message_handler(*nr);
-                delete nr;
                 break;
             }
             case NEW_TASK:
             {
                 NewTaskMessage * nt = dynamic_cast<NewTaskMessage*>(m);
                 new_task_message_handler(*nt);
-                delete nt;
                 break;
             }
             case LEADER_OF_TASK:
             {
                 LeaderOfTaskMessage * lead_msg = dynamic_cast<LeaderOfTaskMessage*>(m);
                 leader_of_task_handler(*lead_msg);
-                delete lead_msg;
                 break;
             }
-        }
-        
 
+            case BID_REQUEST:
+            {
+                SimpleMessage * bid_req = dynamic_cast<SimpleMessage*>(m);
+                bid_request_message_handler(*bid_req);
+                break;
+            }
+
+            case BID_FOR_TASK:
+            {
+                BidMessage * bid_msg = dynamic_cast<BidMessage*>(m);
+                bid_for_task_message_handler(*bid_msg);
+                break;
+            }
+
+
+            delete m;
+        }
     }
 }
 
@@ -332,9 +344,22 @@ void RobotManager::leader_task_auction(Task & t)
 
 }
 
+bool third_greater(const std::tuple<int,int,float> &a, 
+                const std::tuple<int,int,float> &b)
+{
+    return std::get<2>(a) < std::get<2>(b);
+}
+
+
+
 // REVISAR ESTO
 void RobotManager::non_leader_task_auction(Task & t, BidMessage m)
 {
+    // int - leader_id
+    // int - task_id
+    // float - leader_bid (utility expected)
+    std::vector<std::tuple<int,int,float>> leader_bids;
+
     // Initializes timer to 0
     auto time_init = system_clock::now();
     auto delta_time = duration_cast<std::chrono::milliseconds>
@@ -351,8 +376,10 @@ void RobotManager::non_leader_task_auction(Task & t, BidMessage m)
             Message * m = *it;
             if (m->type == MessageType::BID_FOR_TASK)
             {
-            
-            }
+                // Store bid
+                BidMessage * bid_msg = dynamic_cast<BidMessage*>(m);
+                leader_bids.push_back(std::make_tuple(bid_msg->robot_src_id, bid_msg->task_id, bid_msg->bid));
+            }   
 
             it++;
         }
@@ -362,8 +389,43 @@ void RobotManager::non_leader_task_auction(Task & t, BidMessage m)
             (system_clock::now() - time_init).count();
     } 
 
+    auto max = *std::max_element(leader_bids.begin(),leader_bids.end(), third_greater);
+    int best_leader = std::get<0>(max);
     
+
+
 }
+
+
+
+void RobotManager::bid_request_message_handler(SimpleMessage &bid_req)
+{
+    // Generate bid for this task
+    Task & t = task_list[bid_req.task_id];
+    float bid = get_work_capacity(t);
+
+    std::cout << "[BidRequestMessageHandler]: Received a bid request from " << 
+        bid_req.robot_src << " for task " << bid_req.task_id << ".Replying with bid:" <<
+        bid << "\n";
+
+    // Send message with that bid    
+    BidMessage my_bid(bid_req.task_id, this->id, bid, MessageType::BID_FOR_TASK);
+    message_system.send_message(my_bid, bid_req.robot_src);
+}
+
+void RobotManager::bid_for_task_message_handler(BidMessage & bid_msg)
+{
+    // If not the leader for any task
+    if (this->task_leader < 0)
+    {
+        Task & t = task_list[bid_msg.task_id];
+        // Start the non-leader robot's auction algorithm (Algorithm 3)
+        this->non_leader_task_auction(t,bid_msg);
+    }
+
+    // else do nothing
+}
+
 
 
 float RobotManager::get_work_capacity(Task& t)

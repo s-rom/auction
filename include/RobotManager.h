@@ -121,8 +121,19 @@ private:
      * @param nr message found
      */
     void new_task_message_handler(NewTaskMessage & nt);                                                       
-                                                     
-    
+
+    /**
+     * Function executed when a BID_REQUEST message is found.
+     */                
+    void bid_request_message_handler(SimpleMessage &bid_req);
+
+    /**
+     * Function executed when a non leader robot founds a BID_FOR_TASK 
+     * message in the second round of the auction process (starts Algorithm 3) 
+     */
+    void bid_for_task_message_handler(BidMessage & bid_msg);
+
+
     /**
      * Function executed by the message process thread when a LeaderOfTaskMessage
      * is found in the queue. 

@@ -9,6 +9,8 @@
 void test_messages(Auction::InfoReporter & info);
 void vector_test();
 void work_capacity_test();
+bool third_greater(const std::tuple<int,int,float> &a, 
+                const std::tuple<int,int,float> &b);
 
 int main(int argc, char ** argv)
 {
@@ -16,7 +18,20 @@ int main(int argc, char ** argv)
     srand(time(0));
     InfoReporter info(Mode::COUT | Mode::TIME);
 
-    work_capacity_test();
+    std::vector<std::tuple<int,int,float>> leader_bids;
+    leader_bids.push_back(std::make_tuple(1,1,10));
+    leader_bids.push_back(std::make_tuple(1,4,11));
+    leader_bids.push_back(std::make_tuple(10,1,3));
+    leader_bids.push_back(std::make_tuple(22,1000,4));
+    
+    auto max = *std::max_element(leader_bids.begin(),leader_bids.end(), third_greater);
+
+    std::cout << "Max: " << std::get<0>(max) << "\n";
+    std::cout << "Max: " << std::get<1>(max) << "\n";
+    std::cout << "Max: " << std::get<2>(max) << "\n";
+
+
+    // work_capacity_test();
 }
 
 void work_capacity_test()
@@ -37,7 +52,11 @@ void work_capacity_test()
     }
 }
 
-
+bool third_greater(const std::tuple<int,int,float> &a, 
+                const std::tuple<int,int,float> &b)
+{
+    return std::get<2>(a) < std::get<2>(b);
+}
 
 bool sort_by_bid(const std::pair<int,float> &a, 
                 const std::pair<int,float> &b)

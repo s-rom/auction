@@ -84,13 +84,13 @@ public:
 		using std::stoi;
 		using std::stof;
 
-		this->type = MessageType::LEADER_REQUEST;
 
 		stringstream ss(serialized_message);
 		string token;
 		
 		getline(ss,token,DELIM); // DELIM
 		getline(ss,token,DELIM); // type
+
 		this->type = static_cast<MessageType>(std::stoi(token));
 
 		next_int_token(task_id);
