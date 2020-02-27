@@ -4,6 +4,8 @@
 #include "Message.h"
 #include <vector>
 #include <ctime>
+#include <fstream>
+#include <ros/ros.h>
 #include <cstdlib>
 
 void test_messages(Auction::InfoReporter & info);
@@ -12,8 +14,51 @@ void work_capacity_test();
 bool third_greater(const std::tuple<int,int,float> &a, 
                 const std::tuple<int,int,float> &b);
 
+void test_tuple();
+
+
+class Prueba
+{
+public:
+    template<class T>
+    void es_std_string(const T & obj)
+    {
+        if (std::is_same<T, std::string>::value  || std::is_same<T,char*>::value)
+        {
+            
+            std::cout << "Se ha convertido a string correctamente!";
+        }
+        else 
+        {
+            std::cout << "No es string\n";
+        }
+    }    
+
+};
+
+
 int main(int argc, char ** argv)
 {
+    // Auction::InfoReporter info("~/Desktop/prueba_info.txt");
+    // info << "[Ambito] " << x << "\n";
+
+    std::cout << argv[0] << std::endl;
+    std::string s(argv[0]);
+    std::cout << s.find("devel") << "\n";
+    std::string path(s.substr(0,s.find("devel")));
+    path += "src/auction/logs/";
+    std::cout << path+"test.log"<< "\n";
+    
+    Auction::InfoReporter info(path+"robot0");
+    info << "[hola] s\n";
+
+
+
+}
+
+void test_tuple()
+{
+
     using namespace Auction;
     srand(time(0));
     InfoReporter info(Mode::COUT | Mode::TIME);
@@ -29,9 +74,6 @@ int main(int argc, char ** argv)
     std::cout << "Max: " << std::get<0>(max) << "\n";
     std::cout << "Max: " << std::get<1>(max) << "\n";
     std::cout << "Max: " << std::get<2>(max) << "\n";
-
-
-    // work_capacity_test();
 }
 
 void work_capacity_test()

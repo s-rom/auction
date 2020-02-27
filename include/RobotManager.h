@@ -12,6 +12,7 @@
 #include "Message.h"
 #include "MessageSystem.h"
 #include "SafeQueue.h"
+#include "InfoReporter.h"
 
 // std
 #include <iostream>
@@ -47,8 +48,9 @@ public:
     /**
      * Constructor.
      * @param net_info a reference to a NetProfile with the robot's net host and port
+     * @param program_path string equivalent to argv[0]
      */ 
-    RobotManager(NetProfile & net_info);
+    RobotManager(string program_path, NetProfile & net_info);
 
 
     /**
@@ -96,9 +98,14 @@ public:
      */ 
     void non_leader_task_auction(Task & t, BidMessage m);
 
+    /**
+     * Closes InfoReporter member's file if open 
+     */
+    void close_info_reporter();
+
 
     // Member attributes
-    int id;                                            // Robot unique id
+    int id = -1;                                       // Robot unique id
     MessageSystem message_system;                      // Message system
     std::unordered_map<int, Task> task_list;           // List of known tasks
     SafeQueue<Message*> message_queue;                 // Queue of received messages
@@ -155,6 +162,9 @@ private:
     const int TIME_LEADERSHIP = 3000;   // Max time for the leader request - millis (PLACEHOLDER)
     const int TIME_AUCTION = 3000;      // Max time for the auction for a task algorithm - millis (PLACEHOLDER)
     const int TIME_BID_ACCEPTED = 6000; // Max time for the non leader auction algorithm - millis (PLACEHOLDER)
+
+    InfoReporter info_report;
+
 };
 
 #endif

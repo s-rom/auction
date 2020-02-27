@@ -1,0 +1,9 @@
+<21:22:52> [Auction process] ---> Running
+<21:22:52> [NewRobotHandler] Received other robot profile: host: localhost, port: 25556, 1
+<21:22:52> [NewRobotHandler] Received other robot profile: host: localhost, port: 25557, 2
+<21:22:52> [NewRobotHandler] Received my own id: 3
+<21:22:52> [NeTaskHandler] new task: 1
+<21:22:52> [LeaderAlgorithm] Starting a leader request process for task 1
+<21:22:52> [LeaderAlgorithm] Robot 3 requesting task 1, bid: 0.27
+<21:22:52> [LeaderAlgorithm] Received bid 0.43, and mine is 0.27, giving up... 
+<21:22:55> [LeaderOfTaskHandler] Robot 2 is the new leader of task 1

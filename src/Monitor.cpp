@@ -5,12 +5,15 @@
 #include "Message.h"
 #include "NetProfile.h"
 #include "SafeQueue.h"
-
+#include "InfoReporter.h"
 
 #include <unordered_map>
+#include <signal.h>
 
 #include <boost/thread.hpp>
 #include <boost/atomic/atomic.hpp>
+
+
 
 namespace Auction
 {
@@ -24,7 +27,18 @@ class Auction::Monitor
 {
 public:
 
-    Monitor()
+    std::string get_log_path(std::string & program_path)
+    {
+        std::string path(program_path.substr(0,program_path.find("devel")));
+        path += "src/auction/logs/";
+        return path;
+    }
+
+
+    Monitor(std::string & program_path)
+    :
+        info_report(get_log_path(program_path)+"monitor.log",
+            Auction::Mode::COUT | Auction::Mode::TIME | Auction::Mode::FILE)
     {
     }
 
@@ -55,9 +69,9 @@ public:
                 std::cout << "[Message processor] Generating and sending " <<TASK_NUM<<(TASK_NUM>1?"tasks":"task") << endl;
                 for (int i = 0; i<TASK_NUM; i++)
                 {
+                    boost::this_thread::sleep_for(boost::chrono::milliseconds(500));
                     NewTaskMessage nt(generate_random_task());
                     message_system.broadcast_message(nt);
-                    boost::this_thread::sleep_for(boost::chrono::milliseconds(500));
                 }
             }
 
@@ -145,14 +159,31 @@ public:
     int robot_id = 0;
     int num_of_robots = 0;
     int num_of_tasks = 0;
+    InfoReporter info_report;
 };
 
+Auction::Monitor * m_ptr;
+boost::atomic<bool> running(true);
 
 
-int main()
+void sigint_handler(int signal)
 {
-    Auction::Monitor m;
-    boost::atomic<bool> running(true);
+    Auction::InfoReporter & info_report = m_ptr->info_report;
+    info_report << "[Monitor] <--- killed by SIGINT" << "\n";
+    m_ptr->info_report.close();
+    running = false;
+    exit(0);
+}
+
+int main(int argc, char ** argv)
+{
+    std::string program_path(argv[0]);
+
+    Auction::Monitor m(program_path);
+    m_ptr = &m;
+
+    signal(SIGINT, sigint_handler);
+
     boost::thread server_thread(&Auction::Monitor::message_server, &m, boost::ref(running));
     boost::thread message_thread(&Auction::Monitor::message_processor, &m, boost::ref(running));
     server_thread.join();

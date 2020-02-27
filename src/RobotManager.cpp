@@ -3,25 +3,37 @@
 using Auction::RobotManager;
 
 
-RobotManager::RobotManager(NetProfile & net_info)
+std::string get_log_path(std::string program_path)
+{
+    std::string path(program_path.substr(0,program_path.find("devel")));
+    path += "src/auction/logs/";
+    return path;
+}
+
+RobotManager::RobotManager(string program_path, NetProfile & net_info)
 :
-    message_system(net_info)
+    message_system(net_info),
+    info_report(get_log_path(program_path)+"robot"+std::string(net_info.port)+".log",
+        Mode::COUT | Mode::FILE | Mode::TIME)
 {
     message_system.request_unique_id();
     srand(time(0));
     task_leader = -1;
 }
 
+void RobotManager::close_info_reporter()
+{
+    info_report.close();
+}
+
+
 void RobotManager::message_server(boost::atomic<bool> & running)
 {
     int socket_descriptor = RcSocket::passiveSocket(message_system.net_info.port,"udp", 0);
     if (socket_descriptor < 0)
     {
-        // log.out("Error in RcSocket:: passiveSocket");
         return;
     }
-
-    // log.out("[Message Server] ---> listening on port " + (message_system.net_info.port));
 
     while (running)
     {
@@ -32,7 +44,7 @@ void RobotManager::message_server(boost::atomic<bool> & running)
         // Recibe la logrmacion y la guarda en el buffer
         if (!recvfrom(socket_descriptor, msg, sizeof(msg), 0, &sender, &addrlen))
         {
-            std::cout << "Error de recepcion \n";
+            info_report << "[MessageServer] Error de recepcion \n";
         }
         else
         { 
@@ -44,8 +56,9 @@ void RobotManager::message_server(boost::atomic<bool> & running)
 
 void RobotManager::auction_process(boost::atomic<bool> & running)
 {
-    std::cout << "[Auction process] ---> Running" <<"\n";
-    
+    info_report << "[Auction process] ---> Running" << "\n";
+
+
     while(running)
     {
         if (message_queue.isEmpty()) continue;
@@ -97,12 +110,13 @@ void RobotManager::new_robot_message_handler(NewRobotMessage & nr)
     // net profile equals own net profile -> store unique id
     if (nr.np == message_system.net_info)
     {
+        if (this->id == -1)
+            info_report << "[NewRobotHandler] Received my own id: "<<nr.unique_id<<"\n";
         this->id = nr.unique_id;
-        std::cout << "[NewRobotHandler] Received my own id: "<<id<<"\n";
     } 
     else // stores other robot id 
     {
-        std::cout << "[NewRobotHandler] Received other robot profile: "<<nr.np.to_string()<<
+        info_report << "[NewRobotHandler] Received other robot profile: "<<nr.np.to_string()<<
         ", "<<nr.unique_id<<"\n";
         message_system.add_robot_info(nr.unique_id, nr.np);
     }
@@ -112,7 +126,7 @@ void RobotManager::new_task_message_handler(NewTaskMessage & nt)
 {
     Task & new_task = nt.t;
     this->task_list[new_task.task_id] = new_task;
-    std::cout << "[NeTaskHandler] new task: "<<new_task.task_id << "\n";
+    info_report << "[NeTaskHandler] new task: "<<new_task.task_id << "\n";
 
     if (this->task_leader < 0)
         leader_request(new_task);
@@ -120,7 +134,7 @@ void RobotManager::new_task_message_handler(NewTaskMessage & nt)
 
 void RobotManager::leader_of_task_handler(LeaderOfTaskMessage & lead_msg)
 {
-    std::cout << "[LeaderOfTaskHandler] Robot "<<lead_msg.robot_leader<<" is the new leader of task "
+    info_report << "[LeaderOfTaskHandler] Robot "<<lead_msg.robot_leader<<" is the new leader of task "
     <<lead_msg.task_id<<"\n";
 }
 
@@ -131,7 +145,7 @@ void RobotManager::bid_request_message_handler(SimpleMessage &bid_req)
     Task & t = task_list[bid_req.task_id];
     float bid = get_work_capacity(t);
 
-    std::cout << "[BidRequestMessageHandler]: Received a bid request from " << 
+    info_report << "[BidRequestMessageHandler]: Received a bid request from " << 
         bid_req.robot_src << " for task " << bid_req.task_id << ".Replying with bid:" <<
         bid << "\n";
 
@@ -157,7 +171,7 @@ void RobotManager::bid_for_task_message_handler(BidMessage & bid_msg)
 
 void RobotManager::leader_request(Task & t)
 {
-    std::cout << "[LeaderAlgorithm] Starting a leader request process for task "<< t.task_id << "\n";
+    info_report << "[LeaderAlgorithm] Starting a leader request process for task "<< t.task_id << "\n";
     
     // Initializes timer to 0
     auto time_init = system_clock::now();
@@ -169,7 +183,7 @@ void RobotManager::leader_request(Task & t)
 
     // Broadcast's a message requesting this task
     BidMessage my_req(t.task_id, this->id, my_bid, MessageType::LEADER_REQUEST);
-    std::cout << "[LeaderAlgorithm] Robot "<< this->id <<" requesting task "
+    info_report << "[LeaderAlgorithm] Robot "<< this->id <<" requesting task "
         << t.task_id << ", bid: " << my_bid << "\n";
     message_system.broadcast_message(my_req);
 
@@ -191,7 +205,7 @@ void RobotManager::leader_request(Task & t)
                 // Check that the message is refering this task
                 if (lead_msg->task_id == t.task_id)
                 {        
-                    std::cout << "[LeaderAlgorithm] " << lead_msg->robot_leader 
+                    info_report << "[LeaderAlgorithm] " << lead_msg->robot_leader 
                     << " is the new leader for task" << lead_msg->task_id 
                     << " Giving up process... \n";
 
@@ -225,7 +239,7 @@ void RobotManager::leader_request(Task & t)
                     if (other_bid > my_bid)
                     {
                         // Give up task request process
-                        std::cout << "[LeaderAlgorithm] Received bid " << other_bid
+                        info_report << "[LeaderAlgorithm] Received bid " << other_bid
                             <<", and mine is "<<my_bid<<", giving up... \n";
                         return;
                     } 
@@ -233,7 +247,7 @@ void RobotManager::leader_request(Task & t)
                     else 
                     {
                         // Continue task request process
-                        std::cout << "[LeaderAlgorithm] Received bid " << other_bid
+                        info_report << "[LeaderAlgorithm] Received bid " << other_bid
                             << ", but mine is "<<my_bid<<", resuming... \n";
                     }
                 }
@@ -249,7 +263,7 @@ void RobotManager::leader_request(Task & t)
     }
 
     // New leader
-    std::cout << "[LeaderAlgorithm] I'm the new leader for task"<<t.task_id<<"\n";
+    info_report << "[LeaderAlgorithm] I'm the new leader for task"<<t.task_id<<"\n";
     LeaderOfTaskMessage lead_msg(t.task_id, this->id);
     message_system.broadcast_message(lead_msg);
     task_leader = t.task_id;
@@ -265,7 +279,7 @@ bool sort_descending_by_second(const std::pair<int,float> &a, const std::pair<in
 
 void RobotManager::leader_task_auction(Task & t)
 {
-    std::cout << "[TaskAuction] Starting auction round for task "<<t.task_id <<"\n";
+    info_report << "[TaskAuction] Starting auction round for task "<<t.task_id <<"\n";
 
     // int - robot_src_id
     // float - bid
@@ -299,7 +313,7 @@ void RobotManager::leader_task_auction(Task & t)
             // Check that the message is refering this task
             if (bid_msg->task_id == t.task_id)
             {
-                std::cout << "[AuctionForTask - Round1] Received bid from Robot " <<
+                info_report << "[AuctionForTask - Round1] Received bid from Robot " <<
                     bid_msg->robot_src_id << "with a bid of " << bid_msg->bid << "\n";
                 // Stores id and bid
                 group_bid.push_back(std::make_pair(bid_msg->robot_src_id, bid_msg->bid));
@@ -353,14 +367,14 @@ void RobotManager::leader_task_auction(Task & t)
     float utility = t.utility_function(accumulated_deadline);
 
     // ---------------------------- DEBUG PURPOSES --------------------------------------
-    std::cout << "[AuctionForTask - Round 2] ---> Selected group: \n";
+    info_report << "[AuctionForTask - Round 2] ---> Selected group: \n";
     for (auto it = selected_group.begin(); it != selected_group.end(); it++)
     {
-        std::cout << "\tRobot "<< *it << "\n";
+        info_report << "\tRobot "<< *it << "\n";
     }
-    std::cout << "[AuctionForTask - Round 2] Total group_work_capacity: " << accum_group_work_capacity << "\n";
-    std::cout << "[AuctionForTask - Round 2] Expected deadline: " << accumulated_deadline << "\n";
-    std::cout << "[AuctionForTask - Round 2] TaskUtility(expected_deadline) <<Uj(DLgj)>>: "<<utility << "\n";
+    info_report << "[AuctionForTask - Round 2] Total group_work_capacity: " << accum_group_work_capacity << "\n";
+    info_report << "[AuctionForTask - Round 2] Expected deadline: " << accumulated_deadline << "\n";
+    info_report << "[AuctionForTask - Round 2] TaskUtility(expected_deadline) <<Uj(DLgj)>>: "<<utility << "\n";
     //------------------------------------------------------------------------------------
 
 
@@ -390,7 +404,7 @@ void RobotManager::non_leader_task_auction(Task & t, BidMessage first_bid)
     std::vector<std::tuple<int,int,float>> leader_bids;
 
     // Adds the first AWARD message (to reproduce line 2 of algorithm 3)
-    std::cout << "[NonLeaderAuction] Received bid from "<<first_bid.robot_src_id <<
+    info_report << "[NonLeaderAuction] Received bid from "<<first_bid.robot_src_id <<
         " for task " << t.task_id << " with a bid of " << first_bid.bid << "\n";
 
     leader_bids.push_back(std::make_tuple(first_bid.robot_src_id, 
@@ -417,7 +431,7 @@ void RobotManager::non_leader_task_auction(Task & t, BidMessage first_bid)
                 BidMessage * bid_msg = dynamic_cast<BidMessage*>(m);
                 leader_bids.push_back(std::make_tuple(bid_msg->robot_src_id, bid_msg->task_id, bid_msg->bid));
 
-                std::cout << "[NonLeaderAuction] Received bid from "<<bid_msg->robot_src_id <<
+                info_report << "[NonLeaderAuction] Received bid from "<<bid_msg->robot_src_id <<
                     " for task " << bid_msg->task_id << " with a bid of " << bid_msg->bid << "\n";
             }   
 
@@ -434,7 +448,7 @@ void RobotManager::non_leader_task_auction(Task & t, BidMessage first_bid)
     int best_task = std::get<1>(max);
     float best_bid = std::get<2>(max);
 
-    std::cout << "[NonLeaderAuction] Best option: task "<<best_task << " from leader "<< best_leader
+    info_report << "[NonLeaderAuction] Best option: task "<<best_task << " from leader "<< best_leader
         << " whose bid is " << best_bid << "\n";
 
     SimpleMessage accept_msg(best_task, this->id,MessageType::ROBOT_ALIVE);
@@ -446,11 +460,11 @@ void RobotManager::non_leader_task_auction(Task & t, BidMessage first_bid)
         int leader_refuse = std::get<0>(*it);
         int task_refuse = std::get<1>(*it);
         
-        std::cout << "[NonLeaderAuction] Sending refuse to\n";
+        info_report << "[NonLeaderAuction] Sending refuse to\n";
 
         if (leader_refuse != best_leader)
         {
-            std::cout << "\t*Leader " << leader_refuse << "\n";
+            info_report << "\t*Leader " << leader_refuse << "\n";
 
             SimpleMessage refuse_msg(task_refuse,this->id,MessageType::REFUSE);
             message_system.send_message(refuse_msg,leader_refuse);

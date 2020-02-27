@@ -4,9 +4,9 @@
 #include <fstream>
 #include <string>
 #include <iostream>
+#include <iomanip>
 #include <cmath>
 #include <bitset>
-#include <ros/ros.h>
 #include <chrono>
 
 namespace Auction
@@ -33,12 +33,12 @@ public:
     :
         f(name, std::ios::out)
     {
-        this->options = mode;
+        this->options = mode | Mode::FILE;
     }
 
     InfoReporter(std::string name)
     :
-        f(name, std::ios::out)
+        f(name, std::fstream::out | std::fstream::trunc)
     {
         this->options = Mode::FILE | Mode::COUT;
     }
@@ -49,30 +49,53 @@ public:
     }
 
 
+    std::string make_string(const int obj)
+    {
+        return std::to_string(obj);
+    }
+
+    std::string make_string(const float obj)
+    {
+        return std::to_string(obj);
+    }
+
+    std::string make_string(const char * obj)
+    {
+        return std::string(obj);
+    }
+
+    std::string make_string(const std::string s)
+    {
+        return s;
+    }
+
     template<class T>
     InfoReporter& operator<<(const T& obj)
     {
         using std::chrono::system_clock;
-        using std::chrono::system_clock;
         auto now_t = system_clock::to_time_t(system_clock::now());
-        
+
+        bool put_time = false;
+        std::string s = make_string(obj);
+        put_time = s.find('[') != std::string::npos;
+
         if (isFileMode() && f.is_open())
         {
-            if (isTimeMode()) f << std::put_time(std::localtime(&now_t),"<%T> ");
+            if (isTimeMode() && put_time) f << std::put_time(std::localtime(&now_t),"<%T> ");
             f << obj;        
 
         }
 
         if (isCoutMode())
         {
-            if(isTimeMode()) std::cout << std::put_time(std::localtime(&now_t),"<%T> ");
+            if(isTimeMode() && put_time) std::cout << std::put_time(std::localtime(&now_t),"<%T> ");
             std::cout << obj;
 
         }
 
         if (isROSMode())
         {
-            ROS_INFO_STREAM(obj);
+            // ROS_INFO_STREAM(obj);
         }
         
         return *this;
