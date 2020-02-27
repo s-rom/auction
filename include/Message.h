@@ -21,6 +21,8 @@ namespace Auction
 
 	enum MessageType
 	{ 
+		// ---------- DESCRIPTION---------------------------------------------	  ---- Message Class ----
+		
 		// Used by monitor to report a new task to all robots						- NewTaskMessage
 		NEW_TASK = 0, 
 		
@@ -37,7 +39,13 @@ namespace Auction
 		BID_REQUEST,																
 		
 		// Used to bid for a task, in the first or second round. 					- BidMessage
-		BID_FOR_TASK
+		BID_FOR_TASK,
+
+		// Used by non leader robot to accept a group								- SimpleMessage
+		ROBOT_ALIVE,
+
+		// Used by non leader robot to refuse a group								- SimpleMessage
+		REFUSE
 	};
 
 

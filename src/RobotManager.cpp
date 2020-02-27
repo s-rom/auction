@@ -125,6 +125,36 @@ void RobotManager::leader_of_task_handler(LeaderOfTaskMessage & lead_msg)
 }
 
 
+void RobotManager::bid_request_message_handler(SimpleMessage &bid_req)
+{
+    // Generate bid for this task
+    Task & t = task_list[bid_req.task_id];
+    float bid = get_work_capacity(t);
+
+    std::cout << "[BidRequestMessageHandler]: Received a bid request from " << 
+        bid_req.robot_src << " for task " << bid_req.task_id << ".Replying with bid:" <<
+        bid << "\n";
+
+    // Send message with that bid    
+    BidMessage my_bid(bid_req.task_id, this->id, bid, MessageType::BID_FOR_TASK);
+    message_system.send_message(my_bid, bid_req.robot_src);
+}
+
+void RobotManager::bid_for_task_message_handler(BidMessage & bid_msg)
+{
+    // If not the leader for any task
+    if (this->task_leader < 0)
+    {
+        Task & t = task_list[bid_msg.task_id];
+        // Start the non-leader robot's auction algorithm (Algorithm 3)
+        this->non_leader_task_auction(t,bid_msg);
+    }
+
+    // else do nothing
+}
+
+
+
 void RobotManager::leader_request(Task & t)
 {
     std::cout << "[LeaderAlgorithm] Starting a leader request process for task "<< t.task_id << "\n";
@@ -352,13 +382,20 @@ bool third_greater(const std::tuple<int,int,float> &a,
 
 
 
-// REVISAR ESTO
-void RobotManager::non_leader_task_auction(Task & t, BidMessage m)
+void RobotManager::non_leader_task_auction(Task & t, BidMessage first_bid)
 {
     // int - leader_id
     // int - task_id
     // float - leader_bid (utility expected)
     std::vector<std::tuple<int,int,float>> leader_bids;
+
+    // Adds the first AWARD message (to reproduce line 2 of algorithm 3)
+    std::cout << "[NonLeaderAuction] Received bid from "<<first_bid.robot_src_id <<
+        " for task " << t.task_id << " with a bid of " << first_bid.bid << "\n";
+
+    leader_bids.push_back(std::make_tuple(first_bid.robot_src_id, 
+                                        first_bid.task_id, 
+                                        first_bid.bid));
 
     // Initializes timer to 0
     auto time_init = system_clock::now();
@@ -379,6 +416,9 @@ void RobotManager::non_leader_task_auction(Task & t, BidMessage m)
                 // Store bid
                 BidMessage * bid_msg = dynamic_cast<BidMessage*>(m);
                 leader_bids.push_back(std::make_tuple(bid_msg->robot_src_id, bid_msg->task_id, bid_msg->bid));
+
+                std::cout << "[NonLeaderAuction] Received bid from "<<bid_msg->robot_src_id <<
+                    " for task " << bid_msg->task_id << " with a bid of " << bid_msg->bid << "\n";
             }   
 
             it++;
@@ -391,41 +431,32 @@ void RobotManager::non_leader_task_auction(Task & t, BidMessage m)
 
     auto max = *std::max_element(leader_bids.begin(),leader_bids.end(), third_greater);
     int best_leader = std::get<0>(max);
-    
+    int best_task = std::get<1>(max);
+    float best_bid = std::get<2>(max);
+
+    std::cout << "[NonLeaderAuction] Best option: task "<<best_task << " from leader "<< best_leader
+        << " whose bid is " << best_bid << "\n";
+
+    SimpleMessage accept_msg(best_task, this->id,MessageType::ROBOT_ALIVE);
+    message_system.send_message(accept_msg, best_leader);
 
 
-}
-
-
-
-void RobotManager::bid_request_message_handler(SimpleMessage &bid_req)
-{
-    // Generate bid for this task
-    Task & t = task_list[bid_req.task_id];
-    float bid = get_work_capacity(t);
-
-    std::cout << "[BidRequestMessageHandler]: Received a bid request from " << 
-        bid_req.robot_src << " for task " << bid_req.task_id << ".Replying with bid:" <<
-        bid << "\n";
-
-    // Send message with that bid    
-    BidMessage my_bid(bid_req.task_id, this->id, bid, MessageType::BID_FOR_TASK);
-    message_system.send_message(my_bid, bid_req.robot_src);
-}
-
-void RobotManager::bid_for_task_message_handler(BidMessage & bid_msg)
-{
-    // If not the leader for any task
-    if (this->task_leader < 0)
+    for (auto it = leader_bids.begin(); it != leader_bids.end(); it++)
     {
-        Task & t = task_list[bid_msg.task_id];
-        // Start the non-leader robot's auction algorithm (Algorithm 3)
-        this->non_leader_task_auction(t,bid_msg);
+        int leader_refuse = std::get<0>(*it);
+        int task_refuse = std::get<1>(*it);
+        
+        std::cout << "[NonLeaderAuction] Sending refuse to\n";
+
+        if (leader_refuse != best_leader)
+        {
+            std::cout << "\t*Leader " << leader_refuse << "\n";
+
+            SimpleMessage refuse_msg(task_refuse,this->id,MessageType::REFUSE);
+            message_system.send_message(refuse_msg,leader_refuse);
+        }
     }
-
-    // else do nothing
 }
-
 
 
 float RobotManager::get_work_capacity(Task& t)

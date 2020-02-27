@@ -12,7 +12,6 @@
 #include "Message.h"
 #include "MessageSystem.h"
 #include "SafeQueue.h"
-#include "InfoReporter.h"
 
 // std
 #include <iostream>

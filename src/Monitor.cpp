@@ -51,7 +51,7 @@ public:
 
             if (num_of_robots == 3)
             {
-                const int TASK_NUM = 2;
+                const int TASK_NUM = 1;
                 std::cout << "[Message processor] Generating and sending " <<TASK_NUM<<(TASK_NUM>1?"tasks":"task") << endl;
                 for (int i = 0; i<TASK_NUM; i++)
                 {
