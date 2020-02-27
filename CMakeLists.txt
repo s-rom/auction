@@ -29,19 +29,14 @@ include_directories(
 
 
 #---- Executables ----#
-add_executable(auction src/cpp_sandbox.cpp)
-add_executable(sender src/message_sender.cpp)
+add_executable(auction src/Auction.cpp)
 add_executable(monitor src/Monitor.cpp)
-add_executable(auction_test src/main.cpp)
+add_executable(auction_test src/MainTest.cpp)
 
 #---- Libraries ----#
 add_library(RcSocket src/RcSocket.cpp)
 add_library(MessageSystem src/MessageSystem.cpp)
 add_library(RobotManager src/RobotManager.cpp)
-
-#---- Sender ----#
-target_link_libraries(sender MessageSystem)
-target_link_libraries(sender RcSocket)
 
 #---- RobotManager ----#
 target_link_libraries(RobotManager RcSocket)
