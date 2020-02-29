@@ -17,9 +17,15 @@ RobotManager::RobotManager(string program_path, NetProfile & net_info)
         Mode::COUT | Mode::FILE | Mode::TIME)
 {
     message_system.request_unique_id();
-    srand(time(0));
     task_leader = -1;
 }
+
+
+RobotManager::RobotManager()
+{
+    task_leader = -1;
+}
+
 
 void RobotManager::close_info_reporter()
 {
@@ -128,8 +134,17 @@ void RobotManager::new_task_message_handler(NewTaskMessage & nt)
     this->task_list[new_task.task_id] = new_task;
     info_report << "[NeTaskHandler] new task: "<<new_task.task_id << "\n";
 
+    // If not a task leader, start a leader request process
     if (this->task_leader < 0)
         leader_request(new_task);
+
+    // If leader of task
+    if (this->task_leader >= 0)
+    {
+        // Start auction for this task
+        Task & t = task_list[this->task_leader];
+        this->leader_task_auction(t);
+    }
 }             
 
 void RobotManager::leader_of_task_handler(LeaderOfTaskMessage & lead_msg)
@@ -145,7 +160,7 @@ void RobotManager::bid_request_message_handler(SimpleMessage &bid_req)
     Task & t = task_list[bid_req.task_id];
     float bid = get_work_capacity(t);
 
-    info_report << "[BidRequestMessageHandler]: Received a bid request from " << 
+    info_report << "[BidRequestMessageHandler]: Received a bid request from Robot" << 
         bid_req.robot_src << " for task " << bid_req.task_id << ".Replying with bid:" <<
         bid << "\n";
 
@@ -161,7 +176,7 @@ void RobotManager::bid_for_task_message_handler(BidMessage & bid_msg)
     {
         Task & t = task_list[bid_msg.task_id];
         // Start the non-leader robot's auction algorithm (Algorithm 3)
-        this->non_leader_task_auction(t,bid_msg);
+        this->non_leader_task_auction(t, bid_msg);
     }
 
     // else do nothing
@@ -178,8 +193,8 @@ void RobotManager::leader_request(Task & t)
     auto delta_time = duration_cast<std::chrono::milliseconds>
                         (time_init - time_init).count();
     
-    // Creates a random bid for testing purposes
-    float my_bid = (rand() % 100) / 100.0f;
+    // Bid's with work_capacity for that task
+    float my_bid = this->get_work_capacity(t);
 
     // Broadcast's a message requesting this task
     BidMessage my_req(t.task_id, this->id, my_bid, MessageType::LEADER_REQUEST);
@@ -263,7 +278,7 @@ void RobotManager::leader_request(Task & t)
     }
 
     // New leader
-    info_report << "[LeaderAlgorithm] I'm the new leader for task"<<t.task_id<<"\n";
+    info_report << "[LeaderAlgorithm] I'm the new leader for task "<<t.task_id<<"\n";
     LeaderOfTaskMessage lead_msg(t.task_id, this->id);
     message_system.broadcast_message(lead_msg);
     task_leader = t.task_id;
@@ -304,26 +319,42 @@ void RobotManager::leader_task_auction(Task & t)
         // Creates a snapshot of the message queue
         auto end = message_queue.end();
         auto it = message_queue.begin();
-
-        Message * m = *it;
-        if (m->type == MessageType::BID_FOR_TASK)
+        while (it != end)
         {
-            BidMessage * bid_msg = dynamic_cast<BidMessage*>(m);
-
-            // Check that the message is refering this task
-            if (bid_msg->task_id == t.task_id)
+            Message * m = *it;
+            if (m->type == MessageType::BID_FOR_TASK)
             {
-                info_report << "[AuctionForTask - Round1] Received bid from Robot " <<
-                    bid_msg->robot_src_id << "with a bid of " << bid_msg->bid << "\n";
-                // Stores id and bid
-                group_bid.push_back(std::make_pair(bid_msg->robot_src_id, bid_msg->bid));
+                BidMessage * bid_msg = dynamic_cast<BidMessage*>(m);
+
+                // Check that the message is refering this task
+                if (bid_msg->task_id == t.task_id)
+                {
+                    info_report << "[AuctionForTask - Round 1] Received bid from Robot " <<
+                        bid_msg->robot_src_id << ", with a bid of " << bid_msg->bid << "\n";
+                    
+                    // Stores id and bid 
+                    // std::make_pair takes rvalue references as parameters.
+                    // Copy them into variables to avoid segmentation fault
+                    int lead_id = bid_msg->robot_src_id;
+                    float lead_bid = bid_msg->bid;
+                    group_bid.push_back(std::make_pair(lead_id, lead_bid));            
+
+                    // Remove message from queue
+                    message_queue.erase(it);
+
+                    // Release memory
+                    delete bid_msg;
+                }
             }
+            it++;
         }
         
         // Update delta time
         delta_time = duration_cast<std::chrono::milliseconds>
-            (system_clock::now() - time_init).count();
+            (system_clock::now() - time_init).count();    
     }
+
+    info_report << "[AuctionForTask - Round 1] End of round 1\n";
 
     // Sort the set (descending) by bid (second element) 
     std::sort(group_bid.begin(), group_bid.end(), sort_descending_by_second);
@@ -433,6 +464,13 @@ void RobotManager::non_leader_task_auction(Task & t, BidMessage first_bid)
 
                 info_report << "[NonLeaderAuction] Received bid from "<<bid_msg->robot_src_id <<
                     " for task " << bid_msg->task_id << " with a bid of " << bid_msg->bid << "\n";
+
+
+                // Delete message from memory
+                message_queue.erase(it);
+
+                // Release memory
+                delete bid_msg;
             }   
 
             it++;
@@ -473,10 +511,22 @@ void RobotManager::non_leader_task_auction(Task & t, BidMessage first_bid)
 }
 
 
+void RobotManager::set_load_capacity(float new_load_capacity)
+{
+    this->load_capacity = (new_load_capacity < 0) ? 0 : new_load_capacity;
+}
+
+
+void RobotManager::set_max_linear_vel(float new_max_vel)
+{
+    this->max_vel = (new_max_vel < 0) ? 10 : new_max_vel;
+}
+
+
 float RobotManager::get_work_capacity(Task& t)
 {
     float distance = Point2D::euclidean_distance(t.delivery_point,t.task_location);
-    float a = LOAD_CAPACITY * V_MAX;
-    float b = 2 * (LOAD_CAPACITY * V_MAX + distance);
+    float a = load_capacity * max_vel;
+    float b = 2 * (load_capacity * max_vel + distance);
     return b == 0? 0 : a / b;
 }

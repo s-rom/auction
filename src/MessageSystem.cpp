@@ -92,7 +92,7 @@ void MessageSystem::broadcast_message(Message &m)
     while (it != end)
     {
         std::pair<int,NetProfile> element = *it;
-        std::cout << "\t"<<element.second.to_string() << std::endl;
+        std::cout << "\tRobot "<<element.first<<"\t"<<element.second.to_string() << std::endl;
         send_message(m,element.second);
         it++;
     }

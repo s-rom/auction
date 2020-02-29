@@ -100,14 +100,14 @@ private:
 	std::unordered_map<int, NetProfile> net_list; // List of net profiles of other robots
 	const int MONITOR_ID = 0;		              // Unique id of system's monitor
 	NetProfile monitor_info; 			          // Monitor's net profiles
-	
+
 	/**
 	 * Sends a message to a NetProfile.
 	 * 
 	 * @param m Reference to any Message child
 	 * @param dst Reference to a NetProfile object
 	 */
-	void send_message(Message &m,NetProfile &dst);
+	void send_message(Message &m, NetProfile &dst);
 
 };
 

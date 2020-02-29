@@ -138,11 +138,19 @@ public:
         }
     }
 
+    Task generate_random_task()
+    {
+        using namespace Auction;
+        Point2D p(rand() % 20, rand() % 20); // 0 to 19 x y
+        Point2D delivery(rand() % 20, rand() % 20); // 0 to 19 x y
+        float workload = (rand() % 15) + 1; // 1 to 15 kg
+        float dead_line = (rand() % 20000) + 50000; // 5s to 25s
 
-    Task generate_random_task(){
-        Task t(Point2D(), Point2D(), 1, 2, next_task_id());
+        Task t(p,delivery, workload, dead_line, next_task_id());
         return t;
     }
+
+
 
     int next_task_id()
     {

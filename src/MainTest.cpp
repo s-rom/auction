@@ -2,6 +2,7 @@
 #include "InfoReporter.h"
 #include "SafeQueue.h"
 #include "Message.h"
+#include "RobotManager.h"
 #include <vector>
 #include <ctime>
 #include <fstream>
@@ -15,7 +16,8 @@ bool third_greater(const std::tuple<int,int,float> &a,
                 const std::tuple<int,int,float> &b);
 
 void test_tuple();
-
+void deadline_computation_test();
+Auction::Task generate_task(int id);
 
 class Prueba
 {
@@ -42,15 +44,7 @@ int main(int argc, char ** argv)
     // Auction::InfoReporter info("~/Desktop/prueba_info.txt");
     // info << "[Ambito] " << x << "\n";
 
-    std::cout << argv[0] << std::endl;
-    std::string s(argv[0]);
-    std::cout << s.find("devel") << "\n";
-    std::string path(s.substr(0,s.find("devel")));
-    path += "src/auction/logs/";
-    std::cout << path+"test.log"<< "\n";
-    
-    Auction::InfoReporter info(path+"robot0");
-    info << "[hola] s\n";
+   deadline_computation_test();
 
 
 
@@ -75,6 +69,45 @@ void test_tuple()
     std::cout << "Max: " << std::get<1>(max) << "\n";
     std::cout << "Max: " << std::get<2>(max) << "\n";
 }
+
+void deadline_computation_test()
+{
+    Auction::Task t = generate_task(0);
+    
+    std::cout << "Generated task\n";
+    std::cout << t.to_string() << "\n";
+
+    const int NUM_ROBOTS = 3;
+
+    for (int i = 0; i<NUM_ROBOTS; i++)
+    {
+        float max_vel = (rand() % (13))  + 3; // 3 to 15 m/s
+        float load_capacity = (rand() % 10) + 1; // 1 to 10 kg
+
+        Auction::RobotManager r;
+        r.set_max_linear_vel(max_vel);
+        r.set_load_capacity(load_capacity);
+
+        std::cout << "Generated robot \n\tvel: "<<max_vel<<"\n\tload_capacity: "<<load_capacity << "\n";
+        std::cout << "---> WorkCapacity is: " << r.get_work_capacity(t) << "\n";
+    }    
+}
+
+
+
+Auction::Task generate_task(int id)
+{
+    using namespace Auction;
+    Point2D p(rand() % 20, rand() % 20); // 0 to 19 x y
+    Point2D delivery(rand() % 20, rand() % 20); // 0 to 19 x y
+    float workload = (rand() % 15) + 1; // 1 to 15 kg
+    float dead_line = (rand() % 20000) + 50000; // 5s to 25s
+
+    Task t(p,delivery, workload, dead_line, id);
+    return t;
+}
+
+
 
 void work_capacity_test()
 {

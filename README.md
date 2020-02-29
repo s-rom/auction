@@ -17,7 +17,7 @@ Todos los mensajes derivan de la clase abstracta Message (en Message.h).
 ### Protocolo para añadir un tipo de mensaje nuevo
 1. Escoger una clase existente o crear una nueva que derive de Message
 2. Implementar un constructor con parámetros, un constructor a partir de un mensaje serializado y el método de serialización. Asignar el tipo.
-3. Implementar un método <b> handler </b> en el servidor
+3. Implementar un método <b> handler </b> en el servidor de mensajes en <it>RobotManager</it> y opcionalmente en <it>Monitor</it>
 4. Implementar la creación en el método <b> create_message_from ( char * msg) </b> de <it> MessageSystem </it>
 
 

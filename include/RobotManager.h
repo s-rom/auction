@@ -54,6 +54,14 @@ public:
 
 
     /**
+     * Constructor for testing purposes only!
+     * When used, the robot's message_system will not work
+     * correctly
+     */ 
+    RobotManager();
+
+
+    /**
      * Message server function to be executed by a thread.
      * Receives UDP messages and stores them into a the safe queue
      * 
@@ -104,6 +112,25 @@ public:
     void close_info_reporter();
 
 
+    /**
+     * Sets the robot's load capacity (kg). Values lower than 0 are set to 0.
+     * Default value is 1.
+     */ 
+    void set_load_capacity(float new_load_capacity);
+
+    /**
+     * Sets the robot's linear max velocity (in m/s). Values lower than 0 are set to default value.
+     * Default value is 10 m/s.
+     */  
+    void set_max_linear_vel(float new_max_vel);
+    
+    /**
+     * Returns the work_capacity for a given task. 
+     * Implementation of equation 5 in reference paper
+     */
+    float get_work_capacity(Task & t);
+
+
     // Member attributes
     int id = -1;                                       // Robot unique id
     MessageSystem message_system;                      // Message system
@@ -149,16 +176,13 @@ private:
     void leader_of_task_handler(LeaderOfTaskMessage & lead_msg);
 
 
-    /**
-     * Returns the work_capacity for a given task. 
-     * Implementation of equation 5 in reference paper
-     */
-    float get_work_capacity(Task & t);
     
 
     int task_leader;                    // PLACEHOLDER
-    const float LOAD_CAPACITY = 1;      // Maximum load capacity - kg (PLACEHOLDER)
-    const float V_MAX = 10;             // Max linear velocity - m/s  (PLACEHOLDER)                   
+    float load_capacity = 1;            // Maximum load capacity - kg (PLACEHOLDER)
+    float max_vel = 10;                 // Max linear velocity - m/s  (PLACEHOLDER)                   
+    
+    
     const int TIME_LEADERSHIP = 3000;   // Max time for the leader request - millis (PLACEHOLDER)
     const int TIME_AUCTION = 3000;      // Max time for the auction for a task algorithm - millis (PLACEHOLDER)
     const int TIME_BID_ACCEPTED = 6000; // Max time for the non leader auction algorithm - millis (PLACEHOLDER)

@@ -6,6 +6,8 @@
 #include "RobotManager.h"
 
 #include <signal.h>
+#include <ctime>
+#include <cstdlib>
 
 #include <ros/ros.h>
 
@@ -21,12 +23,22 @@ void sigint_handler(int signal)
     exit(0);
 }
 
+/**
+ * Returns an integer between a min and max (both inclusive)
+ * 
+ * @returns rand int in [min,max]
+ */
+int get_rand_range(int min, int max)
+{
+    int rnd = (rand() % (max - min + 1)) + min;
+}
+
 int main(int argc, char ** argv)
 {
     using std::cout;
     using std::endl;
     using namespace Auction;
-
+    srand(time(0));
 
     // ros::init(argc,argv,"robot_node", ros::init_options::AnonymousName);
     // ros::NodeHandle nh("~");
@@ -49,12 +61,24 @@ int main(int argc, char ** argv)
     char * host = argv[1];
     char * port = argv[2];
     
-    
     NetProfile np(host,port);
+
+    // Constructs the RobotManager object
     RobotManager r(std::string(argv[0]),np);
+
+    int max_vel = get_rand_range(3,15);
+    int load_capacity = get_rand_range(1,14);
+
+    r.set_max_linear_vel(max_vel);
+    r.set_load_capacity(load_capacity);
+
+    std::cout << "Generated robot with max_vel: "<<max_vel<<" and load_capacity: "<<load_capacity<<"\n";
+
+    // For SIGINT handling
     r_ptr = &r;
     signal(SIGINT, sigint_handler);
     
+    // Starts threads
     boost::thread server_thread(&RobotManager::message_server, &r, boost::ref(running));
     boost::thread auction_thread(&RobotManager::auction_process, &r, boost::ref(running));
     
@@ -62,7 +86,6 @@ int main(int argc, char ** argv)
     auction_thread.join();
 
 }
-
 
 
 

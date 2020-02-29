@@ -1,10 +1,20 @@
-<21:22:49> [Auction process] ---> Running
-<21:22:49> [NewRobotHandler] Received my own id: 1
-<21:22:50> [NewRobotHandler] Received other robot profile: host: localhost, port: 25557, 2
-<21:22:52> [NewRobotHandler] Received other robot profile: host: localhost, port: 25557, 2
-<21:22:52> [NewRobotHandler] Received other robot profile: host: localhost, port: 25558, 3
-<21:22:52> [NeTaskHandler] new task: 1
-<21:22:52> [LeaderAlgorithm] Starting a leader request process for task 1
-<21:22:52> [LeaderAlgorithm] Robot 1 requesting task 1, bid: 0.22
-<21:22:52> [LeaderAlgorithm] Received bid 0.43, and mine is 0.22, giving up... 
-<21:22:55> [LeaderOfTaskHandler] Robot 2 is the new leader of task 1
+<13:39:00> [Auction process] ---> Running
+<13:39:00> [NewRobotHandler] Received my own id: 1
+<13:39:01> [NewRobotHandler] Received other robot profile: host: localhost, port: 25557, 2
+<13:39:02> [NewRobotHandler] Received other robot profile: host: localhost, port: 25557, 2
+<13:39:02> [NewRobotHandler] Received other robot profile: host: localhost, port: 25558, 3
+<13:39:03> [NeTaskHandler] new task: 1
+<13:39:03> [LeaderAlgorithm] Starting a leader request process for task 1
+<13:39:03> [LeaderAlgorithm] Robot 1 requesting task 1, bid: 0.439099
+<13:39:03> [LeaderAlgorithm] Received bid 0.391424, but mine is 0.439099, resuming... 
+<13:39:03> [LeaderAlgorithm] Received bid 0.406122, but mine is 0.439099, resuming... 
+<13:39:06> [LeaderAlgorithm] I'm the new leader for task 1
+<13:39:06> [TaskAuction] Starting auction round for task 1
+<13:39:06> [AuctionForTask - Round 1] Received bid from Robot 3, with a bid of 0.406122
+<13:39:06> [AuctionForTask - Round 1] Received bid from Robot 2, with a bid of 0.391424
+<13:39:09> [AuctionForTask - Round 1] End of round 1
+<13:39:09> [AuctionForTask - Round 2] ---> Selected group: 
+	Robot 3
+<13:39:09> [AuctionForTask - Round 2] Total group_work_capacity: 0.406122
+<13:39:09> [AuctionForTask - Round 2] Expected deadline: 22.1608
+<13:39:09> [AuctionForTask - Round 2] TaskUtility(expected_deadline) <<Uj(DLgj)>>: 1
