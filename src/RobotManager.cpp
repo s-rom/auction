@@ -17,13 +17,15 @@ RobotManager::RobotManager(string program_path, NetProfile & net_info)
         Mode::COUT | Mode::FILE | Mode::TIME)
 {
     message_system.request_unique_id();
-    task_leader = -1;
+    task_leader = NULL_TASK;
+    task_helper = NULL_TASK;
 }
 
 
 RobotManager::RobotManager()
 {
-    task_leader = -1;
+    task_leader = NULL_TASK;
+    task_helper = NULL_TASK;
 }
 
 
@@ -104,7 +106,13 @@ void RobotManager::auction_process(boost::atomic<bool> & running)
                 bid_for_task_message_handler(*bid_msg);
                 break;
             }
-
+            
+            case ROBOT_ALIVE:
+            {
+                SimpleMessage * robot_alive = dynamic_cast<SimpleMessage*>(m);
+                robot_alive_message_handler(*robot_alive);
+                break;
+            }
 
             delete m;
         }
@@ -135,15 +143,17 @@ void RobotManager::new_task_message_handler(NewTaskMessage & nt)
     info_report << "[NeTaskHandler] new task: "<<new_task.task_id << "\n";
 
     // If not a task leader, start a leader request process
-    if (this->task_leader < 0)
+    if (this->task_leader == NULL_TASK)
         leader_request(new_task);
 
     // If leader of task
-    if (this->task_leader >= 0)
+    if (this->task_leader != NULL_TASK)
     {
         // Start auction for this task
         Task & t = task_list[this->task_leader];
         this->leader_task_auction(t);
+
+        // Send goal to move_base
     }
 }             
 
@@ -172,16 +182,24 @@ void RobotManager::bid_request_message_handler(SimpleMessage &bid_req)
 void RobotManager::bid_for_task_message_handler(BidMessage & bid_msg)
 {
     // If not the leader for any task
-    if (this->task_leader < 0)
+    if (this->task_leader == NULL_TASK)
     {
         Task & t = task_list[bid_msg.task_id];
         // Start the non-leader robot's auction algorithm (Algorithm 3)
         this->non_leader_task_auction(t, bid_msg);
+    } // else do nothing
+
+    if (this->task_helper != NULL_TASK)
+    {
+        // enviar objetivo a move_base?
     }
 
-    // else do nothing
 }
 
+void RobotManager::robot_alive_message_handler(SimpleMessage & robot_alive)
+{
+
+}
 
 
 void RobotManager::leader_request(Task & t)
@@ -362,10 +380,10 @@ void RobotManager::leader_task_auction(Task & t)
     float goal_deadline = t.dead_line;
     
     // Large enough number to be considered infinity
-    const float PSEUDO_INFINITY = 100000.0f;
+    const float PSEUDO_INFINITY = 1000000.0f;
     // Total accumulated expected time in function of the choosen group, DLg,j
     float accumulated_deadline = PSEUDO_INFINITY;
-
+    // Total accumulated work capacity
     float accum_group_work_capacity = 0.0f;
 
     for (auto it = group_bid.begin(); 
@@ -400,12 +418,13 @@ void RobotManager::leader_task_auction(Task & t)
     // ---------------------------- DEBUG PURPOSES --------------------------------------
     info_report << "[AuctionForTask - Round 2] ---> Selected group: \n";
     for (auto it = selected_group.begin(); it != selected_group.end(); it++)
-    {
+    {   
         info_report << "\tRobot "<< *it << "\n";
     }
     info_report << "[AuctionForTask - Round 2] Total group_work_capacity: " << accum_group_work_capacity << "\n";
-    info_report << "[AuctionForTask - Round 2] Expected deadline: " << accumulated_deadline << "\n";
-    info_report << "[AuctionForTask - Round 2] TaskUtility(expected_deadline) <<Uj(DLgj)>>: "<<utility << "\n";
+    info_report << "[AuctionForTask - Round 2] Expected time: " << accumulated_deadline << "\n";
+    info_report << "[AuctionForTask - Round 2] Task deadline: " << goal_deadline << "\n"; 
+    info_report << "[AuctionForTask - Round 2] TaskUtility(expected_deadline) <<Uj(DLgj)>>: "<< utility << "\n";
     //------------------------------------------------------------------------------------
 
 
@@ -489,16 +508,23 @@ void RobotManager::non_leader_task_auction(Task & t, BidMessage first_bid)
     info_report << "[NonLeaderAuction] Best option: task "<<best_task << " from leader "<< best_leader
         << " whose bid is " << best_bid << "\n";
 
+
+    // Accept best leader's task
     SimpleMessage accept_msg(best_task, this->id,MessageType::ROBOT_ALIVE);
     message_system.send_message(accept_msg, best_leader);
+    task_helper = best_task;
 
 
-    for (auto it = leader_bids.begin(); it != leader_bids.end(); it++)
+    auto it = leader_bids.begin();
+    auto end = leader_bids.end();
+  
+    if (it != end) info_report << "[NonLeaderAuction] Sending refuse to\n";
+  
+    while (it != end)
     {
         int leader_refuse = std::get<0>(*it);
         int task_refuse = std::get<1>(*it);
         
-        info_report << "[NonLeaderAuction] Sending refuse to\n";
 
         if (leader_refuse != best_leader)
         {
@@ -507,6 +533,8 @@ void RobotManager::non_leader_task_auction(Task & t, BidMessage first_bid)
             SimpleMessage refuse_msg(task_refuse,this->id,MessageType::REFUSE);
             message_system.send_message(refuse_msg,leader_refuse);
         }
+
+        it++;
     }
 }
 
@@ -528,5 +556,5 @@ float RobotManager::get_work_capacity(Task& t)
     float distance = Point2D::euclidean_distance(t.delivery_point,t.task_location);
     float a = load_capacity * max_vel;
     float b = 2 * (load_capacity * max_vel + distance);
-    return b == 0? 0 : a / b;
+    return (b == 0) ? 0 : (a / b);
 }

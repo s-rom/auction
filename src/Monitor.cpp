@@ -45,11 +45,11 @@ public:
 
     void message_processor(boost::atomic<bool>& running)
     {
-        std::cout << "[Message thread] ---> running" << std::endl;
+        info_report << "[Message thread] ---> running" << "\n";
         while(running)
         {
             if (message_list.isEmpty()) continue;
-            std::cout << "[Message processor] Processing new message"<<std::endl;
+            info_report << "[Message processor] Processing new message"<< "\n";
             Message * m;
             message_list.pop(m);
             boost::this_thread::sleep_for(boost::chrono::milliseconds(1));
@@ -66,7 +66,7 @@ public:
             if (num_of_robots == 3)
             {
                 const int TASK_NUM = 1;
-                std::cout << "[Message processor] Generating and sending " <<TASK_NUM<<(TASK_NUM>1?"tasks":"task") << endl;
+                info_report << "[Message processor] Generating and sending " <<TASK_NUM<<(TASK_NUM>1?"tasks":"task") << "\n";
                 for (int i = 0; i<TASK_NUM; i++)
                 {
                     boost::this_thread::sleep_for(boost::chrono::milliseconds(500));
@@ -83,7 +83,7 @@ public:
         // add netprofile to unordered map
         if (nr->unique_id == NewRobotMessage::REQUEST_ID)
         {
-            std::cout << "Received NewRobot message from "<<nr->np.to_string()<< std::endl;
+            info_report << "Received NewRobot message from "<<nr->np.to_string()<< "\n";
             nr->unique_id = next_robot_id();    // replace REQUEST_ID with the new unique_id
             message_system.add_robot_info(nr->unique_id, nr->np); // store new robot net profile
 
@@ -105,7 +105,7 @@ public:
         NetProfile monitor_info = message_system.get_monitor_info();
         if (monitor_info.host == NULL || monitor_info.port == NULL)
         {
-            std::cout << "NULL member" << std::endl;
+            info_report << "NULL member" << "\n";
             return;
         }
 
@@ -113,11 +113,11 @@ public:
         int socket_descriptor = RcSocket::passiveSocket(monitor_info.port, "udp", 0);
         if (socket_descriptor < 0)
         {
-            std::cout << "Error in RcSocket::passiveSocket"<< std::endl;
+            info_report << "Error in RcSocket::passiveSocket"<< "\n";
             return;
         }
 
-        std::cout << "[Monitor] --> listening on port " << monitor_info.port << std::endl;
+        info_report << "[Monitor] --> listening on port " << monitor_info.port << "\n";
 
         while (running)
         {
@@ -144,7 +144,7 @@ public:
         Point2D p(rand() % 20, rand() % 20); // 0 to 19 x y
         Point2D delivery(rand() % 20, rand() % 20); // 0 to 19 x y
         float workload = (rand() % 15) + 1; // 1 to 15 kg
-        float dead_line = (rand() % 20000) + 50000; // 5s to 25s
+        float dead_line = (rand() % 20000) + 10000; // 10s to 30s
 
         Task t(p,delivery, workload, dead_line, next_task_id());
         return t;

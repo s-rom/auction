@@ -1,20 +1,21 @@
-<13:39:00> [Auction process] ---> Running
-<13:39:00> [NewRobotHandler] Received my own id: 1
-<13:39:01> [NewRobotHandler] Received other robot profile: host: localhost, port: 25557, 2
-<13:39:02> [NewRobotHandler] Received other robot profile: host: localhost, port: 25557, 2
-<13:39:02> [NewRobotHandler] Received other robot profile: host: localhost, port: 25558, 3
-<13:39:03> [NeTaskHandler] new task: 1
-<13:39:03> [LeaderAlgorithm] Starting a leader request process for task 1
-<13:39:03> [LeaderAlgorithm] Robot 1 requesting task 1, bid: 0.439099
-<13:39:03> [LeaderAlgorithm] Received bid 0.391424, but mine is 0.439099, resuming... 
-<13:39:03> [LeaderAlgorithm] Received bid 0.406122, but mine is 0.439099, resuming... 
-<13:39:06> [LeaderAlgorithm] I'm the new leader for task 1
-<13:39:06> [TaskAuction] Starting auction round for task 1
-<13:39:06> [AuctionForTask - Round 1] Received bid from Robot 3, with a bid of 0.406122
-<13:39:06> [AuctionForTask - Round 1] Received bid from Robot 2, with a bid of 0.391424
-<13:39:09> [AuctionForTask - Round 1] End of round 1
-<13:39:09> [AuctionForTask - Round 2] ---> Selected group: 
+<16:17:27> [Auction process] ---> Running
+<16:17:27> [NewRobotHandler] Received my own id: 1
+<16:17:28> [NewRobotHandler] Received other robot profile: host: localhost, port: 25557, 2
+<16:17:30> [NewRobotHandler] Received other robot profile: host: localhost, port: 25557, 2
+<16:17:30> [NewRobotHandler] Received other robot profile: host: localhost, port: 25558, 3
+<16:17:30> [NeTaskHandler] new task: 1
+<16:17:30> [LeaderAlgorithm] Starting a leader request process for task 1
+<16:17:30> [LeaderAlgorithm] Robot 1 requesting task 1, bid: 0.391424
+<16:17:30> [LeaderAlgorithm] Received bid 0.187664, but mine is 0.391424, resuming... 
+<16:17:30> [LeaderAlgorithm] Received bid 0.385445, but mine is 0.391424, resuming... 
+<16:17:33> [LeaderAlgorithm] I'm the new leader for task 1
+<16:17:33> [TaskAuction] Starting auction round for task 1
+<16:17:33> [AuctionForTask - Round 1] Received bid from Robot 3, with a bid of 0.385445
+<16:17:33> [AuctionForTask - Round 1] Received bid from Robot 2, with a bid of 0.187664
+<16:17:36> [AuctionForTask - Round 1] End of round 1
+<16:17:36> [AuctionForTask - Round 2] ---> Selected group: 
 	Robot 3
-<13:39:09> [AuctionForTask - Round 2] Total group_work_capacity: 0.406122
-<13:39:09> [AuctionForTask - Round 2] Expected deadline: 22.1608
-<13:39:09> [AuctionForTask - Round 2] TaskUtility(expected_deadline) <<Uj(DLgj)>>: 1
+<16:17:36> [AuctionForTask - Round 2] Total group_work_capacity: 0.385445
+<16:17:36> [AuctionForTask - Round 2] Expected time: 23.3496
+<16:17:36> [AuctionForTask - Round 2] Task deadline: 28335
+<16:17:36> [AuctionForTask - Round 2] TaskUtility(expected_deadline) <<Uj(DLgj)>>: 1

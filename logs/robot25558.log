@@ -1,13 +1,12 @@
-<13:39:02> [Auction process] ---> Running
-<13:39:02> [NewRobotHandler] Received other robot profile: host: localhost, port: 25556, 1
-<13:39:02> [NewRobotHandler] Received other robot profile: host: localhost, port: 25557, 2
-<13:39:02> [NewRobotHandler] Received my own id: 3
-<13:39:03> [NeTaskHandler] new task: 1
-<13:39:03> [LeaderAlgorithm] Starting a leader request process for task 1
-<13:39:03> [LeaderAlgorithm] Robot 3 requesting task 1, bid: 0.406122
-<13:39:03> [LeaderAlgorithm] Received bid 0.439099, and mine is 0.406122, giving up... 
-<13:39:06> [LeaderOfTaskHandler] Robot 1 is the new leader of task 1
-<13:39:06> [BidRequestMessageHandler]: Received a bid request from Robot1 for task 1.Replying with bid:0.406122
-<13:39:09> [NonLeaderAuction] Received bid from 1 for task 1 with a bid of 1
-<13:39:15> [NonLeaderAuction] Best option: task 1 from leader 1 whose bid is 1
-<13:39:15> [NonLeaderAuction] Sending refuse to
+<16:17:30> [Auction process] ---> Running
+<16:17:30> [NewRobotHandler] Received other robot profile: host: localhost, port: 25556, 1
+<16:17:30> [NewRobotHandler] Received other robot profile: host: localhost, port: 25557, 2
+<16:17:30> [NewRobotHandler] Received my own id: 3
+<16:17:30> [NeTaskHandler] new task: 1
+<16:17:30> [LeaderAlgorithm] Starting a leader request process for task 1
+<16:17:30> [LeaderAlgorithm] Robot 3 requesting task 1, bid: 0.385445
+<16:17:30> [LeaderAlgorithm] Received bid 0.187664, but mine is 0.385445, resuming... 
+<16:17:30> [LeaderAlgorithm] Received bid 0.391424, and mine is 0.385445, giving up... 
+<16:17:33> [LeaderOfTaskHandler] Robot 1 is the new leader of task 1
+<16:17:33> [BidRequestMessageHandler]: Received a bid request from Robot1 for task 1.Replying with bid:0.385445
+<16:17:36> [NonLeaderAuction] Received bid from 1 for task 1 with a bid of 1

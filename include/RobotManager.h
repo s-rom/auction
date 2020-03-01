@@ -176,16 +176,26 @@ private:
     void leader_of_task_handler(LeaderOfTaskMessage & lead_msg);
 
 
+    /**
+     * Function executed by the message process thread when a SimpleMessage
+     * of type ROBOT_ALIVE is found.
+     * 
+     * The robot accepts the group invitation.
+     */
+    void robot_alive_message_handler(SimpleMessage & robot_alive);
     
 
-    int task_leader;                    // PLACEHOLDER
-    float load_capacity = 1;            // Maximum load capacity - kg (PLACEHOLDER)
-    float max_vel = 10;                 // Max linear velocity - m/s  (PLACEHOLDER)                   
+    const int NULL_TASK = -1;           // Task id representing a non valid task
+
+    int task_leader;                    // Task id of which he is leader, default NULL_TASK
+    int task_helper;                    // Task id of which he is healper, default NULL_TASK
+    float load_capacity = 1;            // Maximum load capacity - kg
+    float max_vel = 10;                 // Max linear velocity - m/s                   
     
     
-    const int TIME_LEADERSHIP = 3000;   // Max time for the leader request - millis (PLACEHOLDER)
-    const int TIME_AUCTION = 3000;      // Max time for the auction for a task algorithm - millis (PLACEHOLDER)
-    const int TIME_BID_ACCEPTED = 6000; // Max time for the non leader auction algorithm - millis (PLACEHOLDER)
+    const int TIME_LEADERSHIP = 3000;   // Max time for the leader request - millis
+    const int TIME_AUCTION = 3000;      // Max time for the auction for a task algorithm - millis
+    const int TIME_BID_ACCEPTED = 6000; // Max time for the non leader auction algorithm - millis
 
     InfoReporter info_report;
 
