@@ -2,7 +2,8 @@
 
 #include <boost/thread.hpp>
 #include <boost/atomic/atomic.hpp>
-
+#include <move_base_msgs/MoveBaseAction.h>
+#include <actionlib/client/simple_action_client.h>
 #include "RobotManager.h"
 
 #include <signal.h>
@@ -10,6 +11,9 @@
 #include <cstdlib>
 
 #include <ros/ros.h>
+
+typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseClient;
+
 
 boost::atomic<bool> running(true);
 Auction::RobotManager * r_ptr;
@@ -40,7 +44,14 @@ int main(int argc, char ** argv)
     using namespace Auction;
     srand(time(0));
 
-    // ros::init(argc,argv,"robot_node", ros::init_options::AnonymousName);
+    ros::init(argc,argv,"robot_node", ros::init_options::AnonymousName);
+    
+    MoveBaseClient goal_client("move_base", true);
+    while (!goal_client.waitForServer(ros::Duration(2.0)))
+    {
+        ROS_INFO("Waiting for the move_base action server to come up");
+    }
+
     // ros::NodeHandle nh("~");
 
     // std::string host_param;
@@ -51,6 +62,8 @@ int main(int argc, char ** argv)
     // std::cout <<"Params: "<< host_param << "," << port_param << "\n";
     // std::string host = host_param.c_str();
     // std::string port = std::to_string(port_param);
+
+    
 
     if (argc < 3)
     {

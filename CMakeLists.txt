@@ -32,6 +32,7 @@ include_directories(
 add_executable(auction src/Auction.cpp)
 add_executable(monitor src/Monitor.cpp)
 add_executable(auction_test src/MainTest.cpp)
+add_executable(goal_sender src/GoalSender.cpp)
 
 #---- Libraries ----#
 add_library(RcSocket src/RcSocket.cpp)
@@ -54,6 +55,10 @@ target_link_libraries(monitor ${catkin_LIBRARIES})
 target_link_libraries(monitor ${Boost_LIBRARIES})
 target_link_libraries(monitor RcSocket)
 target_link_libraries(monitor MessageSystem)
+
+#---- GoalSender ----#
+target_link_libraries(goal_sender ${catkin_LIBRARIES})
+target_link_libraries(goal_sender ${Boost_LIBRARIES})
 
 
 #---- Tests ----#
