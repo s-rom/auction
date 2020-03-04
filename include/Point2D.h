@@ -66,6 +66,17 @@ struct Auction::Point2D
 		else return 0;
 	}
 
+	/**
+	 * Returns true if both points are equals given a certain tolerance
+	 * @param p1 first point
+	 * @param p2 second point
+	 * @param tolerance positive value (if 0, both points must be identical)
+	 */
+	static bool equals(Point2D p1, Point2D p2, float tolerance)
+	{
+		return (fabs(p1.x - p2.x) <= tolerance) && (fabs(p1.y - p2.y) <= tolerance);
+	}
+
 	Point2D& operator=(const Point2D& other)
 	{
 		this->x = other.x;
