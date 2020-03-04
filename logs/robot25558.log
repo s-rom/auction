@@ -1,12 +1,20 @@
-<16:17:30> [Auction process] ---> Running
-<16:17:30> [NewRobotHandler] Received other robot profile: host: localhost, port: 25556, 1
-<16:17:30> [NewRobotHandler] Received other robot profile: host: localhost, port: 25557, 2
-<16:17:30> [NewRobotHandler] Received my own id: 3
-<16:17:30> [NeTaskHandler] new task: 1
-<16:17:30> [LeaderAlgorithm] Starting a leader request process for task 1
-<16:17:30> [LeaderAlgorithm] Robot 3 requesting task 1, bid: 0.385445
-<16:17:30> [LeaderAlgorithm] Received bid 0.187664, but mine is 0.385445, resuming... 
-<16:17:30> [LeaderAlgorithm] Received bid 0.391424, and mine is 0.385445, giving up... 
-<16:17:33> [LeaderOfTaskHandler] Robot 1 is the new leader of task 1
-<16:17:33> [BidRequestMessageHandler]: Received a bid request from Robot1 for task 1.Replying with bid:0.385445
-<16:17:36> [NonLeaderAuction] Received bid from 1 for task 1 with a bid of 1
+<13:00:15> [Auction process] ---> Running
+<13:00:15> [NewRobotHandler] Received other robot profile: host: localhost, port: 25556, 1
+<13:00:15> [NewRobotHandler] Received other robot profile: host: localhost, port: 25557, 2
+<13:00:15> [NewRobotHandler] Received my own id: 3
+<13:00:16> [NeTaskHandler] new task: 1
+<13:00:16> [LeaderAlgorithm] Starting a leader request process for task 1
+<13:00:16> [LeaderAlgorithm] Robot 3 requesting task 1, bid: 0.444016
+<13:00:16> [LeaderAlgorithm] Received bid 0.132489, but mine is 0.444016, resuming... 
+<13:00:16> [LeaderAlgorithm] Received bid 0.385445, but mine is 0.444016, resuming... 
+<13:00:19> [LeaderAlgorithm] I'm the new leader for task 1
+<13:00:19> [TaskAuction] Starting auction round for task 1
+<13:00:19> [AuctionForTask - Round 1] Received bid from Robot 2, with a bid of 0.132489
+<13:00:19> [AuctionForTask - Round 1] Received bid from Robot 1, with a bid of 0.385445
+<13:00:22> [AuctionForTask - Round 1] End of round 1
+<13:00:22> [AuctionForTask - Round 2] ---> Selected group: 
+	Robot 1
+<13:00:22> [AuctionForTask - Round 2] Total group_work_capacity: 0.385445
+<13:00:22> [AuctionForTask - Round 2] Expected time: 23.3496
+<13:00:22> [AuctionForTask - Round 2] Task deadline: 28.335
+<13:00:22> [AuctionForTask - Round 2] TaskUtility(expected_deadline) <<Uj(DLgj)>>: 1

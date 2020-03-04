@@ -191,14 +191,14 @@ void RobotManager::bid_for_task_message_handler(BidMessage & bid_msg)
 
     if (this->task_helper != NULL_TASK)
     {
-        // enviar objetivo a move_base?
+        //TODO: send goal -- manage task execution
     }
 
 }
 
 void RobotManager::robot_alive_message_handler(SimpleMessage & robot_alive)
 {
-
+    //TODO: Implement
 }
 
 
@@ -376,8 +376,8 @@ void RobotManager::leader_task_auction(Task & t)
 
     // Sort the set (descending) by bid (second element) 
     std::sort(group_bid.begin(), group_bid.end(), sort_descending_by_second);
-    // Deadline to be acomplished, DLj
-    float goal_deadline = t.dead_line;
+    // Deadline to be acomplished, DLj --> must be in seconds, not milliseconds
+    float goal_deadline = t.dead_line / 1000.0f;
     
     // Large enough number to be considered infinity
     const float PSEUDO_INFINITY = 1000000.0f;

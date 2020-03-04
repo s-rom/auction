@@ -52,6 +52,7 @@ int main(int argc, char ** argv)
         ROS_INFO("Waiting for the move_base action server to come up");
     }
 
+
     // ros::NodeHandle nh("~");
 
     // std::string host_param;
