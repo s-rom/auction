@@ -1,0 +1,8 @@
+<launch>
+    <param name="/use_sim_time" value="true"/>
+
+    <include file="$(find auction)/launch/slam_gmapping.launch"/>
+    <include file="$(find auction)/launch/move_base_slam.launch"/>
+
+    <!-- <node pkg="rviz" type="rviz" name="rviz_slam" args="-d $(find proto_tfg)/launch/config/slam_rviz.rviz"/> -->
+</launch>
