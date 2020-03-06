@@ -66,7 +66,31 @@ void RobotManager::auction_process(boost::atomic<bool> & running)
 {
     info_report << "[Auction process] ---> Running" << "\n";
 
+    wait_until_id(50);
+    process_message_queue(running);
 
+    
+}
+
+void RobotManager::new_robot_message_handler(NewRobotMessage & nr)
+{
+    // net profile equals own net profile -> store unique id
+    if (nr.np == message_system.net_info)
+    {
+        if (this->id == -1)
+            info_report << "[NewRobotHandler] Received my own id: "<<nr.unique_id<<"\n";
+        this->id = nr.unique_id;
+    } 
+    else // stores other robot id 
+    {
+        info_report << "[NewRobotHandler] Received other robot profile: "<<nr.np.to_string()<<
+        ", "<<nr.unique_id<<"\n";
+        message_system.add_robot_info(nr.unique_id, nr.np);
+    }
+}                
+
+void RobotManager::process_message_queue(boost::atomic<bool> & running)
+{
     while(running)
     {
         if (message_queue.isEmpty()) continue;
@@ -119,23 +143,6 @@ void RobotManager::auction_process(boost::atomic<bool> & running)
     }
 }
 
-void RobotManager::new_robot_message_handler(NewRobotMessage & nr)
-{
-    // net profile equals own net profile -> store unique id
-    if (nr.np == message_system.net_info)
-    {
-        if (this->id == -1)
-            info_report << "[NewRobotHandler] Received my own id: "<<nr.unique_id<<"\n";
-        this->id = nr.unique_id;
-    } 
-    else // stores other robot id 
-    {
-        info_report << "[NewRobotHandler] Received other robot profile: "<<nr.np.to_string()<<
-        ", "<<nr.unique_id<<"\n";
-        message_system.add_robot_info(nr.unique_id, nr.np);
-    }
-}                
-
 void RobotManager::new_task_message_handler(NewTaskMessage & nt)
 {
     Task & new_task = nt.t;
@@ -171,7 +178,7 @@ void RobotManager::bid_request_message_handler(SimpleMessage &bid_req)
     float bid = get_work_capacity(t);
 
     info_report << "[BidRequestMessageHandler]: Received a bid request from Robot" << 
-        bid_req.robot_src << " for task " << bid_req.task_id << ".Replying with bid:" <<
+        bid_req.robot_src << " for task " << bid_req.task_id << ". Replying with bid: " <<
         bid << "\n";
 
     // Send message with that bid    
@@ -538,6 +545,29 @@ void RobotManager::non_leader_task_auction(Task & t, BidMessage first_bid)
     }
 }
 
+
+void RobotManager::wait_until_id(long millis)
+{
+    while (this->id == NULL_ID)
+    {
+        info_report << "[wait_until_id] I'm waiting until I receive my ID\n";
+        auto it = message_queue.begin();
+        auto end = message_queue.end();
+        while (it != end)
+        {
+            Message * m = *it;
+            if (m != nullptr && m->type == MessageType::NEW_ROBOT)
+            {
+                NewRobotMessage * new_robot_msg = dynamic_cast<NewRobotMessage*>(m);
+                new_robot_message_handler(*new_robot_msg);
+                // don't delete the message!
+            }
+            it++;
+        }
+
+        boost::this_thread::sleep_for(boost::chrono::milliseconds(millis));
+    }
+}
 
 void RobotManager::set_load_capacity(float new_load_capacity)
 {

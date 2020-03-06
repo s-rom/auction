@@ -80,8 +80,8 @@ int main(int argc, char ** argv)
     // Constructs the RobotManager object
     RobotManager r(std::string(argv[0]),np);
 
-    int max_vel = get_rand_range(3,15);
-    int load_capacity = get_rand_range(1,14);
+    int max_vel = get_rand_range(3,6);
+    int load_capacity = get_rand_range(1,4);
 
     r.set_max_linear_vel(max_vel);
     r.set_load_capacity(load_capacity);

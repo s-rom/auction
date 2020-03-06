@@ -69,7 +69,7 @@ public:
                 info_report << "[Message processor] Generating and sending " <<TASK_NUM<<(TASK_NUM>1?"tasks":"task") << "\n";
                 for (int i = 0; i<TASK_NUM; i++)
                 {
-                    boost::this_thread::sleep_for(boost::chrono::milliseconds(500));
+                    boost::this_thread::sleep_for(boost::chrono::milliseconds(1000));
                     NewTaskMessage nt(generate_random_task());
                     message_system.broadcast_message(nt);
                 }

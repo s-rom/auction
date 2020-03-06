@@ -184,8 +184,16 @@ private:
      */
     void robot_alive_message_handler(SimpleMessage & robot_alive);
     
+    
+    void wait_until_id(long millis);
 
-    const int NULL_TASK = -1;           // Task id representing a non valid task
+    /**
+     * Loops through the message queue and executes corresponding handler functions
+     */
+    void process_message_queue(boost::atomic<bool> & running);
+
+    const int NULL_ID = -1;             // Represention of an invalid id
+    const int NULL_TASK = NULL_ID;      // Task id representing a non valid task
 
     int task_leader;                    // Task id of which he is leader, default NULL_TASK
     int task_helper;                    // Task id of which he is healper, default NULL_TASK
