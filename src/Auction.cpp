@@ -46,11 +46,11 @@ int main(int argc, char ** argv)
 
     ros::init(argc,argv,"robot_node", ros::init_options::AnonymousName);
     
-    MoveBaseClient goal_client("move_base", true);
-    while (!goal_client.waitForServer(ros::Duration(2.0)))
-    {
-        ROS_INFO("Waiting for the move_base action server to come up");
-    }
+    // MoveBaseClient goal_client("move_base", true);
+    // while (!goal_client.waitForServer(ros::Duration(2.0)))
+    // {
+    //     ROS_INFO("Waiting for the move_base action server to come up");
+    // }
 
 
     // ros::NodeHandle nh("~");

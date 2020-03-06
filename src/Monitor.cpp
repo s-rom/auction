@@ -63,7 +63,7 @@ public:
             }
             delete m;    
 
-            if (num_of_robots == 3)
+            if (num_of_robots == 5)
             {
                 const int TASK_NUM = 1;
                 info_report << "[Message processor] Generating and sending " <<TASK_NUM<<(TASK_NUM>1?"tasks":"task") << "\n";
