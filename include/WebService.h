@@ -33,6 +33,16 @@ public:
     void set_monitor_pointer(Auction::Monitor * monitor);
 
 private:
+
+    std::string get_json_string(std::string var, std::string value);
+    std::string get_json_int(std::string var, int value);
+    std::string get_json_float(std::string var, float value);
+
+    std::string json_robot_info(int robot_id);
+
+    const std::string COMMA = ",";
+    const std::string ENDL = "\n";
+
     void set_dispatcher_mappings();
     Auction::Monitor * monitor;
 };
