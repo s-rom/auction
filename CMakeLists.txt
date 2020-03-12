@@ -30,14 +30,23 @@ include_directories(
 
 #---- Executables ----#
 add_executable(auction src/Auction.cpp)
-add_executable(monitor src/Monitor.cpp)
+add_executable(monitor src/AuctionMonitor.cpp)
 add_executable(auction_test src/MainTest.cpp)
 add_executable(goal_sender src/GoalSender.cpp)
+
+#---- CppCMS ----#
+add_library(CppCMS STATIC IMPORTED GLOBAL)
+set_target_properties(CppCMS PROPERTIES IMPORTED_LOCATION 
+/usr/local/lib/libcppcms.so.1.2.1)
 
 #---- Libraries ----#
 add_library(RcSocket src/RcSocket.cpp)
 add_library(MessageSystem src/MessageSystem.cpp)
 add_library(RobotManager src/RobotManager.cpp)
+add_library(WebService src/WebService.cpp)
+add_library(Monitor src/Monitor.cpp)
+
+
 
 #---- RobotManager ----#
 target_link_libraries(RobotManager RcSocket)
@@ -51,10 +60,18 @@ target_link_libraries(auction MessageSystem)
 target_link_libraries(auction RobotManager)
 
 #---- Monitor ----#
-target_link_libraries(monitor ${catkin_LIBRARIES})
+target_link_libraries(Monitor ${catkin_LIBRARIES})
+target_link_libraries(Monitor ${Boost_LIBRARIES})
+target_link_libraries(Monitor RcSocket)
+target_link_libraries(Monitor MessageSystem)
+
+target_link_libraries(monitor WebService)
 target_link_libraries(monitor ${Boost_LIBRARIES})
-target_link_libraries(monitor RcSocket)
-target_link_libraries(monitor MessageSystem)
+target_link_libraries(monitor Monitor)
+
+#---- WebService ----#
+target_link_libraries(WebService CppCMS)
+target_link_libraries(WebService Monitor)
 
 #---- GoalSender ----#
 target_link_libraries(goal_sender ${catkin_LIBRARIES})
