@@ -8,6 +8,8 @@
 #include <cppcms/url_mapper.h>
 #include <cppcms/applications_pool.h>
 #include <iostream>
+#include <string>
+
 
 #include "Monitor.h"
 

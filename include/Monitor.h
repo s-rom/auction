@@ -39,12 +39,18 @@ public:
     Auction::MessageSystem message_system;
     Auction::InfoReporter info_report;
 
+    int get_number_of_robots()
+    {
+        return num_of_robots;
+    }
+
+    
 private:
     std::string get_log_path(std::string & program_path);
     Auction::Task generate_random_task();
     int robot_id = 0;
-    int num_of_robots = 0;
     int num_of_tasks = 0;
+    int num_of_robots = 0;
     int next_task_id();
     int next_robot_id();
 

@@ -44,11 +44,12 @@ int main(int argc, char ** argv)
     cppcms::service srv(argc, argv);
     service_ptr = &srv;
 
-    srv.applications_pool().mount(
-        cppcms::applications_factory<MonitorWS::MonitorApplication>()
-    );
+    booster::intrusive_ptr<MonitorWS::MonitorApplication> app_ptr = new MonitorWS::MonitorApplication(srv);
+    srv.applications_pool().mount(app_ptr);
 
-        
+    app_ptr->set_monitor_pointer(monitor_ptr);
+
+    
 
     signal(SIGINT, sigint_handler);
 
