@@ -1,8 +1,21 @@
-<13:56:13> [Auction process] ---> Running
-<13:56:13> [wait_until_id] I'm waiting until I receive my ID
-<13:56:13> [wait_until_id] I'm waiting until I receive my ID
-<13:56:13> [NewRobotHandler] Received other robot profile: host: localhost, port: 25556, 1
-<13:56:13> [NewRobotHandler] Received other robot profile: host: localhost, port: 25557, 2
-<13:56:13> [NewRobotHandler] Received my own id: 3
-<13:56:13> [NewRobotHandler] Received other robot profile: host: localhost, port: 25556, 1
-<13:56:13> [NewRobotHandler] Received other robot profile: host: localhost, port: 25557, 2
+<21:08:01> [Auction process] ---> Running
+<21:08:01> [wait_until_id] I'm waiting until I receive my ID
+<21:08:01> [wait_until_id] I'm waiting until I receive my ID
+<21:08:01> [NewRobotHandler] Received other robot profile: host: localhost, port: 25556, 1
+<21:08:01> [NewRobotHandler] Received other robot profile: host: localhost, port: 25557, 2
+<21:08:01> [NewRobotHandler] Received my own id: 3
+<21:08:01> [NewRobotHandler] Received other robot profile: host: localhost, port: 25556, 1
+<21:08:01> [NewRobotHandler] Received other robot profile: host: localhost, port: 25557, 2
+<21:08:04> [NewRobotHandler] Received other robot profile: host: localhost, port: 25556, 1
+<21:08:04> [NewRobotHandler] Received other robot profile: host: localhost, port: 25557, 2
+<21:08:04> [NewRobotHandler] Received other robot profile: host: localhost, port: 25559, 4
+<21:08:06> [NewRobotHandler] Received other robot profile: host: localhost, port: 25556, 1
+<21:08:06> [NewRobotHandler] Received other robot profile: host: localhost, port: 25557, 2
+<21:08:06> [NewRobotHandler] Received other robot profile: host: localhost, port: 25559, 4
+<21:08:06> [NewRobotHandler] Received other robot profile: host: localhost, port: 25560, 5
+<21:08:07> [NeTaskHandler] new task: 1
+<21:08:07> [LeaderAlgorithm] Starting a leader request process for task 1
+<21:08:07> [LeaderAlgorithm] Robot 3 requesting task 1, bid: 0.0968837
+<21:08:07> [LeaderAlgorithm] Received bid 0.295251, and mine is 0.0968837, giving up... 
+<21:08:10> [LeaderOfTaskHandler] Robot 4 is the new leader of task 1
+<21:08:10> [BidRequestMessageHandler]: Received a bid request from Robot4 for task 1. Replying with bid: 0.0968837

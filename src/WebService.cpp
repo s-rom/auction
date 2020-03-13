@@ -14,6 +14,8 @@ void MonitorApplication::robot_info_response()
 {
     std::cout << "[WebService] Received get_robots_info petition\n";
     
+    // response().set_header("Access-Control-Allow-Headers","Content-Type");    
+    response().set_header("Access-Control-Allow-Origin","*");
 
     Auction::Monitor & m = *(this->monitor);
     if (m.get_number_of_robots() == 0)

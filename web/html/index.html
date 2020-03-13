@@ -1,0 +1,140 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>Auction Monitor GUI</title>
+    <!-- jquery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <!-- custom scripts -->
+    <script src="../scripts/query_info.js"></script>
+</head>
+
+
+<body>
+  <div class="container">
+    
+    <!-- System information -->
+    <p id="status_info">p element used for debug info</p>
+    <div class="row">
+      <div class="col-md-4">
+
+        <!-- Robot list table -->
+        <h3>Robots List</h3>
+        <table class="table" id="robots_table">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">Robot ID</th>
+              <th scope="col">Host</th>
+              <th scope="col">Port</th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+          <tbody id="robots_table_body">
+          </tbody>
+        </table>
+      </div>
+
+      <div class="col-md-8">
+        <!-- Task list table  -->
+        <h3>Task List</h3>
+        <table class="table" id="task_table">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">Task ID</th>
+              <th scope="col">WorkLoad</th>
+              <th scope="col">Delivery Point</th>
+              <th scope="col">Goal Point</th>
+              <th scope="col">Deadline</th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+    </div>
+
+    
+    <!-- Add task form -->
+    <div class="row">
+      <div class="col-md-4">
+        <h4>Add a new task</h4>
+        <form>
+          <div class="form-group row">
+            <label for="workload" class="col-sm-5 col-form-label">WorkLoad (Kg)</label>
+            <div class="col-sm-7">
+              <input type="number" class="form-control" id="workload" placeholder="1" min="0">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="deadline" class="col-sm-5 col-form-label">Deadline (s)</label>
+            <div class="col-sm-7">
+              <input type="number" class="form-control" id="deadline" min="0">
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-sm-5" title="Point where the load will be delivered">Delivery point</label>
+            <label for="delivery_x" class="col-sm-1 col-form-label">x</label>
+            <div class="col-sm-2">
+              <input type="number" class="form-control" id="delivery_x">
+            </div>
+
+            <label for="delivery_y" class="col-sm-1 col-form-label">y</label>
+            <div class="col-sm-2">
+              <input type="number" class="form-control" id="delivery_y">
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-sm-5" title="Point where the load will be taken from">Goal point</label>
+            <label for="goal_x" class="col-sm-1 col-form-label">x</label>
+            <div class="col-sm-2">
+              <input type="number" class="form-control" id="goal_x">
+            </div>
+
+            <label for="goal_y" class="col-sm-1 col-form-label">y</label>
+            <div class="col-sm-2">
+              <input type="number" class="form-control" id="goal_y">
+            </div>
+          </div>
+
+
+          <fieldset class="form-group">
+            <div class="row">
+              <legend class="col-form-label col-sm-5 pt-0">Deadline utility function</legend>
+              <div class="col-sm-7">
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked>
+                  <label class="form-check-label" for="gridRadios1">
+                    Soft deadline
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
+                  <label class="form-check-label" for="gridRadios2">
+                    Hard deadline
+                  </label>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+          
+          <div class="form-group row">
+            <div class="col-sm-10">
+              <button type="submit" class="btn btn-primary">Send</button>
+            </div>
+          </div>
+        </form>
+
+      </div>
+    </div>
+
+</body>
+
+
+
+</html>

@@ -1,6 +1,0 @@
-<17:54:09> [Auction process] ---> Running
-<17:54:09> [wait_until_id] I'm waiting until I receive my ID
-<17:54:09> [wait_until_id] I'm waiting until I receive my ID
-<17:54:09> [NewRobotHandler] Received other robot profile: host: localhost, port: 25556, 1
-<17:54:09> [NewRobotHandler] Received my own id: 2
-<17:54:09> [NewRobotHandler] Received other robot profile: host: localhost, port: 25556, 1
