@@ -625,6 +625,8 @@ void RobotManager::periodic_behaviour(boost::atomic<bool> & running)
     auto delta_time = 0; 
     while (running)
     {
+        if (this->id == NULL_ID) continue;
+        
         if (delta_time >= RobotStatusInfo::TIME_LEAD_ALIVE_MILLIS){
 
             if (this->task_leader != NULL_TASK)

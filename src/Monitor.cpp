@@ -29,7 +29,6 @@ void Monitor::message_processor(boost::atomic<bool>& running)
     {
         if (!message_queue.isEmpty())
         {
-            info_report << "[Message processor] Processing new message"<< "\n";
             Message * m;
             message_queue.pop(m);
             boost::this_thread::sleep_for(boost::chrono::milliseconds(1));
@@ -92,20 +91,9 @@ void Monitor::leader_alive_message_handler(Auction::SimpleMessage & leader_alive
 
 void Monitor::robot_alive_message_handler(Auction::SimpleMessage & robot_alive)
 {
-    info_report << "[RobotAlive] Received from " << robot_alive.robot_src;
- 
-    if (robot_alive.task_id != this->NULL_TASK) 
-        info_report << " who is helping on task "<<robot_alive.task_id << "\n";
-    else 
-        info_report << " who is not helping nor leading\n";
- 
-
-    Auction::RobotStatusInfo & info = this->robot_status[robot_alive.robot_src];
-    
+    Auction::RobotStatusInfo & info = this->robot_status[robot_alive.robot_src];    
     info.update_last_time_point();
-    info_report << "[RobotAlive] Robot "<<robot_alive.robot_src<< ", first_time_point: "<<info.first_time_point<<"\n";
     info.first_time_point = false;    
-
 }
 
 
@@ -135,7 +123,14 @@ void Monitor::new_robot_message_handler(NewRobotMessage * nr)
     if (nr->unique_id == NewRobotMessage::REQUEST_ID)
     {
         info_report << "Received NewRobot message from "<<nr->np.to_string()<< "\n";
-        int next_id = next_robot_id();    // replace REQUEST_ID with the new unique_id
+
+        int next_id;
+        next_id = message_system.find_robot_id(nr->np);
+
+        // If not found, generate new ID
+        if (next_id == -1)
+            next_id = next_robot_id();
+ 
         nr->unique_id = next_id;
         message_system.add_robot_info(nr->unique_id, nr->np); // store new robot net profile
         

@@ -83,6 +83,14 @@ public:
 
 
 	/**
+	 * Finds a robot's id by comparing the net profiles in the map.
+	 * 
+	 * @param np Robot's netprofile
+	 * @returns Robot's id if found, -1 if not found
+	 */
+	int find_robot_id(NetProfile & np);
+
+	/**
      * Requests a unique id to the monitor. To be called in constructor. 
      */
 	void request_unique_id();

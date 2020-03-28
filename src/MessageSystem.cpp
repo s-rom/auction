@@ -34,6 +34,19 @@ void MessageSystem::send_message(Message &m, int robot_id)
     }
 }
 
+int MessageSystem::find_robot_id(NetProfile & np)
+{
+    for (auto it = this->net_list.begin(); it != this->net_list.end(); it++)
+    {
+        NetProfile & current = it->second;
+        if (current == np) 
+            return it->first;
+    }
+
+    return -1;
+}
+
+
 void MessageSystem::send_message(Message &m, NetProfile &dst)
 {
     string msg_str = m.serialize();

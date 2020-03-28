@@ -1,182 +1,28 @@
-<15:37:00> [Auction process] ---> Running
-<15:37:00> [wait_until_id] I'm waiting until I receive my ID
-<15:37:00> [NewRobotHandler] Received other robot profile: host: localhost, port: 25556, 1
-<15:37:00> [NewRobotHandler] Received my own id: 2
-<15:37:00> [NewRobotHandler] Received other robot profile: host: localhost, port: 25556, 1
-<15:37:02> [NewRobotHandler] Received other robot profile: host: localhost, port: 25556, 1
-<15:37:02> [NewRobotHandler] Received other robot profile: host: localhost, port: 25558, 3
-<15:37:03> [NeTaskHandler] new task: 1
-<15:37:03> [LeaderAlgorithm] Starting a leader request process for task 1
-<15:37:03> [LeaderAlgorithm] Robot 2 requesting task 1, bid: 0.272901
-<15:37:03> [LeaderAlgorithm] Received bid 0.25979, but mine is 0.272901, resuming... 
-<15:37:03> [LeaderAlgorithm] Received bid 0.175484, but mine is 0.272901, resuming... 
-<15:37:06> [LeaderAlgorithm] I'm the new leader for task 1
-<15:37:06> [TaskAuction] Starting auction round for task 1
-<15:37:06> [AuctionForTask - Round 1] Received bid from Robot 3, with a bid of 0.175484
-<15:37:06> [AuctionForTask - Round 1] Received bid from Robot 1, with a bid of 0.25979
-<15:37:09> [AuctionForTask - Round 1] End of round 1
-<15:37:09> [AuctionForTask - Round 2] ---> Selected group: 
-	Robot 1
-	Robot 3
-<15:37:09> [AuctionForTask - Round 2] Total group_work_capacity: 0.435274
-<15:37:09> [AuctionForTask - Round 2] Expected time: 20.6766
-<15:37:09> [AuctionForTask - Round 2] Task deadline: 28.335
-<15:37:09> [AuctionForTask - Round 2] TaskUtility(expected_deadline) <<Uj(DLgj)>>: 1
-<15:37:09> [NeTaskHandler] new task: 2
-<15:37:09> [TaskAuction] Starting auction round for task 1
-<15:37:12> [AuctionForTask - Round 1] End of round 1
-<15:37:12> [AuctionForTask - Round 2] ---> Selected group: 
-<15:37:12> [AuctionForTask - Round 2] Total group_work_capacity: 0
-<15:37:12> [AuctionForTask - Round 2] Expected time: 1e+06
-<15:37:12> [AuctionForTask - Round 2] Task deadline: 28.335
-<15:37:12> [AuctionForTask - Round 2] TaskUtility(expected_deadline) <<Uj(DLgj)>>: 0.00203713
-<15:37:12> [LeaderOfTaskHandler] Robot 1 is the new leader of task 2
-<15:37:12> [BidRequestMessageHandler]: Received a bid request from Robot1 for task 2. Replying with bid: 0.318454
-<15:37:12> [NeTaskHandler] new task: 3
-<15:37:12> [TaskAuction] Starting auction round for task 1
-<15:37:13> [AuctionForTask - Round 1] Received bid from Robot 1, with a bid of 0.25979
-<15:37:15> [AuctionForTask - Round 1] End of round 1
-<15:37:15> [AuctionForTask - Round 2] ---> Selected group: 
-	Robot 1
-<15:37:15> [AuctionForTask - Round 2] Total group_work_capacity: 0.25979
-<15:37:15> [AuctionForTask - Round 2] Expected time: 34.6434
-<15:37:15> [AuctionForTask - Round 2] Task deadline: 28.335
-<15:37:15> [AuctionForTask - Round 2] TaskUtility(expected_deadline) <<Uj(DLgj)>>: 1
-<15:37:15> [NeTaskHandler] new task: 4
-<15:37:15> [TaskAuction] Starting auction round for task 1
-<15:37:15> [AuctionForTask - Round 1] Received bid from Robot 3, with a bid of 0.175484
-<15:37:18> [AuctionForTask - Round 1] End of round 1
-<15:37:18> [AuctionForTask - Round 2] ---> Selected group: 
-	Robot 3
-<15:37:18> [AuctionForTask - Round 2] Total group_work_capacity: 0.175484
-<15:37:18> [AuctionForTask - Round 2] Expected time: 51.2867
-<15:37:18> [AuctionForTask - Round 2] Task deadline: 28.335
-<15:37:18> [AuctionForTask - Round 2] TaskUtility(expected_deadline) <<Uj(DLgj)>>: 1
-<15:37:18> [BidRequestMessageHandler]: Received a bid request from Robot1 for task 2. Replying with bid: 0.318454
-<15:37:18> [NeTaskHandler] new task: 5
-<15:37:18> [TaskAuction] Starting auction round for task 1
-<15:37:19> [AuctionForTask - Round 1] Received bid from Robot 1, with a bid of 0.25979
-<15:37:21> [AuctionForTask - Round 1] End of round 1
-<15:37:21> [AuctionForTask - Round 2] ---> Selected group: 
-	Robot 1
-<15:37:21> [AuctionForTask - Round 2] Total group_work_capacity: 0.25979
-<15:37:21> [AuctionForTask - Round 2] Expected time: 34.6434
-<15:37:21> [AuctionForTask - Round 2] Task deadline: 28.335
-<15:37:21> [AuctionForTask - Round 2] TaskUtility(expected_deadline) <<Uj(DLgj)>>: 1
-<15:37:21> [NeTaskHandler] new task: 6
-<15:37:21> [TaskAuction] Starting auction round for task 1
-<15:37:24> [AuctionForTask - Round 1] End of round 1
-<15:37:24> [AuctionForTask - Round 2] ---> Selected group: 
-<15:37:24> [AuctionForTask - Round 2] Total group_work_capacity: 0
-<15:37:24> [AuctionForTask - Round 2] Expected time: 1e+06
-<15:37:24> [AuctionForTask - Round 2] Task deadline: 28.335
-<15:37:24> [AuctionForTask - Round 2] TaskUtility(expected_deadline) <<Uj(DLgj)>>: 0.00203713
-<15:37:24> [BidRequestMessageHandler]: Received a bid request from Robot1 for task 2. Replying with bid: 0.318454
-<15:37:24> [NeTaskHandler] new task: 7
-<15:37:24> [TaskAuction] Starting auction round for task 1
-<15:37:24> [AuctionForTask - Round 1] Received bid from Robot 3, with a bid of 0.175484
-<15:37:25> [AuctionForTask - Round 1] Received bid from Robot 1, with a bid of 0.25979
-<15:37:27> [AuctionForTask - Round 1] End of round 1
-<15:37:27> [AuctionForTask - Round 2] ---> Selected group: 
-	Robot 1
-	Robot 3
-<15:37:27> [AuctionForTask - Round 2] Total group_work_capacity: 0.435274
-<15:37:27> [AuctionForTask - Round 2] Expected time: 20.6766
-<15:37:27> [AuctionForTask - Round 2] Task deadline: 28.335
-<15:37:27> [AuctionForTask - Round 2] TaskUtility(expected_deadline) <<Uj(DLgj)>>: 1
-<15:37:27> [NeTaskHandler] new task: 8
-<15:37:27> [TaskAuction] Starting auction round for task 1
-<15:37:30> [AuctionForTask - Round 1] End of round 1
-<15:37:30> [AuctionForTask - Round 2] ---> Selected group: 
-<15:37:30> [AuctionForTask - Round 2] Total group_work_capacity: 0
-<15:37:30> [AuctionForTask - Round 2] Expected time: 1e+06
-<15:37:30> [AuctionForTask - Round 2] Task deadline: 28.335
-<15:37:30> [AuctionForTask - Round 2] TaskUtility(expected_deadline) <<Uj(DLgj)>>: 0.00203713
-<15:37:30> [LeaderOfTaskHandler] Robot 3 is the new leader of task 3
-<15:37:30> [BidRequestMessageHandler]: Received a bid request from Robot3 for task 3. Replying with bid: 0.287647
-<15:37:30> [BidRequestMessageHandler]: Received a bid request from Robot1 for task 2. Replying with bid: 0.318454
-<15:37:30> [NeTaskHandler] new task: 9
-<15:37:30> [TaskAuction] Starting auction round for task 1
-<15:37:30> [AuctionForTask - Round 1] Received bid from Robot 3, with a bid of 0.175484
-<15:37:31> [AuctionForTask - Round 1] Received bid from Robot 1, with a bid of 0.25979
-<15:37:33> [AuctionForTask - Round 1] End of round 1
-<15:37:33> [AuctionForTask - Round 2] ---> Selected group: 
-	Robot 1
-	Robot 3
-<15:37:33> [AuctionForTask - Round 2] Total group_work_capacity: 0.435274
-<15:37:33> [AuctionForTask - Round 2] Expected time: 20.6766
-<15:37:33> [AuctionForTask - Round 2] Task deadline: 28.335
-<15:37:33> [AuctionForTask - Round 2] TaskUtility(expected_deadline) <<Uj(DLgj)>>: 1
-<15:37:33> [NeTaskHandler] new task: 10
-<15:37:33> [TaskAuction] Starting auction round for task 1
-<15:37:36> [AuctionForTask - Round 1] End of round 1
-<15:37:36> [AuctionForTask - Round 2] ---> Selected group: 
-<15:37:36> [AuctionForTask - Round 2] Total group_work_capacity: 0
-<15:37:36> [AuctionForTask - Round 2] Expected time: 1e+06
-<15:37:36> [AuctionForTask - Round 2] Task deadline: 28.335
-<15:37:36> [AuctionForTask - Round 2] TaskUtility(expected_deadline) <<Uj(DLgj)>>: 0.00203713
-<15:37:36> [BidRequestMessageHandler]: Received a bid request from Robot3 for task 3. Replying with bid: 0.287647
-<15:37:36> [NeTaskHandler] new task: 11
-<15:37:36> [TaskAuction] Starting auction round for task 1
-<15:37:36> [AuctionForTask - Round 1] Received bid from Robot 3, with a bid of 0.175484
-<15:37:37> [AuctionForTask - Round 1] Received bid from Robot 1, with a bid of 0.25979
-<15:37:39> [AuctionForTask - Round 1] End of round 1
-<15:37:39> [AuctionForTask - Round 2] ---> Selected group: 
-	Robot 1
-	Robot 3
-<15:37:39> [AuctionForTask - Round 2] Total group_work_capacity: 0.435274
-<15:37:39> [AuctionForTask - Round 2] Expected time: 20.6766
-<15:37:39> [AuctionForTask - Round 2] Task deadline: 28.335
-<15:37:39> [AuctionForTask - Round 2] TaskUtility(expected_deadline) <<Uj(DLgj)>>: 1
-<15:37:39> [BidRequestMessageHandler]: Received a bid request from Robot1 for task 2. Replying with bid: 0.318454
-<15:37:39> [NeTaskHandler] new task: 12
-<15:37:39> [TaskAuction] Starting auction round for task 1
-<15:37:42> [AuctionForTask - Round 1] End of round 1
-<15:37:42> [AuctionForTask - Round 2] ---> Selected group: 
-<15:37:42> [AuctionForTask - Round 2] Total group_work_capacity: 0
-<15:37:42> [AuctionForTask - Round 2] Expected time: 1e+06
-<15:37:42> [AuctionForTask - Round 2] Task deadline: 28.335
-<15:37:42> [AuctionForTask - Round 2] TaskUtility(expected_deadline) <<Uj(DLgj)>>: 0.00203713
-<15:37:42> [NeTaskHandler] new task: 13
-<15:37:42> [TaskAuction] Starting auction round for task 1
-<15:37:42> [AuctionForTask - Round 1] Received bid from Robot 3, with a bid of 0.175484
-<15:37:45> [AuctionForTask - Round 1] End of round 1
-<15:37:45> [AuctionForTask - Round 2] ---> Selected group: 
-	Robot 3
-<15:37:45> [AuctionForTask - Round 2] Total group_work_capacity: 0.175484
-<15:37:45> [AuctionForTask - Round 2] Expected time: 51.2867
-<15:37:45> [AuctionForTask - Round 2] Task deadline: 28.335
-<15:37:45> [AuctionForTask - Round 2] TaskUtility(expected_deadline) <<Uj(DLgj)>>: 1
-<15:37:45> [BidRequestMessageHandler]: Received a bid request from Robot3 for task 3. Replying with bid: 0.287647
-<15:37:45> [NeTaskHandler] new task: 14
-<15:37:45> [TaskAuction] Starting auction round for task 1
-<15:37:46> [AuctionForTask - Round 1] Received bid from Robot 1, with a bid of 0.25979
-<15:37:48> [AuctionForTask - Round 1] End of round 1
-<15:37:48> [AuctionForTask - Round 2] ---> Selected group: 
-	Robot 1
-<15:37:48> [AuctionForTask - Round 2] Total group_work_capacity: 0.25979
-<15:37:48> [AuctionForTask - Round 2] Expected time: 34.6434
-<15:37:48> [AuctionForTask - Round 2] Task deadline: 28.335
-<15:37:48> [AuctionForTask - Round 2] TaskUtility(expected_deadline) <<Uj(DLgj)>>: 1
-<15:37:48> [BidRequestMessageHandler]: Received a bid request from Robot1 for task 2. Replying with bid: 0.318454
-<15:37:48> [NeTaskHandler] new task: 15
-<15:37:48> [TaskAuction] Starting auction round for task 1
-<15:37:51> [AuctionForTask - Round 1] End of round 1
-<15:37:51> [AuctionForTask - Round 2] ---> Selected group: 
-<15:37:51> [AuctionForTask - Round 2] Total group_work_capacity: 0
-<15:37:51> [AuctionForTask - Round 2] Expected time: 1e+06
-<15:37:51> [AuctionForTask - Round 2] Task deadline: 28.335
-<15:37:51> [AuctionForTask - Round 2] TaskUtility(expected_deadline) <<Uj(DLgj)>>: 0.00203713
-<15:37:51> [NeTaskHandler] new task: 16
-<15:37:51> [TaskAuction] Starting auction round for task 1
-<15:37:51> [AuctionForTask - Round 1] Received bid from Robot 3, with a bid of 0.175484
-<15:37:54> [AuctionForTask - Round 1] End of round 1
-<15:37:54> [AuctionForTask - Round 2] ---> Selected group: 
-	Robot 3
-<15:37:54> [AuctionForTask - Round 2] Total group_work_capacity: 0.175484
-<15:37:54> [AuctionForTask - Round 2] Expected time: 51.2867
-<15:37:54> [AuctionForTask - Round 2] Task deadline: 28.335
-<15:37:54> [AuctionForTask - Round 2] TaskUtility(expected_deadline) <<Uj(DLgj)>>: 1
-<15:37:54> [BidRequestMessageHandler]: Received a bid request from Robot3 for task 3. Replying with bid: 0.287647
-<15:37:54> [NeTaskHandler] new task: 17
-<15:37:54> [TaskAuction] Starting auction round for task 1
+<12:02:00> [Auction process] ---> Running
+<12:02:00> [wait_until_id] I'm waiting until I receive my ID
+<12:02:00> [wait_until_id] I'm waiting until I receive my ID
+<12:02:00> [NewRobotHandler] Received other robot profile: host: localhost, port: 25556, 1
+<12:02:00> [NewRobotHandler] Received my own id: 2
+<12:02:00> [NewRobotHandler] Received other robot profile: host: localhost, port: 25558, 3
+<12:02:00> [NewRobotHandler] Received other robot profile: host: localhost, port: 25556, 1
+<12:02:00> [NewRobotHandler] Received other robot profile: host: localhost, port: 25558, 3
+<12:02:03> [PeriodicBehaviour] Sending robot alive... 
+<12:02:06> [PeriodicBehaviour] Sending robot alive... 
+<12:02:09> [PeriodicBehaviour] Sending robot alive... 
+<12:02:12> [PeriodicBehaviour] Sending robot alive... 
+<12:02:14> [NeTaskHandler] new task: 1
+<12:02:14> [LeaderAlgorithm] Starting a leader request process for task 1
+<12:02:14> [LeaderAlgorithm] Robot 2 requesting task 1, bid: 0.229515
+<12:02:14> [LeaderAlgorithm] Received bid 0.180651, but mine is 0.229515, resuming... 
+<12:02:14> [LeaderAlgorithm] Received bid 0.280006, and mine is 0.229515, giving up... 
+<12:02:15> [PeriodicBehaviour] Sending robot alive... 
+<12:02:17> [LeaderOfTaskHandler] Robot 1 is the new leader of task 1
+<12:02:17> [BidRequestMessageHandler]: Received a bid request from Robot1 for task 1. Replying with bid: 0.229515
+<12:02:18> [PeriodicBehaviour] Sending robot alive... 
+<12:02:20> [NonLeaderAuction] Received bid from 1 for task 1 with a bid of 1
+<12:02:21> [PeriodicBehaviour] Sending robot alive... 
+<12:02:24> [PeriodicBehaviour] Sending robot alive... 
+<12:02:26> [NonLeaderAuction] Best option: task 1 from leader 1 whose bid is 1
+<12:02:26> [NonLeaderAuction] Sending refuse to
+<12:02:27> [PeriodicBehaviour] Sending robot alive... 
+<12:02:30> [PeriodicBehaviour] Sending robot alive... 

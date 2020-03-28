@@ -4,6 +4,7 @@
 #include "Message.h"
 #include "RobotManager.h"
 #include <vector>
+#include <unordered_map>
 #include <ctime>
 #include <fstream>
 #include <ros/ros.h>
@@ -44,9 +45,31 @@ int main(int argc, char ** argv)
     // Auction::InfoReporter info("~/Desktop/prueba_info.txt");
     // info << "[Ambito] " << x << "\n";
 
-   deadline_computation_test();
+//    deadline_computation_test();
 
 
+    Auction::NetProfile np1("localhost","25556");
+    Auction::NetProfile np2("localhost","25557");
+    Auction::NetProfile np3("localhost","25556");
+
+
+    std::unordered_map<int,Auction::NetProfile> map;
+    map[0] = np1;
+    map[1] = np2;
+
+    auto it0 = map.find(0);
+    auto it3 = map.find(3);
+
+    if (it0 == map.end())
+    {
+        std::cout << "key 0 is found in the map\n";
+    }
+
+    if (it3 == map.end())
+    {
+        std::cout << "key 3 is not found in the map\n";
+    }
+    
 
 }
 
