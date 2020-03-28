@@ -95,9 +95,11 @@ int main(int argc, char ** argv)
     // Starts threads
     boost::thread server_thread(&RobotManager::message_server, &r, boost::ref(running));
     boost::thread auction_thread(&RobotManager::auction_process, &r, boost::ref(running));
+    boost::thread periodic_thread(&RobotManager::periodic_behaviour, &r, boost::ref(running));
     
     server_thread.join();
     auction_thread.join();
+    periodic_thread.join();
 
 }
 

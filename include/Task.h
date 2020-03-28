@@ -9,6 +9,8 @@
 namespace Auction
 {
     struct Task;
+
+    enum DeadlineType {SOFT=0, HARD=1};
 }
 
 
@@ -20,6 +22,8 @@ struct Auction::Task
     Point2D delivery_point;  // Location of the delivery point
     float task_work_load;    // Weigh units of the task object
     float dead_line;         // Deadline of the task, in milliseconds
+
+    Auction::DeadlineType deadline_type = Auction::DeadlineType::SOFT;
 
     /**
      * Default constructor. 
@@ -61,14 +65,22 @@ struct Auction::Task
      */
     float utility_function(float delta_time)
     {
-        return Auction::soft_deadline_utility(dead_line, MAX_UTILITY, delta_time);
+        if (deadline_type == Auction::DeadlineType::SOFT)
+            return Auction::soft_deadline_utility(dead_line, MAX_UTILITY, delta_time);
+        else 
+            return Auction::hard_deadline_utility(dead_line, MAX_UTILITY, delta_time);
+    }
+
+    void set_deadline_type(Auction::DeadlineType deadline_type)
+    {
+        this->deadline_type = deadline_type;
     }
 
     /**
      * Creates a Task given a serialized string
      * 
      * Format:  
-     * #0#task_id#location#delivery#workload#dead_line#
+     * #0#task_id#goal#delivery#workload#dead_line#
      */
     Task(string serialized_message, char delim)
     :
@@ -137,9 +149,10 @@ struct Auction::Task
         string s;
         s = "Task "+to_string(task_id)+"\n"+
             "\tDelivery: "+delivery_point.to_string()+"\n"+
-            "\tLocation: "+task_location.to_string()+"\n"+
+            "\tGoal: "+task_location.to_string()+"\n"+
             "\tWorkLoad: "+to_string(task_work_load)+" kg\n"+
-            "\tDeadline: "+to_string((int)(dead_line/1000))+" s\n";
+            "\tDeadline: "+to_string((int)(dead_line/1000))+" s\n"+
+            "\tDeadline type: "+(deadline_type == DeadlineType::SOFT ? "soft" : "hard\n");
         return s;
     }
 

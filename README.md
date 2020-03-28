@@ -13,6 +13,7 @@ Todos los mensajes derivan de la clase abstracta Message (en Message.h).
 | BID_FOR_TASK    | BidMessage          |
 | ROBOT_ALIVE     | SimpleMessage       |
 | REFUSE          | SimpleMessage       |
+| LEADER_ALIVE    | SimpleMessage       |
 
 ### Protocolo para añadir un tipo de mensaje nuevo
 1. Escoger una clase existente o crear una nueva que derive de Message

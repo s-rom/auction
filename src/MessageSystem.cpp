@@ -78,6 +78,7 @@ Message* MessageSystem::create_message_from(char * msg)
         case MessageType::BID_REQUEST:
         case MessageType::REFUSE:
         case MessageType::ROBOT_ALIVE:
+        case MessageType::LEADER_ALIVE:
             return new SimpleMessage(serialized_message);
             break;
     }

@@ -27,31 +27,103 @@ void Monitor::message_processor(boost::atomic<bool>& running)
     info_report << "[Message thread] ---> running" << "\n";
     while(running)
     {
-        if (message_queue.isEmpty()) continue;
-        info_report << "[Message processor] Processing new message"<< "\n";
-        Message * m;
-        message_queue.pop(m);
-        boost::this_thread::sleep_for(boost::chrono::milliseconds(1));
-
-        switch (m->type)
+        if (!message_queue.isEmpty())
         {
-            case NEW_ROBOT:
-                NewRobotMessage * nr = dynamic_cast<NewRobotMessage*>(m);
-                new_robot_message_handler(nr);
-                break;
-        }
-        delete m;    
+            info_report << "[Message processor] Processing new message"<< "\n";
+            Message * m;
+            message_queue.pop(m);
+            boost::this_thread::sleep_for(boost::chrono::milliseconds(1));
 
-        if (num_of_robots == 5)
-        {
-            const int TASK_NUM = 1;
-            info_report << "[Message processor] Generating and sending " <<TASK_NUM<<(TASK_NUM>1?"tasks":"task") << "\n";
-            for (int i = 0; i<TASK_NUM; i++)
+            switch (m->type)
             {
-                boost::this_thread::sleep_for(boost::chrono::milliseconds(1000));
-                NewTaskMessage nt(generate_random_task());
-                message_system.broadcast_message(nt);
+                case NEW_ROBOT:
+                {
+                    NewRobotMessage * nr = dynamic_cast<NewRobotMessage*>(m);
+                    new_robot_message_handler(nr);
+                    break;
+                }
+                case LEADER_ALIVE:
+                {
+                    SimpleMessage * lead_alive = dynamic_cast<SimpleMessage*>(m);
+                    leader_alive_message_handler(*lead_alive);
+                    break;
+                }
+                case NEW_TASK:
+                {
+                    NewTaskMessage * new_task = dynamic_cast<NewTaskMessage*>(m);
+                    new_task_message_handler(*new_task);
+                    break;
+                }
+                case ROBOT_ALIVE:
+                {
+                    SimpleMessage * robot_alive = dynamic_cast<SimpleMessage*>(m);
+                    robot_alive_message_handler(*robot_alive);
+                    break;
+                }
+
             }
+            delete m;    
+        }
+
+        check_robot_status();
+
+    }
+
+}
+
+void Monitor::new_task_message_handler(Auction::NewTaskMessage & new_task)
+{
+    info_report << "[NewRobotMessageHandler]: Received new task from web service.";
+    new_task.t.task_id = next_task_id();
+    info_report << "Broadcasting as task "<< new_task.t.task_id << "\n";
+    message_system.broadcast_message(new_task);
+}
+
+void Monitor::leader_alive_message_handler(Auction::SimpleMessage & leader_alive)
+{
+    info_report << "[LeaderAliveMessageHandler] Received from " << leader_alive.robot_src 
+        << " who is leading task " << leader_alive.task_id << "\n";
+
+    Auction::RobotStatusInfo & info = this->robot_status[leader_alive.robot_src];
+    
+    info.update_last_time_point();   
+    info.first_time_point = false;
+}
+
+void Monitor::robot_alive_message_handler(Auction::SimpleMessage & robot_alive)
+{
+    info_report << "[RobotAlive] Received from " << robot_alive.robot_src;
+ 
+    if (robot_alive.task_id != this->NULL_TASK) 
+        info_report << " who is helping on task "<<robot_alive.task_id << "\n";
+    else 
+        info_report << " who is not helping nor leading\n";
+ 
+
+    Auction::RobotStatusInfo & info = this->robot_status[robot_alive.robot_src];
+    
+    info.update_last_time_point();
+    info_report << "[RobotAlive] Robot "<<robot_alive.robot_src<< ", first_time_point: "<<info.first_time_point<<"\n";
+    info.first_time_point = false;    
+
+}
+
+
+
+void Monitor::check_robot_status()
+{
+    for (auto it = robot_status.begin(); it != robot_status.end(); it++)
+    {
+        int robot_id = it->first;
+        Auction::RobotStatusInfo & info = it->second; 
+
+        float elapsed = info.get_elapsed_millis();
+        if (!info.first_time_point && 
+            info.current_status != Auction::RobotStatus::DEAD &&
+            elapsed > (Auction::RobotStatusInfo::TIME_LEAD_ALIVE_MILLIS + Auction::RobotStatusInfo::TOLERANCE))
+        {
+            info.current_status = Auction::RobotStatus::DEAD;
+            info_report << "[CheckRobotStatus]: Robot "<< robot_id << " is considered dead\n";
         }
 
     }
@@ -63,9 +135,12 @@ void Monitor::new_robot_message_handler(NewRobotMessage * nr)
     if (nr->unique_id == NewRobotMessage::REQUEST_ID)
     {
         info_report << "Received NewRobot message from "<<nr->np.to_string()<< "\n";
-        nr->unique_id = next_robot_id();    // replace REQUEST_ID with the new unique_id
+        int next_id = next_robot_id();    // replace REQUEST_ID with the new unique_id
+        nr->unique_id = next_id;
         message_system.add_robot_info(nr->unique_id, nr->np); // store new robot net profile
-
+        
+        Auction::RobotStatusInfo robot_status_info;
+        this->robot_status[next_id] = robot_status_info;
         
         for (int id = 1; id<=num_of_robots; id++)
         {

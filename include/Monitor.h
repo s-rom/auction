@@ -9,6 +9,7 @@
 #include "NetProfile.h"
 #include "SafeQueue.h"
 #include "InfoReporter.h"
+#include "RobotStatus.h"
 
 #include <boost/atomic/atomic.hpp>
 #include <boost/thread.hpp>
@@ -32,12 +33,17 @@ public:
     Monitor(std::string & program_path);
     
     void message_processor(boost::atomic<bool>& running);
-    void new_robot_message_handler(Auction::NewRobotMessage * nr);
     void message_server(boost::atomic<bool>& running);
+
+    void leader_alive_message_handler(Auction::SimpleMessage & leader_alive);
+    void new_task_message_handler(Auction::NewTaskMessage & new_task);
+    void new_robot_message_handler(Auction::NewRobotMessage * nr);
+    void robot_alive_message_handler(Auction::SimpleMessage & robot_alive);
 
     Auction::SafeQueue<Auction::Message*> message_queue;
     Auction::MessageSystem message_system;
     Auction::InfoReporter info_report;
+    std::unordered_map<int, Auction::RobotStatusInfo> robot_status;
 
     int get_number_of_robots()
     {
@@ -48,12 +54,15 @@ public:
 private:
     std::string get_log_path(std::string & program_path);
     Auction::Task generate_random_task();
+    void check_robot_status();
     int robot_id = 0;
     int num_of_tasks = 0;
     int num_of_robots = 0;
     int next_task_id();
     int next_robot_id();
 
+    const int NULL_ID = -1;
+    const int NULL_TASK = NULL_ID;
 };
 
 

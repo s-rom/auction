@@ -21,7 +21,7 @@
     <!-- System information -->
     <p id="status_info">p element used for debug info</p>
     <div class="row">
-      <div class="col-md-4">
+      <div class="col-md-5">
 
         <!-- Robot list table -->
         <h3>Robots List</h3>
@@ -31,7 +31,8 @@
               <th scope="col">Robot ID</th>
               <th scope="col">Host</th>
               <th scope="col">Port</th>
-              <th scope="col">Status</th>
+              <th scope="col">Net Status</th>
+              <th scope="col">Rol</th>
             </tr>
           </thead>
           <tbody id="robots_table_body">
@@ -39,7 +40,7 @@
         </table>
       </div>
 
-      <div class="col-md-8">
+      <div class="col-md-7">
         <!-- Task list table  -->
         <h3>Task List</h3>
         <table class="table" id="task_table">
@@ -60,9 +61,9 @@
     
     <!-- Add task form -->
     <div class="row">
-      <div class="col-md-4">
+      <div class="col-md-6">
         <h4>Add a new task</h4>
-        <form>
+        <form id="new_task_form">
           <div class="form-group row">
             <label for="workload" class="col-sm-5 col-form-label">WorkLoad (Kg)</label>
             <div class="col-sm-7">
@@ -108,13 +109,13 @@
               <legend class="col-form-label col-sm-5 pt-0">Deadline utility function</legend>
               <div class="col-sm-7">
                 <div class="form-check">
-                  <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked>
+                  <input class="form-check-input" type="radio" name="gridRadios" id="soft" value="0" checked>
                   <label class="form-check-label" for="gridRadios1">
                     Soft deadline
                   </label>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
+                  <input class="form-check-input" type="radio" name="gridRadios" id="hard" value="1">
                   <label class="form-check-label" for="gridRadios2">
                     Hard deadline
                   </label>
@@ -125,7 +126,7 @@
           
           <div class="form-group row">
             <div class="col-sm-10">
-              <button type="submit" class="btn btn-primary">Send</button>
+              <button id="button_new_task" type="button" class="btn btn-primary" onclick="add_new_task();">Send</button>
             </div>
           </div>
         </form>

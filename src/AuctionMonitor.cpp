@@ -42,6 +42,7 @@ int main(int argc, char ** argv)
 
 
     cppcms::service srv(argc, argv);
+    
     service_ptr = &srv;
 
     booster::intrusive_ptr<MonitorWS::MonitorApplication> app_ptr = new MonitorWS::MonitorApplication(srv);
@@ -49,16 +50,12 @@ int main(int argc, char ** argv)
 
     app_ptr->set_monitor_pointer(monitor_ptr);
 
-    
-
     signal(SIGINT, sigint_handler);
-
-
-
 
     boost::thread web_service_thread(&init_ws, boost::ref(srv));
     boost::thread server_thread(&Auction::Monitor::message_server, &m, boost::ref(running));
     boost::thread message_thread(&Auction::Monitor::message_processor, &m, boost::ref(running));
     server_thread.join();
     message_thread.join();
+    web_service_thread.join();
 }

@@ -138,6 +138,20 @@ void RobotManager::process_message_queue(boost::atomic<bool> & running)
                 break;
             }
 
+            case LEADER_ALIVE:
+            {
+                SimpleMessage * lead_alive = dynamic_cast<SimpleMessage*>(m);
+                leader_alive_message_handler(*lead_alive);
+                break;
+            }
+
+            case HELPER_ALIVE:
+            {
+                SimpleMessage * helper_alive = dynamic_cast<SimpleMessage*>(m);
+                helper_alive_message_handler(*helper_alive);
+                break;
+            }
+
             delete m;
         }
     }
@@ -545,6 +559,39 @@ void RobotManager::non_leader_task_auction(Task & t, BidMessage first_bid)
     }
 }
 
+void RobotManager::leader_alive_message_handler(SimpleMessage & lead_alive)
+{
+    
+    // Leader duplicity
+    if (this->task_leader == lead_alive.task_id)
+    {  
+        info_report << "[LeaderAliveMessageHandler] Leader duplicity for task " << this->task_leader;
+        if (this-> id < lead_alive.task_id)
+        {
+            info_report << "I will abort leadership\n";
+        }
+        else
+        {
+            info_report << "I will resume leadership\n";
+        }
+    }
+    else if (this->task_helper == lead_alive.task_id)
+    {
+        float elapsed_time_lead_alive = duration_cast<std::chrono::milliseconds>
+            (system_clock::now() - this->last_leader_alive).count();
+        
+        info_report << "[LeaderAliveMessageHandler] Received LEADER_ALIVE message from my group's leader (task: "<<task_helper<<")"
+            << "Elapsed time since last time: " << elapsed_time_lead_alive << "ms\n";
+    }
+    
+
+}
+    
+void RobotManager::helper_alive_message_handler(SimpleMessage & lead_alive)
+{
+
+}
+
 
 void RobotManager::wait_until_id(long millis)
 {
@@ -568,6 +615,41 @@ void RobotManager::wait_until_id(long millis)
         boost::this_thread::sleep_for(boost::chrono::milliseconds(millis));
     }
 }
+
+
+void RobotManager::periodic_behaviour(boost::atomic<bool> & running)
+{
+    std::cout << "[PeriodicBehaviour]: running\n";
+    // Initializes timer to 0 ms
+    auto time_init = system_clock::now();
+    auto delta_time = 0; 
+    while (running)
+    {
+        if (delta_time >= RobotStatusInfo::TIME_LEAD_ALIVE_MILLIS){
+
+            if (this->task_leader != NULL_TASK)
+            {
+                SimpleMessage leader_alive_msg(task_leader, this->id, MessageType::LEADER_ALIVE);
+                message_system.send_message_monitor(leader_alive_msg);
+                //TODO: send message to helpers
+            } 
+            else
+            {
+                SimpleMessage robot_alive_msg(task_helper, this->id, MessageType::ROBOT_ALIVE);
+                message_system.send_message_monitor(robot_alive_msg);
+                info_report << "[PeriodicBehaviour] Sending robot alive... \n";
+                //TODO: send message to leader
+            }
+
+            time_init = system_clock::now();
+        }
+        
+        delta_time = duration_cast<std::chrono::milliseconds>
+            (system_clock::now() - time_init).count();    
+    }
+}
+
+
 
 void RobotManager::set_load_capacity(float new_load_capacity)
 {

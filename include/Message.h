@@ -45,9 +45,14 @@ namespace Auction
 		ROBOT_ALIVE,
 
 		// Used by non leader robot to refuse a group								- SimpleMessage
-		REFUSE
-	};
+		REFUSE,
 
+		// TODO																		- SimpleMessage
+		LEADER_ALIVE,
+
+		// TODO																		- SimpleMessage
+		HELPER_ALIVE																
+	};
 
 }
 

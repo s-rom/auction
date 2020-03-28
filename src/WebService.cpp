@@ -12,10 +12,7 @@ MonitorApplication::MonitorApplication(cppcms::service &srv)
 
 void MonitorApplication::robot_info_response()
 {
-    std::cout << "[WebService] Received get_robots_info petition\n";
-    
-    // response().set_header("Access-Control-Allow-Headers","Content-Type");    
-    response().set_header("Access-Control-Allow-Origin","*");
+        response().set_header("Access-Control-Allow-Origin","*");
 
     Auction::Monitor & m = *(this->monitor);
     if (m.get_number_of_robots() == 0)
@@ -49,11 +46,20 @@ std::string MonitorApplication::json_robot_info(int robot_id)
     if (robot_id <= 0) return nullptr;
 
     Auction::NetProfile netp = (monitor->message_system).get_robot_info(robot_id);
+    Auction::RobotStatusInfo robot_info = monitor->robot_status[robot_id];
+    std::vector<std::string> status_equivalent;
+    status_equivalent.push_back("UNKNOWN");
+    status_equivalent.push_back("ALIVE");
+    status_equivalent.push_back("DEAD");
+
+    std::string net_status = status_equivalent.at(robot_info.current_status); 
+
 
     std::string robot_json = "{";
     robot_json += get_json_int("id",robot_id) + COMMA + ENDL;
     robot_json += get_json_string("host",std::string(netp.host)) + COMMA + ENDL;
-    robot_json += get_json_string("port",std::string(netp.port)) + ENDL;
+    robot_json += get_json_string("port",std::string(netp.port)) + COMMA + ENDL;
+    robot_json += get_json_string("net_status", net_status) + ENDL;
     robot_json += "}";
 
     return robot_json;
@@ -64,15 +70,34 @@ void MonitorApplication::task_info_response()
 
 }
 
-void MonitorApplication::new_task_response()
+void MonitorApplication::new_task_response(std::string serialized_task)
 {
+    response().set_header("Access-Control-Allow-Origin","*");
+    std::cout << "[WebService]: New task requested by user ==> " << serialized_task << "\n";
+    
+    auto end = serialized_task.end();
+    Auction::DeadlineType deadline_type = *(end-2) == '0'? 
+        Auction::DeadlineType::SOFT : Auction::DeadlineType::HARD;
 
+
+    Auction::Task t(serialized_task, '_');
+    t.set_deadline_type(deadline_type);
+
+    response().out() << t.to_string() << "\n";
+    std::cout << "[WebService]: \n"<< t.to_string()<<"\n";
+
+    Auction::NewTaskMessage * new_task_msg = new Auction::NewTaskMessage(t);
+    this->monitor->message_queue.push(new_task_msg);
 }
 
 void MonitorApplication::set_dispatcher_mappings()
 {
     dispatcher().assign("/get_robots_info",&MonitorApplication::robot_info_response, this);  
     mapper().assign("get_robots_info","/get_robots_info");  
+
+    dispatcher().assign("/new_task/(.+)",
+        &MonitorApplication::new_task_response, this, 1); 
+    mapper().assign("new_task","/new_task/{1}");  
 
     mapper().root("/monitor");
 }

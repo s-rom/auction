@@ -28,7 +28,7 @@ public:
 
     void robot_info_response();
     void task_info_response();
-    void new_task_response();
+    void new_task_response(std::string serialized_task);
 
     void set_monitor_pointer(Auction::Monitor * monitor);
 

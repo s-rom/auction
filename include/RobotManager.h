@@ -12,6 +12,7 @@
 #include "Message.h"
 #include "MessageSystem.h"
 #include "SafeQueue.h"
+#include "RobotStatus.h"
 #include "InfoReporter.h"
 
 // std
@@ -77,6 +78,14 @@ public:
      * @param running while true, the process is running
      */ 
     void auction_process(boost::atomic<bool> & running);
+
+    /**
+     * Function executed aynchronously by a thread to mantain any 
+     * non blocking periodic behaviour (for example, periodic ROBOT_ALIVE messages)
+     * 
+     * @param running while true, the process is running
+     */
+    void periodic_behaviour(boost::atomic<bool> & running);
 
     /**
      * Leader request algorithm. 
@@ -184,6 +193,16 @@ private:
      */
     void robot_alive_message_handler(SimpleMessage & robot_alive);
     
+    /**
+     * TODO
+     */
+    void leader_alive_message_handler(SimpleMessage & lead_alive);
+
+    /**
+     * TODO
+     */
+    void helper_alive_message_handler(SimpleMessage & lead_alive);
+
     
     void wait_until_id(long millis);
 
@@ -197,6 +216,8 @@ private:
 
     int task_leader;                    // Task id of which he is leader, default NULL_TASK
     int task_helper;                    // Task id of which he is healper, default NULL_TASK
+
+
     float load_capacity = 1;            // Maximum load capacity - kg
     float max_vel = 10;                 // Max linear velocity - m/s                   
     
@@ -207,6 +228,7 @@ private:
 
     InfoReporter info_report;
 
+    std::chrono::time_point<std::chrono::system_clock> last_leader_alive;
 };
 
 #endif
