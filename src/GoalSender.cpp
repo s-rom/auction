@@ -57,7 +57,7 @@ void goal_management_loop()
         ROS_INFO("Waiting for the move_base action server to come up");
     }
 
-    float tolerance = 0.5;
+    float tolerance = 2;
 
     while(true)
     {
@@ -115,7 +115,7 @@ int main(int argc, char **argv)
     MoveBaseClient aux(robot_name+"/move_base", true);
     ac = &aux;
 
-    ros::Subscriber odom_subscriber = nh.subscribe(robot_name+"/odom",1,odom_callback);
+    ros::Subscriber odom_subscriber = nh.subscribe("/"+robot_name+"/odom",1,odom_callback);
 
     
     boost::thread ros_thread(&ros_polling_loop);
