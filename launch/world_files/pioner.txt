@@ -1,0 +1,10 @@
+pioneer2dx
+(
+  name "@robot_name"
+  pose [ @x @y @z @yaw ]
+  color "@color"
+  sicklaser
+  ( 
+     ctrl "lasernoise" 
+  ) 
+)
