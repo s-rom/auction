@@ -102,20 +102,8 @@ void goal_management_loop()
 
 int main(int argc, char **argv)
 {
-    ros::init(argc, argv, "simple_navigation_goals");
+    ros::init(argc, argv, "goal_sender");
     signal(SIGINT, sigintHandler);
-
-    // Auction::Point2D goal_aux(0,0);
-    // Auction::Point2D current_aux(0,0);
-    // Auction::Point2D delivery_aux(-7,-7);
-
-    // boost::atomic<Auction::Point2D> g(goal_aux);
-    // boost::atomic<Auction::Point2D> d(delivery_aux);
-    // boost::atomic<Auction::Point2D> c(current_aux);
-
-    // current = &c;
-    // goal = &g;
-    // delivery = &d;
 
 
     MoveBaseClient aux("move_base", true);
@@ -125,47 +113,8 @@ int main(int argc, char **argv)
     ros::Subscriber odom_subscriber = nh.subscribe("/odom",1,odom_callback);
 
     
-
     boost::thread ros_thread(&ros_polling_loop);
     boost::thread goal_thread(&goal_management_loop);
     ros_thread.join();
     goal_thread.join();
-
-    
-    // double goal_x, goal_y, goal_w=1.0;
-    // if (argc == 4) //nombre x y w
-    // {
-    //     goal_x = std::stod(argv[1]);
-    //     goal_y = std::stod(argv[2]);
-    //     goal_w = std::stod(argv[3]);
-    // }
-    // else 
-    // {
-    //     ROS_INFO_STREAM("Params: rosrun package node x y w");
-    //     exit(0);
-    // }
-
-
-
-    // move_base_msgs::MoveBaseGoal goal;
-    // goal.target_pose.header.frame_id = "/map";
-    // goal.target_pose.header.stamp = ros::Time::now();
-
-    // goal.target_pose.pose.position.x = goal_x;
-    // goal.target_pose.pose.position.y = goal_y;
-    // goal.target_pose.pose.orientation.w = goal_w;
-
-    // ROS_INFO_STREAM("Enviando objetivo a (" << goal_x << ", " << goal_y << ") "
-    //     << "respecto a SDC: " << goal.target_pose.header.frame_id);
-    // ac->sendGoal(goal);
-    // ac->waitForResult();
-
-    // if (ac->getState() == actionlib::SimpleClientGoalState::SUCCEEDED)
-    // {
-    //     ROS_INFO("Goal achieved!");
-    // }
-    // else
-    // {
-    //     ROS_INFO("Goal not achieved");
-    // }
 }

@@ -2,6 +2,8 @@
 
 using Auction::RobotManager;
 
+/* =============================================== CONSTRUCTORS =============================================== */
+
 
 std::string get_log_path(std::string program_path)
 {
@@ -34,6 +36,9 @@ void RobotManager::close_info_reporter()
     info_report.close();
 }
 
+/* =============================================== THREAD FUNCTIONS =============================================== */
+
+
 
 void RobotManager::message_server(boost::atomic<bool> & running)
 {
@@ -62,32 +67,6 @@ void RobotManager::message_server(boost::atomic<bool> & running)
     }
 }
 
-void RobotManager::auction_process(boost::atomic<bool> & running)
-{
-    info_report << "[Auction process] ---> Running" << "\n";
-
-    wait_until_id(50);
-    process_message_queue(running);
-
-    
-}
-
-void RobotManager::new_robot_message_handler(NewRobotMessage & nr)
-{
-    // net profile equals own net profile -> store unique id
-    if (nr.np == message_system.net_info)
-    {
-        if (this->id == -1)
-            info_report << "[NewRobotHandler] Received my own id: "<<nr.unique_id<<"\n";
-        this->id = nr.unique_id;
-    } 
-    else // stores other robot id 
-    {
-        info_report << "[NewRobotHandler] Received other robot profile: "<<nr.np.to_string()<<
-        ", "<<nr.unique_id<<"\n";
-        message_system.add_robot_info(nr.unique_id, nr.np);
-    }
-}                
 
 void RobotManager::process_message_queue(boost::atomic<bool> & running)
 {
@@ -154,8 +133,99 @@ void RobotManager::process_message_queue(boost::atomic<bool> & running)
 
             delete m;
         }
+        
     }
 }
+
+void RobotManager::auction_process(boost::atomic<bool> & running)
+{
+    info_report << "[Auction process] ---> Running" << "\n";
+
+    wait_until_id(50);
+    process_message_queue(running);
+    
+}
+
+void RobotManager::wait_until_id(long millis)
+{
+    while (this->id == NULL_ID)
+    {
+        info_report << "[wait_until_id] I'm waiting until I receive my ID\n";
+        auto it = message_queue.begin();
+        auto end = message_queue.end();
+        while (it != end)
+        {
+            Message * m = *it;
+            if (m != nullptr && m->type == MessageType::NEW_ROBOT)
+            {
+                NewRobotMessage * new_robot_msg = dynamic_cast<NewRobotMessage*>(m);
+                new_robot_message_handler(*new_robot_msg);
+                // don't delete the message!
+            }
+            it++;
+        }
+
+        boost::this_thread::sleep_for(boost::chrono::milliseconds(millis));
+    }
+}
+
+
+void RobotManager::periodic_behaviour(boost::atomic<bool> & running)
+{
+    std::cout << "[PeriodicBehaviour]: running\n";
+    // Initializes timer to 0 ms
+    auto time_init = system_clock::now();
+    auto delta_time = 0; 
+    while (running)
+    {
+        if (this->id == NULL_ID) continue;
+        
+        if (delta_time >= RobotStatusInfo::TIME_LEAD_ALIVE_MILLIS){
+
+            if (this->task_leader != NULL_TASK)
+            {
+                SimpleMessage leader_alive_msg(task_leader, this->id, MessageType::LEADER_ALIVE);
+                message_system.send_message_monitor(leader_alive_msg);
+                //TODO: send message to helpers
+            } 
+            else
+            {
+                SimpleMessage robot_alive_msg(task_helper, this->id, MessageType::ROBOT_ALIVE);
+                message_system.send_message_monitor(robot_alive_msg);
+                info_report << "[PeriodicBehaviour] Sending robot alive... \n";
+                //TODO: send message to leader
+            }
+
+            time_init = system_clock::now();
+        }
+        
+        delta_time = duration_cast<std::chrono::milliseconds>
+            (system_clock::now() - time_init).count();    
+    }
+}
+
+
+
+/* =============================================== HANDLERS =============================================== */
+
+
+void RobotManager::new_robot_message_handler(NewRobotMessage & nr)
+{
+    // net profile equals own net profile -> store unique id
+    if (nr.np == message_system.net_info)
+    {
+        if (this->id == -1)
+            info_report << "[NewRobotHandler] Received my own id: "<<nr.unique_id<<"\n";
+        this->id = nr.unique_id;
+    } 
+    else // stores other robot id 
+    {
+        info_report << "[NewRobotHandler] Received other robot profile: "<<nr.np.to_string()<<
+        ", "<<nr.unique_id<<"\n";
+        message_system.add_robot_info(nr.unique_id, nr.np);
+    }
+}                
+
 
 void RobotManager::new_task_message_handler(NewTaskMessage & nt)
 {
@@ -222,6 +292,43 @@ void RobotManager::robot_alive_message_handler(SimpleMessage & robot_alive)
     //TODO: Implement
 }
 
+
+
+void RobotManager::leader_alive_message_handler(SimpleMessage & lead_alive)
+{
+    
+    // Leader duplicity
+    if (this->task_leader == lead_alive.task_id)
+    {  
+        info_report << "[LeaderAliveMessageHandler] Leader duplicity for task " << this->task_leader;
+        if (this-> id < lead_alive.task_id)
+        {
+            info_report << "I will abort leadership\n";
+        }
+        else
+        {
+            info_report << "I will resume leadership\n";
+        }
+    }
+    else if (this->task_helper == lead_alive.task_id)
+    {
+        float elapsed_time_lead_alive = duration_cast<std::chrono::milliseconds>
+            (system_clock::now() - this->last_leader_alive).count();
+        
+        info_report << "[LeaderAliveMessageHandler] Received LEADER_ALIVE message from my group's leader (task: "<<task_helper<<")"
+            << "Elapsed time since last time: " << elapsed_time_lead_alive << "ms\n";
+    }
+    
+
+}
+    
+void RobotManager::helper_alive_message_handler(SimpleMessage & lead_alive)
+{
+
+}
+
+
+/* =============================================== AUCTION ALGORITHMS =============================================== */
 
 void RobotManager::leader_request(Task & t)
 {
@@ -558,99 +665,6 @@ void RobotManager::non_leader_task_auction(Task & t, BidMessage first_bid)
         it++;
     }
 }
-
-void RobotManager::leader_alive_message_handler(SimpleMessage & lead_alive)
-{
-    
-    // Leader duplicity
-    if (this->task_leader == lead_alive.task_id)
-    {  
-        info_report << "[LeaderAliveMessageHandler] Leader duplicity for task " << this->task_leader;
-        if (this-> id < lead_alive.task_id)
-        {
-            info_report << "I will abort leadership\n";
-        }
-        else
-        {
-            info_report << "I will resume leadership\n";
-        }
-    }
-    else if (this->task_helper == lead_alive.task_id)
-    {
-        float elapsed_time_lead_alive = duration_cast<std::chrono::milliseconds>
-            (system_clock::now() - this->last_leader_alive).count();
-        
-        info_report << "[LeaderAliveMessageHandler] Received LEADER_ALIVE message from my group's leader (task: "<<task_helper<<")"
-            << "Elapsed time since last time: " << elapsed_time_lead_alive << "ms\n";
-    }
-    
-
-}
-    
-void RobotManager::helper_alive_message_handler(SimpleMessage & lead_alive)
-{
-
-}
-
-
-void RobotManager::wait_until_id(long millis)
-{
-    while (this->id == NULL_ID)
-    {
-        info_report << "[wait_until_id] I'm waiting until I receive my ID\n";
-        auto it = message_queue.begin();
-        auto end = message_queue.end();
-        while (it != end)
-        {
-            Message * m = *it;
-            if (m != nullptr && m->type == MessageType::NEW_ROBOT)
-            {
-                NewRobotMessage * new_robot_msg = dynamic_cast<NewRobotMessage*>(m);
-                new_robot_message_handler(*new_robot_msg);
-                // don't delete the message!
-            }
-            it++;
-        }
-
-        boost::this_thread::sleep_for(boost::chrono::milliseconds(millis));
-    }
-}
-
-
-void RobotManager::periodic_behaviour(boost::atomic<bool> & running)
-{
-    std::cout << "[PeriodicBehaviour]: running\n";
-    // Initializes timer to 0 ms
-    auto time_init = system_clock::now();
-    auto delta_time = 0; 
-    while (running)
-    {
-        if (this->id == NULL_ID) continue;
-        
-        if (delta_time >= RobotStatusInfo::TIME_LEAD_ALIVE_MILLIS){
-
-            if (this->task_leader != NULL_TASK)
-            {
-                SimpleMessage leader_alive_msg(task_leader, this->id, MessageType::LEADER_ALIVE);
-                message_system.send_message_monitor(leader_alive_msg);
-                //TODO: send message to helpers
-            } 
-            else
-            {
-                SimpleMessage robot_alive_msg(task_helper, this->id, MessageType::ROBOT_ALIVE);
-                message_system.send_message_monitor(robot_alive_msg);
-                info_report << "[PeriodicBehaviour] Sending robot alive... \n";
-                //TODO: send message to leader
-            }
-
-            time_init = system_clock::now();
-        }
-        
-        delta_time = duration_cast<std::chrono::milliseconds>
-            (system_clock::now() - time_init).count();    
-    }
-}
-
 
 
 void RobotManager::set_load_capacity(float new_load_capacity)
