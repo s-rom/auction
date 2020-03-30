@@ -1,10 +1,11 @@
 <launch>
-    <param name="/use_sim_time" value="true"/>
+    <arg name="robot_name"/>
 
-    <include ns="prueba" file="$(find auction)/launch/slam_gmapping.launch"/>
-    <include ns="prueba" file="$(find auction)/launch/move_base_slam.launch"/>
+    <include file="$(find auction)/launch/slam_gmapping.launch" pass_all_args="true"/>
+    <include file="$(find auction)/launch/move_base_slam.launch" pass_all_args="true"/>
 
-    <node pkg="auction" type="goal_sender" name="goal_sender" ns="prueba"/>
-
+    <node pkg="auction" type="goal_sender" name="$(eval arg('robot_name') + '_goal_sender')" output="screen">
+        <param name="robot_name" value="$(eval robot_name)"/>
+    </node>
 
 </launch>

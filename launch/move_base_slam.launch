@@ -1,17 +1,22 @@
 <launch>
-    <!-- Throttle the voxel grid that is being published for rviz -->
-    <node ns="move_base_node/local_costmap" name="voxel_grid_throttle" pkg="topic_tools" type="throttle" args="messages voxel_grid 3.0 voxel_grid_throttled" />
-    
-    <!-- for moving -->
-    <node pkg="move_base" type="move_base" respawn="false" name="move_base_node" output="screen">
-        <remap from="odom" to="odom" />
-        <remap from="cmd_vel" to="cmd_vel" />
+    <arg name="robot_name"/>
+
+
+    <node pkg="move_base" type="move_base" respawn="false" 
+        name="$(eval arg('robot_name') + '_move_base_node')" output="screen">
         
+        <remap from="odom" to="$(eval arg('robot_name') + '/odom')" />
+        <remap from="cmd_vel" to="$(eval arg('robot_name') + '/cmd_vel')"/>
+        <remap from="move_base" to="$(eval arg('robot_name') + '/move_base')"/>
     
         <!-- Load global navigation specific parameters -->
-        <rosparam file="$(find auction)/launch/config/move_base_params.yaml" command="load" />
-        <rosparam file="$(find auction)/launch/config/local_costmap_params.yaml" command="load" />
-        <rosparam file="$(find auction)/launch/config/global_costmap_params.yaml" command="load" />
+        <rosparam file="$(find auction)/launch/config/move_base_params.yaml" command="load"/>
+        <rosparam file="$(find auction)/launch/config/local_costmap_params.yaml" command="load"/>
+        <rosparam file="$(find auction)/launch/config/global_costmap_params.yaml" command="load"/>
         <rosparam file="$(find auction)/launch/config/base_local_planner_params.yaml" command="load" />
+
+        <param name="global_costmap/robot_base_frame" value="$(eval arg('robot_name') + '/base_link')"/>
+        <param name="local_costmap/robot_base_frame" value="$(eval arg('robot_name') + '/base_link')"/>
+
     </node>
 </launch>

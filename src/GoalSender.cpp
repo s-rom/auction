@@ -19,7 +19,7 @@ typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseCl
 
 boost::atomic<bool> any_goal(false);
 
-boost::atomic<Auction::Point2D> goal(Auction::Point2D(0,0));
+boost::atomic<Auction::Point2D> goal(Auction::Point2D(0, 0));
 boost::atomic<Auction::Point2D> delivery(Auction::Point2D(-5,-5));
 boost::atomic<Auction::Point2D> * current;
 
@@ -105,12 +105,17 @@ int main(int argc, char **argv)
     ros::init(argc, argv, "goal_sender");
     signal(SIGINT, sigintHandler);
 
+    ros::NodeHandle nh("~");
 
-    MoveBaseClient aux("move_base", true);
+    std::string robot_name;
+    if (!nh.getParam("robot_name", robot_name))
+        ROS_INFO_STREAM("Could not load param 'robot_name'");
+    
+    
+    MoveBaseClient aux(robot_name+"/move_base", true);
     ac = &aux;
 
-    ros::NodeHandle nh("~");
-    ros::Subscriber odom_subscriber = nh.subscribe("/odom",1,odom_callback);
+    ros::Subscriber odom_subscriber = nh.subscribe(robot_name+"/odom",1,odom_callback);
 
     
     boost::thread ros_thread(&ros_polling_loop);

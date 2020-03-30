@@ -139,3 +139,18 @@ pioneer2dx
    alwayson 1 # don't wait for a subscriber
   ) 
 )
+
+
+pioneer2dx
+(
+  name "robot_2"
+  pose [ 7.000 7.000 0.000 0.000 ]
+  color "green"
+  sicklaser
+  ( 
+     # plug the ../examples/ctrl/lasernoise.cc module into this laser
+     ctrl "lasernoise" 
+
+   alwayson 1 # don't wait for a subscriber
+  ) 
+)
