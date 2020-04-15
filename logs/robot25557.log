@@ -1,28 +1,6 @@
-<12:02:00> [Auction process] ---> Running
-<12:02:00> [wait_until_id] I'm waiting until I receive my ID
-<12:02:00> [wait_until_id] I'm waiting until I receive my ID
-<12:02:00> [NewRobotHandler] Received other robot profile: host: localhost, port: 25556, 1
-<12:02:00> [NewRobotHandler] Received my own id: 2
-<12:02:00> [NewRobotHandler] Received other robot profile: host: localhost, port: 25558, 3
-<12:02:00> [NewRobotHandler] Received other robot profile: host: localhost, port: 25556, 1
-<12:02:00> [NewRobotHandler] Received other robot profile: host: localhost, port: 25558, 3
-
-
-
-
-<12:02:14> [NeTaskHandler] new task: 1
-<12:02:14> [LeaderAlgorithm] Starting a leader request process for task 1
-<12:02:14> [LeaderAlgorithm] Robot 2 requesting task 1, bid: 0.229515
-<12:02:14> [LeaderAlgorithm] Received bid 0.180651, but mine is 0.229515, resuming... 
-<12:02:14> [LeaderAlgorithm] Received bid 0.280006, and mine is 0.229515, giving up... 
-
-<12:02:17> [LeaderOfTaskHandler] Robot 1 is the new leader of task 1
-<12:02:17> [BidRequestMessageHandler]: Received a bid request from Robot1 for task 1. Replying with bid: 0.229515
-
-<12:02:20> [NonLeaderAuction] Received bid from 1 for task 1 with a bid of 1
-
-
-<12:02:26> [NonLeaderAuction] Best option: task 1 from leader 1 whose bid is 1
-<12:02:26> [NonLeaderAuction] Sending refuse to
-
-
+<16:41:47> [Auction process] ---> Running
+<16:41:47> [wait_until_id] I'm waiting until I receive my ID
+<16:41:48> [wait_until_id] I'm waiting until I receive my ID
+<16:41:48> [NewRobotHandler] Received my own id: 1
+<16:41:48> [NewRobotHandler] Received other robot profile: host: localhost, port: 25556, 2
+<16:41:48> [NewRobotHandler] Received other robot profile: host: localhost, port: 25556, 2

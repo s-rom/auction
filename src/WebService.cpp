@@ -70,6 +70,19 @@ void MonitorApplication::task_info_response()
 
 }
 
+void MonitorApplication::robot_kill_response(std::string id_str)
+{    
+    response().set_header("Access-Control-Allow-Origin","*");
+    int id = std::stoi(id_str);
+
+    Auction::SimpleMessage * kill_robot = 
+        new Auction::SimpleMessage(Auction::Task::NULL_TASK, id, Auction::MessageType::ROBOT_KILL);
+    monitor->message_queue.push(kill_robot); 
+
+    response().out() << kill_robot->robot_src; 
+}
+
+
 void MonitorApplication::new_task_response(std::string serialized_task)
 {
     response().set_header("Access-Control-Allow-Origin","*");
@@ -95,9 +108,11 @@ void MonitorApplication::set_dispatcher_mappings()
     dispatcher().assign("/get_robots_info",&MonitorApplication::robot_info_response, this);  
     mapper().assign("get_robots_info","/get_robots_info");  
 
-    dispatcher().assign("/new_task/(.+)",
-        &MonitorApplication::new_task_response, this, 1); 
+    dispatcher().assign("/new_task/(.+)", &MonitorApplication::new_task_response, this, 1); 
     mapper().assign("new_task","/new_task/{1}");  
+
+    dispatcher().assign("/robot_kill/(\\d+)", &MonitorApplication::robot_kill_response, this, 1); 
+    mapper().assign("robot_kill","/robot_kill/{1}");  
 
     mapper().root("/monitor");
 }

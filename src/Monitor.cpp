@@ -60,6 +60,13 @@ void Monitor::message_processor(boost::atomic<bool>& running)
                     break;
                 }
 
+                case ROBOT_KILL:
+                {
+                    SimpleMessage * kill_robot = dynamic_cast<SimpleMessage*>(m);
+                    kill_robot_message_handler(*kill_robot);
+                    break;
+                }
+
             }
             delete m;    
         }
@@ -67,8 +74,24 @@ void Monitor::message_processor(boost::atomic<bool>& running)
         check_robot_status();
 
     }
-
 }
+
+void Monitor::kill_robot_message_handler(Auction::SimpleMessage & kill_robot)
+{
+    info_report << "[KillRobotMessageHandler]: Received an order to kill robot "<< kill_robot.robot_src<<"\n";
+    auto it_robot = robot_status.find(kill_robot.robot_src);
+
+    if (it_robot != robot_status.end()
+        && it_robot->second.current_status != RobotStatus::DEAD)
+    {
+        SimpleMessage new_kill_robot(Task::NULL_TASK, kill_robot.robot_src, Auction::MessageType::ROBOT_KILL);
+        info_report << "[KillRobotMessageHandler]: Sending kill robot to robot "<< kill_robot.robot_src<<"\n";
+        info_report << "[KillRobotMessageHandler]: " << new_kill_robot.serialize() << "\n";
+        message_system.send_message(new_kill_robot, new_kill_robot.robot_src);
+        it_robot->second.current_status = RobotStatus::DEAD;
+    }
+}
+
 
 void Monitor::new_task_message_handler(Auction::NewTaskMessage & new_task)
 {

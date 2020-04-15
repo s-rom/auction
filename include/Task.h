@@ -16,6 +16,7 @@ namespace Auction
 
 struct Auction::Task
 {
+    static const int NULL_TASK = -1;
     const float MAX_UTILITY; // Maximum utility of the task
     int task_id;             // Unique (for each execution) id of the task
     Point2D task_location;   // Location of the task object

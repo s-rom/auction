@@ -128,19 +128,7 @@ floorplan
 pioneer2dx
 (
   name "robot_0"
-  pose [ -8 -2 0 0 ]
-  color "red"
-  sicklaser
-  ( 
-     ctrl "lasernoise" 
-  ) 
-)
-
-
-pioneer2dx
-(
-  name "robot_1"
-  pose [ 5 9 0 0 ]
+  pose [ 1 2 0 0 ]
   color "green"
   sicklaser
   ( 
@@ -151,9 +139,21 @@ pioneer2dx
 
 pioneer2dx
 (
+  name "robot_1"
+  pose [ -4 7 0 0 ]
+  color "blue"
+  sicklaser
+  ( 
+     ctrl "lasernoise" 
+  ) 
+)
+
+
+pioneer2dx
+(
   name "robot_2"
-  pose [ -5 5 0 0 ]
-  color "red"
+  pose [ 7 2 0 0 ]
+  color "green"
   sicklaser
   ( 
      ctrl "lasernoise" 

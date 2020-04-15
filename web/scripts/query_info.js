@@ -1,7 +1,6 @@
 var robots_info = null;
 var server_root = "http://localhost:8080/monitor";
 
-
 $(document).ready(function(){
     $('#status_info').text('Waiting for monitor process to start...');
     setInterval(request_robots_info, 1000);
@@ -22,6 +21,11 @@ function add_new_task() {
     
 }
 
+function on_click_kill(id) {
+    console.log("Send kill robot to robot "+id);
+    $.ajax({url: server_root+"/robot_kill/"+id, error: function(){}});
+}
+
 function request_robots_info() {
     $.ajax({url: server_root+"/get_robots_info",
         success: function (result) {
@@ -39,10 +43,32 @@ function request_robots_info() {
                     let port = robots_info.robots[i].port;
                     let net_status = robots_info.robots[i].net_status;
 
+                    let row_class;
+                    if (net_status == "DEAD") row_class = "table-danger";
+                    else row_class = "table-default";
 
+                    // $('#robots_table> tbody:last-child').
+                    // append('<tr class=\'robot_row\'><td>'+id+'</td><td>'+host+'</td><td>'+port+'</td><td>'+net_status+'</td>'+
+                    // '<td>UNKNOWN</td>'+'</tr>');
+
+                    let button;
+                    if (net_status != "DEAD") 
+                        button='<td><button type="button" class="btn btn-danger"'+
+                            'onclick="on_click_kill('+id+');"'+'>Kill</button>';
+                    else
+                        button='<td><button type="button" class="btn btn-primary">Info</button>'; 
+                    
                     $('#robots_table> tbody:last-child').
-                    append('<tr class=\'robot_row\'><td>'+id+'</td><td>'+host+'</td><td>'+port+'</td><td>'+net_status+'</td>'+
-                    '<td>UNKNOWN</td>'+'</tr>');
+                    append('<tr class=\''+row_class+'\'><td>'
+                            +id+'</td><td>'
+                            +host+'</td><td>'
+                            +port+'</td><td>'
+                            +net_status+'</td>'
+                            +'<td>UNKNOWN</td>'
+                            +button+'</td>'
+                            +'</tr>');
+                    
+                    
                 }
             }
             catch(e){

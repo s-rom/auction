@@ -14,8 +14,9 @@
 #include "SafeQueue.h"
 #include "RobotStatus.h"
 #include "InfoReporter.h"
+#include "Group.h"
 
-// std
+// STL
 #include <iostream>
 #include <cstring>
 #include <sstream>
@@ -24,7 +25,8 @@
 #include <unordered_map>
 #include <chrono>
 
-// TMP -- TODO: REPLACE
+// C Lib
+#include <csignal>
 #include <ctime>
 #include <cstdlib>
 
@@ -203,7 +205,7 @@ private:
      */
     void helper_alive_message_handler(SimpleMessage & lead_alive);
 
-    
+
     void wait_until_id(long millis);
 
     /**
@@ -228,6 +230,8 @@ private:
 
     InfoReporter info_report;
 
+    int current_leader = NULL_ID;
+    std::unordered_map<int, std::chrono::time_point<std::chrono::system_clock>> group;
     std::chrono::time_point<std::chrono::system_clock> last_leader_alive;
 };
 

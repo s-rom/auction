@@ -2,6 +2,7 @@
 #include "InfoReporter.h"
 #include "SafeQueue.h"
 #include "Message.h"
+#include "Group.h"
 #include "RobotManager.h"
 #include <vector>
 #include <unordered_map>
@@ -42,35 +43,13 @@ public:
 
 int main(int argc, char ** argv)
 {
-    // Auction::InfoReporter info("~/Desktop/prueba_info.txt");
-    // info << "[Ambito] " << x << "\n";
-
-//    deadline_computation_test();
-
-
-    Auction::NetProfile np1("localhost","25556");
-    Auction::NetProfile np2("localhost","25557");
-    Auction::NetProfile np3("localhost","25556");
-
-
-    std::unordered_map<int,Auction::NetProfile> map;
-    map[0] = np1;
-    map[1] = np2;
-
-    auto it0 = map.find(0);
-    auto it3 = map.find(3);
-
-    if (it0 == map.end())
-    {
-        std::cout << "key 0 is found in the map\n";
-    }
-
-    if (it3 == map.end())
-    {
-        std::cout << "key 3 is not found in the map\n";
-    }
-    
-
+    Auction::Task t(Auction::Point2D(0,0), Auction::Point2D(5,5), 1, 1, 3);
+    Auction::Group g(t, 1);
+    Auction::Group g2 = g;
+    g.add_helper(2);
+    g.add_helper(4);
+    std::cout << g.to_string() << std::endl;
+    std::cout << g2.to_string() << std::endl;
 }
 
 void test_tuple()

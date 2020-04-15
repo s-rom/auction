@@ -51,7 +51,10 @@ namespace Auction
 		LEADER_ALIVE,
 
 		// TODO																		- SimpleMessage
-		HELPER_ALIVE																
+		HELPER_ALIVE,
+
+		// Used by monitor to kill robots											- SimpleMessage
+		ROBOT_KILL															
 	};
 
 }

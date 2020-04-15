@@ -39,6 +39,7 @@ public:
     void new_task_message_handler(Auction::NewTaskMessage & new_task);
     void new_robot_message_handler(Auction::NewRobotMessage * nr);
     void robot_alive_message_handler(Auction::SimpleMessage & robot_alive);
+    void kill_robot_message_handler(Auction::SimpleMessage & kill_robot);
 
     Auction::SafeQueue<Auction::Message*> message_queue;
     Auction::MessageSystem message_system;

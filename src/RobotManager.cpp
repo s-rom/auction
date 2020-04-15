@@ -54,7 +54,6 @@ void RobotManager::message_server(boost::atomic<bool> & running)
         uint addrlen;
         char msg[256];
         memset(&msg, 0, 256);
-        // Recibe la logrmacion y la guarda en el buffer
         if (!recvfrom(socket_descriptor, msg, sizeof(msg), 0, &sender, &addrlen))
         {
             info_report << "[MessageServer] Error de recepcion \n";
@@ -62,7 +61,15 @@ void RobotManager::message_server(boost::atomic<bool> & running)
         else
         { 
             Message * m = this->message_system.create_message_from(msg);
-            message_queue.push(m);
+            if (m->type == MessageType::ROBOT_KILL)
+            {
+                std::raise(SIGINT);
+                delete m; 
+            }
+            else 
+            {
+                message_queue.push(m);
+            }
         }
     }
 }
@@ -141,7 +148,7 @@ void RobotManager::auction_process(boost::atomic<bool> & running)
 {
     info_report << "[Auction process] ---> Running" << "\n";
 
-    wait_until_id(50);
+    wait_until_id(200);
     process_message_queue(running);
     
 }
@@ -182,18 +189,32 @@ void RobotManager::periodic_behaviour(boost::atomic<bool> & running)
         
         if (delta_time >= RobotStatusInfo::TIME_LEAD_ALIVE_MILLIS){
 
+            SimpleMessage robot_alive_msg(task_helper, this->id, MessageType::ROBOT_ALIVE);
+
+
+            // Leader 
             if (this->task_leader != NULL_TASK)
             {
                 SimpleMessage leader_alive_msg(task_leader, this->id, MessageType::LEADER_ALIVE);
                 message_system.send_message_monitor(leader_alive_msg);
+                info_report << "[Periodic Behaviour] I'm a leader, sending to monitor and helpers\n";
                 //TODO: send message to helpers
             } 
-            else
+            // Helper
+            else if (this->task_helper != NULL_TASK)
             {
-                SimpleMessage robot_alive_msg(task_helper, this->id, MessageType::ROBOT_ALIVE);
+                // Send to current leader
+                info_report << "[Periodic Behaviour] I'm a helper, sending to monitor and leader\n";
                 message_system.send_message_monitor(robot_alive_msg);
-                info_report << "[PeriodicBehaviour] Sending robot alive... \n";
-                //TODO: send message to leader
+                assert(current_leader != NULL_ID);
+                message_system.send_message(robot_alive_msg, current_leader);
+            }
+            // None - Idle robot
+            else 
+            {
+                // Send only to monitor
+                info_report << "[Periodic Behaviour] I'm idle, sending to monitor\n";
+                message_system.send_message_monitor(robot_alive_msg);
             }
 
             time_init = system_clock::now();
@@ -278,8 +299,9 @@ void RobotManager::bid_for_task_message_handler(BidMessage & bid_msg)
         Task & t = task_list[bid_msg.task_id];
         // Start the non-leader robot's auction algorithm (Algorithm 3)
         this->non_leader_task_auction(t, bid_msg);
-    } // else do nothing
+    }
 
+    // If helping any task
     if (this->task_helper != NULL_TASK)
     {
         //TODO: send goal -- manage task execution
@@ -289,10 +311,26 @@ void RobotManager::bid_for_task_message_handler(BidMessage & bid_msg)
 
 void RobotManager::robot_alive_message_handler(SimpleMessage & robot_alive)
 {
-    //TODO: Implement
+    // Si es lider y recibe robot_alive
+    //      Si no esta en el grupo, añadir al grupo: Resetear ultimo mensaje recibido
+    //      Si esta en el grupo, actualizar ultimo mensaje recibido
+        
+    if (this->task_leader != NULL_TASK)
+    {
+        if (group.find(robot_alive.robot_src) != group.end())
+        {
+            info_report << "[RobotAliveMessageHandler] Robot "<<robot_alive.robot_src << 
+            " is not found in the group. Accepted as a new helper\n";
+        }
+        else 
+        {
+            info_report << "[RobotAliveMessageHandler] Robot "<<robot_alive.robot_src << 
+            " is in the group. Updated the last time_point\n";
+        }
+        
+        group[id] = std::chrono::system_clock::now();
+    }
 }
-
-
 
 void RobotManager::leader_alive_message_handler(SimpleMessage & lead_alive)
 {
@@ -641,6 +679,7 @@ void RobotManager::non_leader_task_auction(Task & t, BidMessage first_bid)
     SimpleMessage accept_msg(best_task, this->id,MessageType::ROBOT_ALIVE);
     message_system.send_message(accept_msg, best_leader);
     task_helper = best_task;
+    current_leader = best_leader;
 
 
     auto it = leader_bids.begin();

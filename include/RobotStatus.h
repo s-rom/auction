@@ -18,7 +18,7 @@ struct Auction::RobotStatusInfo
     bool first_time_point;
 
     static constexpr float TIME_LEAD_ALIVE_MILLIS = 3000;
-    static constexpr float TOLERANCE = 1000;
+    static constexpr float TOLERANCE = 200;
 
     RobotStatusInfo()
     :   

@@ -25,14 +25,17 @@ class MonitorWS::MonitorApplication : public cppcms::application
 public:
 
     MonitorApplication(cppcms::service &srv);
-
-    void robot_info_response();
-    void task_info_response();
-    void new_task_response(std::string serialized_task);
-
     void set_monitor_pointer(Auction::Monitor * monitor);
 
 private:
+
+    // Web API function
+    void robot_info_response();
+    void task_info_response();
+    void robot_kill_response(std::string id_str);
+    void new_task_response(std::string serialized_task);
+
+
 
     std::string get_json_string(std::string var, std::string value);
     std::string get_json_int(std::string var, int value);
