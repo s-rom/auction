@@ -1,11 +1,27 @@
-<13:20:11> [Auction process] ---> Running
-<13:20:11> [wait_until_id] I'm waiting until I receive my ID
-<13:20:11> [wait_until_id] I'm waiting until I receive my ID
-<13:20:11> [NewRobotHandler] Received other robot profile: host: localhost, port: 25557, 2
-<13:20:11> [NewRobotHandler] Received my own id: 3
-<13:20:12> [NewRobotHandler] Received other robot profile: host: localhost, port: 25557, 2
-<13:20:14> [Periodic Behaviour] I'm idle, sending to monitor
-<13:20:17> [Periodic Behaviour] I'm idle, sending to monitor
-<13:20:20> [Periodic Behaviour] I'm idle, sending to monitor
-<13:20:23> [Periodic Behaviour] I'm idle, sending to monitor
-<13:20:26> [Periodic Behaviour] I'm idle, sending to monitor
+<17:08:12> [Auction process] ---> Running
+<17:08:12> [wait_until_id] I'm waiting until I receive my ID
+<17:08:12> [wait_until_id] I'm waiting until I receive my ID
+<17:08:12> [NewRobotHandler] Received other robot profile: host: localhost, port: 25556, 1
+<17:08:12> [NewRobotHandler] Received my own id: 2
+<17:08:12> [NewRobotHandler] Received other robot profile: host: localhost, port: 25556, 1
+<17:08:15> [Periodic Behaviour] I'm idle, sending to monitor
+<17:08:15> [NeTaskHandler] new task: 1
+<17:08:15> [LeaderAlgorithm] Starting a leader request process for task 1
+<17:08:15> [LeaderAlgorithm] Robot 2 requesting task 1, bid: 0.326727
+<17:08:15> [LeaderAlgorithm] Received bid 0.339811, and mine is 0.326727, giving up... 
+<17:08:18> [Periodic Behaviour] I'm idle, sending to monitor
+<17:08:18> [LeaderOfTaskHandler] Robot 1 is the new leader of task 1
+<17:08:18> [BidRequestMessageHandler]: Received a bid request from Robot1 for task 1. Replying with bid: 0.326727
+<17:08:21> [Periodic Behaviour] I'm idle, sending to monitor
+<17:08:21> [NonLeaderAuction] Received bid from 1 for task 1 with a bid of 1
+<17:08:24> [Periodic Behaviour] I'm idle, sending to monitor
+<17:08:27> [Periodic Behaviour] I'm idle, sending to monitor
+<17:08:27> [NonLeaderAuction] Best option: task 1 from leader 1 whose bid is 1
+<17:08:27> [NonLeaderAuction] Sending refuse to
+<17:08:28> [LeaderAliveMessageHandler] Received LEADER_ALIVE message from my group's leader (task: 1)Elapsed time since last time: 16559ms
+<17:08:30> [Periodic Behaviour] I'm a helper, sending to monitor and leader
+<17:08:31> [LeaderAliveMessageHandler] Received LEADER_ALIVE message from my group's leader (task: 1)Elapsed time since last time: 19559ms
+<17:08:33> [Periodic Behaviour] I'm a helper, sending to monitor and leader
+<17:08:34> [LeaderAliveMessageHandler] Received LEADER_ALIVE message from my group's leader (task: 1)Elapsed time since last time: 22559ms
+<17:08:36> [Periodic Behaviour] I'm a helper, sending to monitor and leader
+<17:08:37> [LeaderAliveMessageHandler] Received LEADER_ALIVE message from my group's leader (task: 1)Elapsed time since last time: 25559ms

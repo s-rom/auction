@@ -1,6 +1,29 @@
-<16:41:47> [Auction process] ---> Running
-<16:41:47> [wait_until_id] I'm waiting until I receive my ID
-<16:41:48> [wait_until_id] I'm waiting until I receive my ID
-<16:41:48> [NewRobotHandler] Received my own id: 1
-<16:41:48> [NewRobotHandler] Received other robot profile: host: localhost, port: 25556, 2
-<16:41:48> [NewRobotHandler] Received other robot profile: host: localhost, port: 25556, 2
+<17:19:23> [Auction process] ---> Running
+<17:19:23> [wait_until_id] I'm waiting until I receive my ID
+<17:19:23> [wait_until_id] I'm waiting until I receive my ID
+<17:19:23> [NewRobotHandler] Received other robot profile: host: localhost, port: 25556, 1
+<17:19:23> [NewRobotHandler] Received my own id: 2
+<17:19:23> [NewRobotHandler] Received other robot profile: host: localhost, port: 25556, 1
+<17:19:26> [Periodic Behaviour] I'm idle, sending to monitor
+<17:19:29> [Periodic Behaviour] I'm idle, sending to monitor
+<17:19:32> [Periodic Behaviour] I'm idle, sending to monitor
+<17:19:35> [NeTaskHandler] new task: 1
+<17:19:35> [LeaderAlgorithm] Starting a leader request process for task 1
+<17:19:35> [LeaderAlgorithm] Robot 2 requesting task 1, bid: 0.395205
+<17:19:35> [LeaderAlgorithm] Received bid 0.369398, but mine is 0.395205, resuming... 
+<17:19:35> [Periodic Behaviour] I'm idle, sending to monitor
+<17:19:38> [LeaderAlgorithm] I'm the new leader for task 1
+<17:19:38> [TaskAuction] Starting auction round for task 1
+<17:19:38> [AuctionForTask - Round 1] Received bid from Robot 1, with a bid of 0.369398
+<17:19:38> [Periodic Behaviour] I'm a leader, sending to monitor and helpers
+<17:19:41> [AuctionForTask - Round 1] End of round 1
+<17:19:41> [AuctionForTask - Round 2] ---> Selected group: 
+	Robot 1
+<17:19:41> [AuctionForTask - Round 2] Total group_work_capacity: 0.369398
+<17:19:41> [AuctionForTask - Round 2] Expected time: 16.2426
+<17:19:41> [AuctionForTask - Round 2] Task deadline: 10
+<17:19:41> [AuctionForTask - Round 2] TaskUtility(expected_deadline) <<Uj(DLgj)>>: 0.100826
+<17:19:41> [Periodic Behaviour] I'm a leader, sending to monitor and helpers
+<17:19:44> [Periodic Behaviour] I'm a leader, sending to monitor and helpers
+<17:19:47> [RobotAliveMessageHandler] Robot 1 is not found in the group. Accepted as a new helper
+<17:19:47> [Periodic Behaviour] I'm a leader, sending to monitor and helpers

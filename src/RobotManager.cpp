@@ -198,7 +198,13 @@ void RobotManager::periodic_behaviour(boost::atomic<bool> & running)
                 SimpleMessage leader_alive_msg(task_leader, this->id, MessageType::LEADER_ALIVE);
                 message_system.send_message_monitor(leader_alive_msg);
                 info_report << "[Periodic Behaviour] I'm a leader, sending to monitor and helpers\n";
-                //TODO: send message to helpers
+                
+                for (const auto & helper: group)
+                {
+                    int id = helper.first;
+                    message_system.send_message(leader_alive_msg, id);    
+                }
+
             } 
             // Helper
             else if (this->task_helper != NULL_TASK)
@@ -311,24 +317,23 @@ void RobotManager::bid_for_task_message_handler(BidMessage & bid_msg)
 
 void RobotManager::robot_alive_message_handler(SimpleMessage & robot_alive)
 {
-    // Si es lider y recibe robot_alive
-    //      Si no esta en el grupo, añadir al grupo: Resetear ultimo mensaje recibido
-    //      Si esta en el grupo, actualizar ultimo mensaje recibido
         
     if (this->task_leader != NULL_TASK)
     {
-        if (group.find(robot_alive.robot_src) != group.end())
+        if (group.find(robot_alive.robot_src) == group.end())
         {
+            group[robot_alive.robot_src] = Auction::RobotStatusInfo();
             info_report << "[RobotAliveMessageHandler] Robot "<<robot_alive.robot_src << 
             " is not found in the group. Accepted as a new helper\n";
         }
         else 
         {
+            group[robot_alive.robot_src].update_last_time_point();
             info_report << "[RobotAliveMessageHandler] Robot "<<robot_alive.robot_src << 
-            " is in the group. Updated the last time_point\n";
+            " is in the group. Time elapsed: "<<group[robot_alive.robot_src].get_elapsed_millis() << "\n";
         }
         
-        group[id] = std::chrono::system_clock::now();
+    
     }
 }
 
@@ -350,8 +355,7 @@ void RobotManager::leader_alive_message_handler(SimpleMessage & lead_alive)
     }
     else if (this->task_helper == lead_alive.task_id)
     {
-        float elapsed_time_lead_alive = duration_cast<std::chrono::milliseconds>
-            (system_clock::now() - this->last_leader_alive).count();
+        float elapsed_time_lead_alive = last_leader_alive.get_elapsed_millis();
         
         info_report << "[LeaderAliveMessageHandler] Received LEADER_ALIVE message from my group's leader (task: "<<task_helper<<")"
             << "Elapsed time since last time: " << elapsed_time_lead_alive << "ms\n";
@@ -579,7 +583,7 @@ void RobotManager::leader_task_auction(Task & t)
     }
 
     // Compute expected task's utility
-    float utility = t.utility_function(accumulated_deadline);
+    float utility = t.utility_function(accumulated_deadline * 1000); // pass in milliseconds
 
     // ---------------------------- DEBUG PURPOSES --------------------------------------
     info_report << "[AuctionForTask - Round 2] ---> Selected group: \n";

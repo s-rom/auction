@@ -230,9 +230,12 @@ private:
 
     InfoReporter info_report;
 
+    // group (helpers) elated
+    std::unordered_map<int, Auction::RobotStatusInfo> group;
+    
+    // leader related
     int current_leader = NULL_ID;
-    std::unordered_map<int, std::chrono::time_point<std::chrono::system_clock>> group;
-    std::chrono::time_point<std::chrono::system_clock> last_leader_alive;
+    Auction::RobotStatusInfo last_leader_alive;
 };
 
 #endif

@@ -4,6 +4,7 @@
 #include "Message.h"
 #include "Group.h"
 #include "RobotManager.h"
+#include "MathUtil.h"
 #include <vector>
 #include <unordered_map>
 #include <ctime>
@@ -43,13 +44,16 @@ public:
 
 int main(int argc, char ** argv)
 {
-    Auction::Task t(Auction::Point2D(0,0), Auction::Point2D(5,5), 1, 1, 3);
-    Auction::Group g(t, 1);
-    Auction::Group g2 = g;
-    g.add_helper(2);
-    g.add_helper(4);
-    std::cout << g.to_string() << std::endl;
-    std::cout << g2.to_string() << std::endl;
+    float deadline = 10;
+    float expected = 16.24;
+    float soft = Auction::soft_deadline_utility(deadline, 1, expected);
+    float hard = Auction::hard_deadline_utility(deadline, 1, expected);
+    
+    std::cout << "Expected: " << expected << "\n";
+    std::cout << "Deadline: " << deadline << "\n";
+    std::cout << "Soft: " << soft << "\n";
+    std::cout << "Hard: " << hard << "\n";
+    
 }
 
 void test_tuple()

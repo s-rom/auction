@@ -93,6 +93,7 @@ Message* MessageSystem::create_message_from(char * msg)
         case MessageType::ROBOT_ALIVE:
         case MessageType::LEADER_ALIVE:
         case MessageType::ROBOT_KILL:
+        case MessageType::HELPER_ALIVE:
             return new SimpleMessage(serialized_message);
             break;
     }

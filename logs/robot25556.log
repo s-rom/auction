@@ -1,12 +1,29 @@
-<16:41:38> [Auction process] ---> Running
-<16:41:38> [wait_until_id] I'm waiting until I receive my ID
-<16:41:38> [wait_until_id] I'm waiting until I receive my ID
-<16:41:38> [NewRobotHandler] Received other robot profile: host: localhost, port: 25557, 1
-<16:41:38> [NewRobotHandler] Received my own id: 2
-<16:41:38> [NewRobotHandler] Received other robot profile: host: localhost, port: 25557, 1
-<16:41:39> [NewRobotHandler] Received other robot profile: host: localhost, port: 25557, 1
-<16:41:41> [Periodic Behaviour] I'm idle, sending to monitor
-<16:41:44> [Periodic Behaviour] I'm idle, sending to monitor
-<16:41:47> [Periodic Behaviour] I'm idle, sending to monitor
-<16:41:47> [NewRobotHandler] Received other robot profile: host: localhost, port: 25557, 1
-<16:41:50> [Periodic Behaviour] I'm idle, sending to monitor
+<17:19:22> [Auction process] ---> Running
+<17:19:22> [wait_until_id] I'm waiting until I receive my ID
+<17:19:22> [wait_until_id] I'm waiting until I receive my ID
+<17:19:22> [wait_until_id] I'm waiting until I receive my ID
+<17:19:22> [wait_until_id] I'm waiting until I receive my ID
+<17:19:22> [wait_until_id] I'm waiting until I receive my ID
+<17:19:23> [wait_until_id] I'm waiting until I receive my ID
+<17:19:23> [wait_until_id] I'm waiting until I receive my ID
+<17:19:23> [wait_until_id] I'm waiting until I receive my ID
+<17:19:23> [NewRobotHandler] Received my own id: 1
+<17:19:23> [NewRobotHandler] Received other robot profile: host: localhost, port: 25557, 2
+<17:19:23> [NewRobotHandler] Received other robot profile: host: localhost, port: 25557, 2
+<17:19:25> [Periodic Behaviour] I'm idle, sending to monitor
+<17:19:28> [Periodic Behaviour] I'm idle, sending to monitor
+<17:19:31> [Periodic Behaviour] I'm idle, sending to monitor
+<17:19:34> [Periodic Behaviour] I'm idle, sending to monitor
+<17:19:35> [NeTaskHandler] new task: 1
+<17:19:35> [LeaderAlgorithm] Starting a leader request process for task 1
+<17:19:35> [LeaderAlgorithm] Robot 1 requesting task 1, bid: 0.369398
+<17:19:35> [LeaderAlgorithm] Received bid 0.395205, and mine is 0.369398, giving up... 
+<17:19:37> [Periodic Behaviour] I'm idle, sending to monitor
+<17:19:38> [LeaderOfTaskHandler] Robot 2 is the new leader of task 1
+<17:19:38> [BidRequestMessageHandler]: Received a bid request from Robot2 for task 1. Replying with bid: 0.369398
+<17:19:40> [Periodic Behaviour] I'm idle, sending to monitor
+<17:19:41> [NonLeaderAuction] Received bid from 2 for task 1 with a bid of 0.100826
+<17:19:43> [Periodic Behaviour] I'm idle, sending to monitor
+<17:19:46> [Periodic Behaviour] I'm idle, sending to monitor
+<17:19:47> [NonLeaderAuction] Best option: task 1 from leader 2 whose bid is 0.100826
+<17:19:47> [NonLeaderAuction] Sending refuse to
