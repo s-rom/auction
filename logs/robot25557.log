@@ -1,29 +1,17 @@
-<15:16:34> [Auction process] ---> Running
-<15:16:34> [wait_until_id] I'm waiting until I receive my ID
-<15:16:35> [wait_until_id] I'm waiting until I receive my ID
-<15:16:35> [NewRobotHandler] Received other robot profile: host: localhost, port: 25556, 1
-<15:16:35> [NewRobotHandler] Received my own id: 2
-<15:16:35> [NewRobotHandler] Received other robot profile: host: localhost, port: 25556, 1
-<15:16:35> [NewRobotHandler] Received other robot profile: host: localhost, port: 25556, 1
-<15:16:36> [NewRobotHandler] Received other robot profile: host: localhost, port: 25556, 1
-<15:16:36> [NewRobotHandler] Received other robot profile: host: localhost, port: 25556, 1
-<15:16:36> [NewRobotHandler] Received other robot profile: host: localhost, port: 25556, 1
-<15:16:36> [NewRobotHandler] Received other robot profile: host: localhost, port: 25556, 1
-<15:16:37> [Periodic Behaviour] I'm idle, sending to monitor
-<15:16:40> [Periodic Behaviour] I'm idle, sending to monitor
-<15:16:40> [NeTaskHandler] new task: 1
-<15:16:40> [LeaderAlgorithm] Starting a leader request process for task 1
-<15:16:40> [LeaderAlgorithm] Robot 2 requesting task 1, bid: 0.346755
-<15:16:40> [LeaderAlgorithm] Received bid 0.35898, and mine is 0.346755, giving up... 
-<15:16:43> [Periodic Behaviour] I'm idle, sending to monitor
-<15:16:43> [LeaderOfTaskHandler] Robot 1 is the new leader of task 1
-<15:16:43> [BidRequestMessageHandler]: Received a bid request from Robot1 for task 1. Replying with bid: 0.346755
-<15:16:46> [Periodic Behaviour] I'm idle, sending to monitor
-<15:16:46> [NonLeaderAuction] Received bid from 1 for task 1 with a bid of 0.313126
-<15:16:49> [Periodic Behaviour] I'm idle, sending to monitor
-<15:16:52> [Periodic Behaviour] I'm idle, sending to monitor
-<15:16:52> [NonLeaderAuction] Best option: task 1 from leader 1 whose bid is 0.313126
-<15:16:52> [NonLeaderAuction] Sending refuse to
-<15:16:55> [Periodic Behaviour] I'm a helper, sending to monitor and leader
-<15:16:58> [Periodic Behaviour] I'm a helper, sending to monitor and leader
-<15:16:59> [RobotAuction]: Killed by SIGINT
+<17:25:21> [Auction process] ---> Running
+<17:25:21> [wait_until_id] I'm waiting until I receive my ID
+<17:25:22> [wait_until_id] I'm waiting until I receive my ID
+<17:25:22> [NewRobotHandler] Received other robot profile: host: localhost, port: 25556, 1
+<17:25:22> [NewRobotHandler] Received my own id: 2
+<17:25:22> [NewRobotHandler] Received other robot profile: host: localhost, port: 25556, 1
+<17:25:23> [NewRobotHandler] Received other robot profile: host: localhost, port: 25556, 1
+<17:25:23> [NewRobotHandler] Received other robot profile: host: localhost, port: 25556, 1
+<17:25:23> [NewRobotHandler] Received other robot profile: host: localhost, port: 25556, 1
+<17:25:24> [Periodic Behaviour] I'm idle, sending to monitor
+<17:25:27> [Periodic Behaviour] I'm idle, sending to monitor
+<17:25:30> [Periodic Behaviour] I'm idle, sending to monitor
+<17:25:33> [Periodic Behaviour] I'm idle, sending to monitor
+<17:25:36> [Periodic Behaviour] I'm idle, sending to monitor
+<17:25:39> [Periodic Behaviour] I'm idle, sending to monitor
+<17:25:42> [Periodic Behaviour] I'm idle, sending to monitor
+<17:25:42> [RobotAuction]: Killed by SIGINT

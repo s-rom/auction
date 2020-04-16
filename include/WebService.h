@@ -42,6 +42,8 @@ private:
     std::string get_json_float(std::string var, float value);
 
     std::string json_robot_info(int robot_id);
+    std::string json_task_info(int task_id);
+
 
     const std::string COMMA = ",";
     const std::string ENDL = "\n";

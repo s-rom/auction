@@ -24,6 +24,7 @@ struct Auction::Task
     float task_work_load;    // Weigh units of the task object
     float dead_line;         // Deadline of the task, in milliseconds
 
+
     Auction::DeadlineType deadline_type = Auction::DeadlineType::SOFT;
 
     /**

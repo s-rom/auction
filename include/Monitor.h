@@ -10,6 +10,7 @@
 #include "SafeQueue.h"
 #include "InfoReporter.h"
 #include "RobotStatus.h"
+#include "TaskStatus.h"
 
 #include <boost/atomic/atomic.hpp>
 #include <boost/thread.hpp>
@@ -45,10 +46,16 @@ public:
     Auction::MessageSystem message_system;
     Auction::InfoReporter info_report;
     std::unordered_map<int, Auction::RobotStatusInfo> robot_status;
+    std::unordered_map<int, std::pair<Auction::Task, Auction::TaskStatus>> task_list;
 
     int get_number_of_robots()
     {
         return num_of_robots;
+    }
+
+    int get_number_of_tasks()
+    {
+        return num_of_tasks;
     }
 
     

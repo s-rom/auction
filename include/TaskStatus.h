@@ -3,7 +3,7 @@
 
 namespace Auction
 {
-    enum class TaskStatus { WAITING, AUCTIONING, CONDUCTING, COMPLETED};
+    enum TaskStatus { WAITING, AUCTIONING, CONDUCTING, COMPLETED};
     class TaskStatusInfo;
 }
 

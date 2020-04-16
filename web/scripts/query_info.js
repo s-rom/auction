@@ -3,8 +3,16 @@ var server_root = "http://localhost:8080/monitor";
 
 $(document).ready(function(){
     $('#status_info').text('Waiting for monitor process to start...');
-    setInterval(request_robots_info, 1000);
+    setInterval(request_info, 1000);
 })
+
+
+function request_info()
+{
+    request_robots_info();
+    request_tasks_info();
+    $('#status_info').hide();
+}
 
 function add_new_task() {
     workload = $('#workload').val();
@@ -29,7 +37,6 @@ function on_click_kill(id) {
 function request_robots_info() {
     $.ajax({url: server_root+"/get_robots_info",
         success: function (result) {
-            $('#status_info').text(result);
             //console.log("Response: "+result);
             $('#robots_table_body').empty();
 
@@ -66,6 +73,53 @@ function request_robots_info() {
                             +net_status+'</td>'
                             +'<td>UNKNOWN</td>'
                             +button+'</td>'
+                            +'</tr>');
+                    
+                    
+                }
+            }
+            catch(e){
+                //console.log("Output is not valid json");
+            }
+        }
+    });
+}
+
+function request_tasks_info() {
+    $.ajax({url: server_root+"/get_tasks_info",
+        error: function(result){
+        },
+        success: function (result) {
+            $('#tasks_table_body').empty();
+            try{
+                tasks_info = JSON.parse(result);
+
+                for (let i = 0; i < tasks_info.tasks.length; i++){
+                    
+                    let id = tasks_info.tasks[i].id;
+                    let workload = tasks_info.tasks[i].workload;
+                    let delivery = tasks_info.tasks[i].delivery;
+                    let goal = tasks_info.tasks[i].goal;
+                    let deadline = tasks_info.tasks[i].deadline;
+                    let status = tasks_info.tasks[i].status;
+
+                    console.log("----- Task "+id+"-----");
+                    console.log(workload);
+                    console.log(delivery);
+                    console.log(goal);
+                    console.log(deadline);
+                    console.log(status);
+
+                    row_class = "table-default";
+
+                    $('#task_table> tbody:last-child').
+                    append('<tr class=\''+row_class+'\'><td>'
+                            +id+'</td><td>'
+                            +workload.toFixed(1)+'</td><td>'
+                            +delivery+'</td><td>'
+                            +goal+'</td><td>'
+                            +(deadline / 1000.0).toFixed(1)+'</td><td>'
+                            +status+'</td>'
                             +'</tr>');
                     
                     

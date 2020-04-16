@@ -97,6 +97,10 @@ void Monitor::new_task_message_handler(Auction::NewTaskMessage & new_task)
 {
     info_report << "[NewRobotMessageHandler]: Received new task from web service.";
     new_task.t.task_id = next_task_id();
+
+    auto pair_task = std::make_pair(new_task.t, TaskStatus::WAITING);
+    task_list[new_task.t.task_id] = pair_task;
+
     info_report << "Broadcasting as task "<< new_task.t.task_id << "\n";
     message_system.broadcast_message(new_task);
 }
@@ -108,6 +112,9 @@ void Monitor::leader_alive_message_handler(Auction::SimpleMessage & leader_alive
 
     Auction::RobotStatusInfo & info = this->robot_status[leader_alive.robot_src];
     
+    
+    // TODO: Change task status in task_list
+
     info.update_last_time_point();   
     info.first_time_point = false;
 }

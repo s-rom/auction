@@ -40,7 +40,13 @@ struct Auction::Point2D
 	 */
 	string to_string()
 	{
-		return "(" + std::to_string(this->x) + "," + std::to_string(this->y) + ")";
+		std::string x_str = std::to_string(this->x);
+		std::string y_str = std::to_string(this->y);
+
+    	std::string rounded_x = x_str.substr(0, x_str.find(".")+2);
+		std::string rounded_y = y_str.substr(0, y_str.find(".")+2);
+
+		return "(" + rounded_x + ", " + rounded_y + ")";
 	}
 
 	/**

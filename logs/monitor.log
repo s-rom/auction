@@ -1,19 +1,37 @@
-<15:16:31> [Message thread] ---> running
-<15:16:31> [Monitor] --> listening on port 25555
+<17:20:50> [Message thread] ---> running
+<17:20:50> [Monitor] --> listening on port 25555
+<17:21:00> [NewRobotMessageHandler]: Received new task from web service.Broadcasting as task 1
+<17:21:22> [NewRobotMessageHandler]: Received new task from web service.Broadcasting as task 2
+Received NewRobot message from host: localhost, port: 25556
 Received NewRobot message from host: localhost, port: 25556
 Received NewRobot message from host: localhost, port: 25556
 Received NewRobot message from host: localhost, port: 25557
 Received NewRobot message from host: localhost, port: 25557
-Received NewRobot message from host: localhost, port: 25556
 Received NewRobot message from host: localhost, port: 25557
-<15:16:40> [NewRobotMessageHandler]: Received new task from web service.Broadcasting as task 1
-<15:16:45> [LeaderAliveMessageHandler] Received from 1 who is leading task 1
-<15:16:48> [LeaderAliveMessageHandler] Received from 1 who is leading task 1
-<15:16:51> [LeaderAliveMessageHandler] Received from 1 who is leading task 1
-<15:16:54> [LeaderAliveMessageHandler] Received from 1 who is leading task 1
-<15:16:57> [LeaderAliveMessageHandler] Received from 1 who is leading task 1
-<15:17:00> [LeaderAliveMessageHandler] Received from 1 who is leading task 1
-<15:17:01> [CheckRobotStatus]: Robot 2 is considered dead
-<15:17:03> [LeaderAliveMessageHandler] Received from 1 who is leading task 1
-<15:17:06> [CheckRobotStatus]: Robot 1 is considered dead
-<15:17:08> [Monitor] <--- killed by SIGINT
+<17:25:40> [KillRobotMessageHandler]: Received an order to kill robot 1
+<17:25:40> [KillRobotMessageHandler]: Sending kill robot to robot 1
+<17:25:40> [KillRobotMessageHandler]: #10#-1#1#
+<17:25:42> [KillRobotMessageHandler]: Received an order to kill robot 2
+<17:25:42> [KillRobotMessageHandler]: Sending kill robot to robot 2
+<17:25:42> [KillRobotMessageHandler]: #10#-1#2#
+Received NewRobot message from host: localhost, port: 25556
+Received NewRobot message from host: localhost, port: 25556
+Received NewRobot message from host: localhost, port: 25556
+Received NewRobot message from host: localhost, port: 25558
+Received NewRobot message from host: localhost, port: 25558
+Received NewRobot message from host: localhost, port: 25558
+<17:28:11> [NewRobotMessageHandler]: Received new task from web service.Broadcasting as task 3
+<17:28:16> [LeaderAliveMessageHandler] Received from 3 who is leading task 3
+<17:28:19> [LeaderAliveMessageHandler] Received from 3 who is leading task 3
+<17:28:22> [LeaderAliveMessageHandler] Received from 3 who is leading task 3
+<17:28:25> [LeaderAliveMessageHandler] Received from 3 who is leading task 3
+<17:28:28> [LeaderAliveMessageHandler] Received from 3 who is leading task 3
+<17:28:31> [LeaderAliveMessageHandler] Received from 3 who is leading task 3
+<17:28:34> [LeaderAliveMessageHandler] Received from 3 who is leading task 3
+<17:28:37> [LeaderAliveMessageHandler] Received from 3 who is leading task 3
+<17:28:40> [LeaderAliveMessageHandler] Received from 3 who is leading task 3
+<17:28:43> [LeaderAliveMessageHandler] Received from 3 who is leading task 3
+<17:28:46> [LeaderAliveMessageHandler] Received from 3 who is leading task 3
+<17:28:49> [LeaderAliveMessageHandler] Received from 3 who is leading task 3
+<17:28:52> [LeaderAliveMessageHandler] Received from 3 who is leading task 3
+<17:28:52> [Monitor] <--- killed by SIGINT

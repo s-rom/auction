@@ -12,7 +12,7 @@ MonitorApplication::MonitorApplication(cppcms::service &srv)
 
 void MonitorApplication::robot_info_response()
 {
-        response().set_header("Access-Control-Allow-Origin","*");
+    response().set_header("Access-Control-Allow-Origin","*");
 
     Auction::Monitor & m = *(this->monitor);
     if (m.get_number_of_robots() == 0)
@@ -65,8 +65,57 @@ std::string MonitorApplication::json_robot_info(int robot_id)
     return robot_json;
 }
 
+std::string MonitorApplication::json_task_info(int task_id)
+{
+    if (task_id <= 0) return nullptr;
+
+    auto & task_pair = monitor->task_list[task_id];
+    Auction::Task & t = task_pair.first; 
+
+    std::vector<std::string> status_names;
+    status_names.push_back("WAITING");
+    status_names.push_back("AUCTIONING");
+    status_names.push_back("CONDUCTING");
+    status_names.push_back("COMPLETED");
+
+
+    std::string task_json = "{";
+    task_json += get_json_int("id",task_id) + COMMA + ENDL;
+    task_json += get_json_float("workload", t.task_work_load) + COMMA + ENDL;
+    task_json += get_json_string("delivery", t.delivery_point.to_string()) + COMMA + ENDL;
+    task_json += get_json_string("goal", t.task_location.to_string()) + COMMA + ENDL;
+    task_json += get_json_float("deadline", t.dead_line) + COMMA + ENDL;
+    task_json += get_json_string("status", status_names[task_pair.second]) + ENDL;
+    task_json += "}";
+    return task_json;
+}
+
+
+
 void MonitorApplication::task_info_response()
 {
+    response().set_header("Access-Control-Allow-Origin","*");
+
+    Auction::Monitor & m = *(this->monitor);
+    if (m.task_list.size() == 0)
+    {
+        response().out() << "No hay tareas en el sistema";
+        return;
+    }
+
+    std::string resp = "{\"tasks\":[";
+    for (int id = 1; id <= m.get_number_of_tasks(); id++)
+    {
+        resp += json_task_info(id);
+
+        if (id < m.get_number_of_tasks()) resp += COMMA;
+        
+        resp += ENDL;
+
+    }
+    resp += "]}";
+
+    response().out() << resp;
 
 }
 
@@ -113,6 +162,10 @@ void MonitorApplication::set_dispatcher_mappings()
 
     dispatcher().assign("/robot_kill/(\\d+)", &MonitorApplication::robot_kill_response, this, 1); 
     mapper().assign("robot_kill","/robot_kill/{1}");  
+
+    dispatcher().assign("/get_tasks_info",&MonitorApplication::task_info_response, this);  
+    mapper().assign("get_tasks_info","/get_tasks_info");
+
 
     mapper().root("/monitor");
 }
