@@ -118,9 +118,14 @@ public:
     void non_leader_task_auction(Task & t, BidMessage m);
 
     /**
-     * Closes InfoReporter member's file if open 
+     * Closes InfoReporter member's file if it's open 
      */
     void close_info_reporter();
+
+    /**
+     * Writes a final message and closes InfoReporter member's file if it's open 
+     */
+    void close_info_reporter(const std::string & message);
 
 
     /**
@@ -205,6 +210,8 @@ private:
      */
     void helper_alive_message_handler(SimpleMessage & lead_alive);
 
+
+    void check_robots_status();
 
     void wait_until_id(long millis);
 

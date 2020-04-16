@@ -1,12 +1,19 @@
-<17:19:20> [Message thread] ---> running
-<17:19:20> [Monitor] --> listening on port 25555
+<15:16:31> [Message thread] ---> running
+<15:16:31> [Monitor] --> listening on port 25555
+Received NewRobot message from host: localhost, port: 25556
 Received NewRobot message from host: localhost, port: 25556
 Received NewRobot message from host: localhost, port: 25557
-<17:19:35> [NewRobotMessageHandler]: Received new task from web service.Broadcasting as task 1
-<17:19:38> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
-<17:19:41> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
-<17:19:44> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
-<17:19:47> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
-<17:19:49> [CheckRobotStatus]: Robot 1 is considered dead
-<17:19:50> [CheckRobotStatus]: Robot 2 is considered dead
-<17:19:50> [Monitor] <--- killed by SIGINT
+Received NewRobot message from host: localhost, port: 25557
+Received NewRobot message from host: localhost, port: 25556
+Received NewRobot message from host: localhost, port: 25557
+<15:16:40> [NewRobotMessageHandler]: Received new task from web service.Broadcasting as task 1
+<15:16:45> [LeaderAliveMessageHandler] Received from 1 who is leading task 1
+<15:16:48> [LeaderAliveMessageHandler] Received from 1 who is leading task 1
+<15:16:51> [LeaderAliveMessageHandler] Received from 1 who is leading task 1
+<15:16:54> [LeaderAliveMessageHandler] Received from 1 who is leading task 1
+<15:16:57> [LeaderAliveMessageHandler] Received from 1 who is leading task 1
+<15:17:00> [LeaderAliveMessageHandler] Received from 1 who is leading task 1
+<15:17:01> [CheckRobotStatus]: Robot 2 is considered dead
+<15:17:03> [LeaderAliveMessageHandler] Received from 1 who is leading task 1
+<15:17:06> [CheckRobotStatus]: Robot 1 is considered dead
+<15:17:08> [Monitor] <--- killed by SIGINT

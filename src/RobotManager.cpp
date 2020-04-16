@@ -31,6 +31,13 @@ RobotManager::RobotManager()
 }
 
 
+
+void RobotManager::close_info_reporter(const std::string & message)
+{
+    info_report << message;
+    info_report.close();
+}
+
 void RobotManager::close_info_reporter()
 {
     info_report.close();
@@ -148,7 +155,7 @@ void RobotManager::auction_process(boost::atomic<bool> & running)
 {
     info_report << "[Auction process] ---> Running" << "\n";
 
-    wait_until_id(200);
+    wait_until_id(1000);
     process_message_queue(running);
     
 }
@@ -158,6 +165,7 @@ void RobotManager::wait_until_id(long millis)
     while (this->id == NULL_ID)
     {
         info_report << "[wait_until_id] I'm waiting until I receive my ID\n";
+
         auto it = message_queue.begin();
         auto end = message_queue.end();
         while (it != end)
@@ -171,6 +179,9 @@ void RobotManager::wait_until_id(long millis)
             }
             it++;
         }
+
+        NewRobotMessage new_robot_send(NULL_ID, this->message_system.net_info);
+        message_system.send_message_monitor(new_robot_send);
 
         boost::this_thread::sleep_for(boost::chrono::milliseconds(millis));
     }
@@ -186,6 +197,7 @@ void RobotManager::periodic_behaviour(boost::atomic<bool> & running)
     while (running)
     {
         if (this->id == NULL_ID) continue;
+        check_robots_status();
         
         if (delta_time >= RobotStatusInfo::TIME_LEAD_ALIVE_MILLIS){
 
@@ -197,13 +209,17 @@ void RobotManager::periodic_behaviour(boost::atomic<bool> & running)
             {
                 SimpleMessage leader_alive_msg(task_leader, this->id, MessageType::LEADER_ALIVE);
                 message_system.send_message_monitor(leader_alive_msg);
-                info_report << "[Periodic Behaviour] I'm a leader, sending to monitor and helpers\n";
+                info_report << "[Periodic Behaviour] I'm a leader, sending to monitor and ALL robots\n";
                 
-                for (const auto & helper: group)
-                {
-                    int id = helper.first;
-                    message_system.send_message(leader_alive_msg, id);    
-                }
+                message_system.broadcast_message(leader_alive_msg);
+
+
+
+                // for (const auto & helper: group)
+                // {
+                //     int id = helper.first;
+                //     message_system.send_message(leader_alive_msg, id);    
+                // }
 
             } 
             // Helper
@@ -228,6 +244,54 @@ void RobotManager::periodic_behaviour(boost::atomic<bool> & running)
         
         delta_time = duration_cast<std::chrono::milliseconds>
             (system_clock::now() - time_init).count();    
+    }
+}
+
+
+void RobotManager::check_robots_status()
+{
+    // Helper
+    if (this->task_helper != NULL_TASK)
+    {
+        float elapsed = this->last_leader_alive.get_elapsed_millis();
+        if (!last_leader_alive.first_time_point && 
+            elapsed > RobotStatusInfo::TIME_LEAD_ALIVE_MILLIS + 2 * RobotStatusInfo::TOLERANCE)
+        {
+            info_report << "[CheckRobotStatus] Leader of my task is not responding. (Elapsed:"
+                        << elapsed  
+                        << "ms)Exiting group\n";
+            
+            // Set state idle
+            this->task_leader = NULL_TASK;
+            this->task_helper = NULL_TASK;
+            this->current_leader = NULL_ID;
+        }
+
+        // TODO: cancel task
+        return;
+    } 
+
+    // Leader
+    if (this->task_leader != NULL_TASK)
+    {
+        for (auto & helper : this->group)
+        {
+            bool first_time = helper.second.first_time_point;
+            float elapsed = helper.second.get_elapsed_millis();
+            int id = helper.first;
+            RobotStatus status = helper.second.current_status;
+
+            if (!first_time && 
+                status != RobotStatus::DEAD &&
+                elapsed > RobotStatusInfo::TIME_LEAD_ALIVE_MILLIS + 2 * RobotStatusInfo::TOLERANCE)
+            {
+                info_report << "[CheckRobotStatus] Helper "<< id << " is considered dead. Removing from group...\n";
+                this->group[id].current_status = RobotStatus::DEAD; 
+            }
+
+        }
+
+        return;
     }
 }
 
@@ -315,32 +379,33 @@ void RobotManager::bid_for_task_message_handler(BidMessage & bid_msg)
 
 }
 
+
+
+
 void RobotManager::robot_alive_message_handler(SimpleMessage & robot_alive)
 {
-        
-    if (this->task_leader != NULL_TASK)
+    if (this->task_leader == NULL_TASK) return;
+
+    if (group.find(robot_alive.robot_src) == group.end())
     {
-        if (group.find(robot_alive.robot_src) == group.end())
-        {
-            group[robot_alive.robot_src] = Auction::RobotStatusInfo();
-            info_report << "[RobotAliveMessageHandler] Robot "<<robot_alive.robot_src << 
-            " is not found in the group. Accepted as a new helper\n";
-        }
-        else 
-        {
-            group[robot_alive.robot_src].update_last_time_point();
-            info_report << "[RobotAliveMessageHandler] Robot "<<robot_alive.robot_src << 
-            " is in the group. Time elapsed: "<<group[robot_alive.robot_src].get_elapsed_millis() << "\n";
-        }
-        
-    
+        group[robot_alive.robot_src] = Auction::RobotStatusInfo();
+        info_report << "[RobotAliveMessageHandler] Robot "<<robot_alive.robot_src << 
+        " is not found in the group. Accepted as a new helper\n";
     }
+    else 
+    {
+        info_report << "[RobotAliveMessageHandler] Robot "<<robot_alive.robot_src << 
+        " is in the group. Time elapsed: "<<group[robot_alive.robot_src].get_elapsed_millis() << "\n";
+        group[robot_alive.robot_src].update_last_time_point();
+        group[robot_alive.robot_src].first_time_point = false;
+    }
+
 }
 
 void RobotManager::leader_alive_message_handler(SimpleMessage & lead_alive)
 {
     
-    // Leader duplicity
+    // Leading same task
     if (this->task_leader == lead_alive.task_id)
     {  
         info_report << "[LeaderAliveMessageHandler] Leader duplicity for task " << this->task_leader;
@@ -353,12 +418,11 @@ void RobotManager::leader_alive_message_handler(SimpleMessage & lead_alive)
             info_report << "I will resume leadership\n";
         }
     }
+    // Helping same task
     else if (this->task_helper == lead_alive.task_id)
     {
-        float elapsed_time_lead_alive = last_leader_alive.get_elapsed_millis();
-        
-        info_report << "[LeaderAliveMessageHandler] Received LEADER_ALIVE message from my group's leader (task: "<<task_helper<<")"
-            << "Elapsed time since last time: " << elapsed_time_lead_alive << "ms\n";
+        last_leader_alive.first_time_point = false;
+        last_leader_alive.update_last_time_point();
     }
     
 
@@ -546,7 +610,7 @@ void RobotManager::leader_task_auction(Task & t)
 
     // Sort the set (descending) by bid (second element) 
     std::sort(group_bid.begin(), group_bid.end(), sort_descending_by_second);
-    // Deadline to be acomplished, DLj --> must be in seconds, not milliseconds
+    // Deadline to be acomplished, DLj
     float goal_deadline = t.dead_line / 1000.0f;
     
     // Large enough number to be considered infinity
@@ -592,8 +656,8 @@ void RobotManager::leader_task_auction(Task & t)
         info_report << "\tRobot "<< *it << "\n";
     }
     info_report << "[AuctionForTask - Round 2] Total group_work_capacity: " << accum_group_work_capacity << "\n";
-    info_report << "[AuctionForTask - Round 2] Expected time: " << accumulated_deadline << "\n";
-    info_report << "[AuctionForTask - Round 2] Task deadline: " << goal_deadline << "\n"; 
+    info_report << "[AuctionForTask - Round 2] Expected time: " << accumulated_deadline << "s\n";
+    info_report << "[AuctionForTask - Round 2] Task deadline: " << goal_deadline << "s\n"; 
     info_report << "[AuctionForTask - Round 2] TaskUtility(expected_deadline) <<Uj(DLgj)>>: "<< utility << "\n";
     //------------------------------------------------------------------------------------
 
@@ -685,6 +749,8 @@ void RobotManager::non_leader_task_auction(Task & t, BidMessage first_bid)
     task_helper = best_task;
     current_leader = best_leader;
 
+    last_leader_alive.first_time_point = true;
+    last_leader_alive.update_last_time_point();
 
     auto it = leader_bids.begin();
     auto end = leader_bids.end();

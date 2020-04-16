@@ -22,8 +22,7 @@ void sigint_handler(int signal)
 {
     std::cout <<"\nNode killed by user. Shuting down..."<<std::endl;
     running = false;
-    r_ptr->close_info_reporter();
-    // ros::shutdown();
+    r_ptr->close_info_reporter("[RobotAuction]: Killed by SIGINT\n");
     exit(0);
 }
 

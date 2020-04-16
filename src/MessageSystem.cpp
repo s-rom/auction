@@ -102,13 +102,13 @@ Message* MessageSystem::create_message_from(char * msg)
 
 void MessageSystem::broadcast_message(Message &m)
 {
-    std::cout << "Broadcasting to:"<<std::endl;
+    // std::cout << "Broadcasting to:"<<std::endl;
     auto it = net_list.begin();
     auto end = net_list.end();
     while (it != end)
     {
         std::pair<int,NetProfile> element = *it;
-        std::cout << "\tRobot "<<element.first<<"\t"<<element.second.to_string() << std::endl;
+        // std::cout << "\tRobot "<<element.first<<"\t"<<element.second.to_string() << std::endl;
         send_message(m,element.second);
         it++;
     }

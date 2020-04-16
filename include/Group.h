@@ -10,6 +10,8 @@
 namespace Auction 
 {
     struct Group;
+
+    enum class ROBOT_ROLE { LEADING, HELPING, IDLE };
 }
 
 
