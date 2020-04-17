@@ -1,37 +1,20 @@
-<17:20:50> [Message thread] ---> running
-<17:20:50> [Monitor] --> listening on port 25555
-<17:21:00> [NewRobotMessageHandler]: Received new task from web service.Broadcasting as task 1
-<17:21:22> [NewRobotMessageHandler]: Received new task from web service.Broadcasting as task 2
+<11:35:42> [Message thread] ---> running
+<11:35:42> [Monitor] --> listening on port 25555
 Received NewRobot message from host: localhost, port: 25556
 Received NewRobot message from host: localhost, port: 25556
 Received NewRobot message from host: localhost, port: 25556
 Received NewRobot message from host: localhost, port: 25557
 Received NewRobot message from host: localhost, port: 25557
 Received NewRobot message from host: localhost, port: 25557
-<17:25:40> [KillRobotMessageHandler]: Received an order to kill robot 1
-<17:25:40> [KillRobotMessageHandler]: Sending kill robot to robot 1
-<17:25:40> [KillRobotMessageHandler]: #10#-1#1#
-<17:25:42> [KillRobotMessageHandler]: Received an order to kill robot 2
-<17:25:42> [KillRobotMessageHandler]: Sending kill robot to robot 2
-<17:25:42> [KillRobotMessageHandler]: #10#-1#2#
-Received NewRobot message from host: localhost, port: 25556
-Received NewRobot message from host: localhost, port: 25556
-Received NewRobot message from host: localhost, port: 25556
 Received NewRobot message from host: localhost, port: 25558
 Received NewRobot message from host: localhost, port: 25558
 Received NewRobot message from host: localhost, port: 25558
-<17:28:11> [NewRobotMessageHandler]: Received new task from web service.Broadcasting as task 3
-<17:28:16> [LeaderAliveMessageHandler] Received from 3 who is leading task 3
-<17:28:19> [LeaderAliveMessageHandler] Received from 3 who is leading task 3
-<17:28:22> [LeaderAliveMessageHandler] Received from 3 who is leading task 3
-<17:28:25> [LeaderAliveMessageHandler] Received from 3 who is leading task 3
-<17:28:28> [LeaderAliveMessageHandler] Received from 3 who is leading task 3
-<17:28:31> [LeaderAliveMessageHandler] Received from 3 who is leading task 3
-<17:28:34> [LeaderAliveMessageHandler] Received from 3 who is leading task 3
-<17:28:37> [LeaderAliveMessageHandler] Received from 3 who is leading task 3
-<17:28:40> [LeaderAliveMessageHandler] Received from 3 who is leading task 3
-<17:28:43> [LeaderAliveMessageHandler] Received from 3 who is leading task 3
-<17:28:46> [LeaderAliveMessageHandler] Received from 3 who is leading task 3
-<17:28:49> [LeaderAliveMessageHandler] Received from 3 who is leading task 3
-<17:28:52> [LeaderAliveMessageHandler] Received from 3 who is leading task 3
-<17:28:52> [Monitor] <--- killed by SIGINT
+Received NewRobot message from host: localhost, port: 25559
+Received NewRobot message from host: localhost, port: 25559
+Received NewRobot message from host: localhost, port: 25559
+<11:36:21> [NewRobotMessageHandler]: Received new task from web service.Broadcasting as task 1
+<11:36:26> [LeaderAliveMessageHandler] Received from 3 who is leading task 1
+<11:36:29> [LeaderAliveMessageHandler] Received from 3 who is leading task 1
+<11:36:33> [LeaderAliveMessageHandler] Received from 3 who is leading task 1
+<11:36:36> [LeaderAliveMessageHandler] Received from 3 who is leading task 1
+<11:36:38> [Monitor] <--- killed by SIGINT

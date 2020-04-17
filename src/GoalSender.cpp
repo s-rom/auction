@@ -17,8 +17,6 @@
 typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseClient;
 
 
-boost::atomic<bool> any_goal(false);
-
 boost::atomic<Auction::Point2D> goal(Auction::Point2D(0, 0));
 boost::atomic<Auction::Point2D> delivery(Auction::Point2D(-5,-5));
 boost::atomic<Auction::Point2D> * current;
@@ -84,18 +82,15 @@ void goal_management_loop()
         ROS_INFO_STREAM("Sending goal to "<<current_goal.x<<","<<current_goal.y<<"\n");
         ac->sendGoal(goal_msg);
         ac->waitForResult();
-        if (ac->getState() == actionlib::SimpleClientGoalState::SUCCEEDED)
-        {
-            ROS_INFO("Goal achieved!");
-        }
-        else
-        {
-            ROS_INFO("Goal not achieved");
-        }
-
-
+        // if (ac->getState() == actionlib::SimpleClientGoalState::SUCCEEDED)
+        // {
+        //     ROS_INFO("Goal achieved!");
+        // }
+        // else
+        // {
+        //     ROS_INFO("Goal not achieved");
+        // }
     }
-
 }
 
 

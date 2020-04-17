@@ -1,17 +1,52 @@
-<17:25:21> [Auction process] ---> Running
-<17:25:21> [wait_until_id] I'm waiting until I receive my ID
-<17:25:22> [wait_until_id] I'm waiting until I receive my ID
-<17:25:22> [NewRobotHandler] Received other robot profile: host: localhost, port: 25556, 1
-<17:25:22> [NewRobotHandler] Received my own id: 2
-<17:25:22> [NewRobotHandler] Received other robot profile: host: localhost, port: 25556, 1
-<17:25:23> [NewRobotHandler] Received other robot profile: host: localhost, port: 25556, 1
-<17:25:23> [NewRobotHandler] Received other robot profile: host: localhost, port: 25556, 1
-<17:25:23> [NewRobotHandler] Received other robot profile: host: localhost, port: 25556, 1
-<17:25:24> [Periodic Behaviour] I'm idle, sending to monitor
-<17:25:27> [Periodic Behaviour] I'm idle, sending to monitor
-<17:25:30> [Periodic Behaviour] I'm idle, sending to monitor
-<17:25:33> [Periodic Behaviour] I'm idle, sending to monitor
-<17:25:36> [Periodic Behaviour] I'm idle, sending to monitor
-<17:25:39> [Periodic Behaviour] I'm idle, sending to monitor
-<17:25:42> [Periodic Behaviour] I'm idle, sending to monitor
-<17:25:42> [RobotAuction]: Killed by SIGINT
+<11:35:50> [Auction process] ---> Running
+<11:35:50> [wait_until_id] I'm waiting until I receive my ID
+<11:35:51> [wait_until_id] I'm waiting until I receive my ID
+<11:35:51> [NewRobotHandler] Received other robot profile: host: localhost, port: 25556, 1
+<11:35:51> [NewRobotHandler] Received my own id: 2
+<11:35:51> [NewRobotHandler] Received other robot profile: host: localhost, port: 25556, 1
+<11:35:52> [NewRobotHandler] Received other robot profile: host: localhost, port: 25556, 1
+<11:35:52> [NewRobotHandler] Received other robot profile: host: localhost, port: 25556, 1
+<11:35:52> [NewRobotHandler] Received other robot profile: host: localhost, port: 25556, 1
+<11:35:53> [Periodic Behaviour] I'm idle, sending to monitor
+<11:35:53> [NewRobotHandler] Received other robot profile: host: localhost, port: 25556, 1
+<11:35:53> [NewRobotHandler] Received other robot profile: host: localhost, port: 25558, 3
+<11:35:53> [NewRobotHandler] Received other robot profile: host: localhost, port: 25556, 1
+<11:35:53> [NewRobotHandler] Received other robot profile: host: localhost, port: 25558, 3
+<11:35:54> [NewRobotHandler] Received other robot profile: host: localhost, port: 25556, 1
+<11:35:54> [NewRobotHandler] Received other robot profile: host: localhost, port: 25558, 3
+<11:35:56> [NewRobotHandler] Received other robot profile: host: localhost, port: 25556, 1
+<11:35:56> [NewRobotHandler] Received other robot profile: host: localhost, port: 25558, 3
+<11:35:56> [NewRobotHandler] Received other robot profile: host: localhost, port: 25559, 4
+<11:35:56> [NewRobotHandler] Received other robot profile: host: localhost, port: 25556, 1
+<11:35:56> [NewRobotHandler] Received other robot profile: host: localhost, port: 25558, 3
+<11:35:56> [NewRobotHandler] Received other robot profile: host: localhost, port: 25559, 4
+<11:35:56> [Periodic Behaviour] I'm idle, sending to monitor
+<11:35:57> [NewRobotHandler] Received other robot profile: host: localhost, port: 25556, 1
+<11:35:57> [NewRobotHandler] Received other robot profile: host: localhost, port: 25558, 3
+<11:35:57> [NewRobotHandler] Received other robot profile: host: localhost, port: 25559, 4
+<11:35:59> [Periodic Behaviour] I'm idle, sending to monitor
+<11:36:02> [Periodic Behaviour] I'm idle, sending to monitor
+<11:36:05> [Periodic Behaviour] I'm idle, sending to monitor
+<11:36:08> [Periodic Behaviour] I'm idle, sending to monitor
+<11:36:11> [Periodic Behaviour] I'm idle, sending to monitor
+<11:36:14> [Periodic Behaviour] I'm idle, sending to monitor
+<11:36:17> [Periodic Behaviour] I'm idle, sending to monitor
+<11:36:20> [Periodic Behaviour] I'm idle, sending to monitor
+<11:36:21> [NeTaskHandler] new task: 1
+<11:36:21> [LeaderAlgorithm] Starting a leader request process for task 1
+<11:36:21> [LeaderAlgorithm] Robot 2 requesting task 1, bid: 0.317765
+<11:36:21> [LeaderAlgorithm] Received bid 0.291229, but mine is 0.317765, resuming... 
+<11:36:21> [LeaderAlgorithm] Received bid 0.291229, but mine is 0.317765, resuming... 
+<11:36:21> [LeaderAlgorithm] Received bid 0.368072, and mine is 0.317765, giving up... 
+<11:36:23> [Periodic Behaviour] I'm idle, sending to monitor
+<11:36:24> [LeaderOfTaskHandler] Robot 3 is the new leader of task 1
+<11:36:24> [BidRequestMessageHandler]: Received a bid request from Robot3 for task 1. Replying with bid: 0.317765
+<11:36:26> [Periodic Behaviour] I'm idle, sending to monitor
+<11:36:27> [NonLeaderAuction] Received bid from 3 for task 1 with a bid of 0.127015
+<11:36:29> [Periodic Behaviour] I'm idle, sending to monitor
+<11:36:32> [Periodic Behaviour] I'm idle, sending to monitor
+<11:36:33> [NonLeaderAuction] Best option: task 1 from leader 3 whose bid is 0.127015
+<11:36:33> [NonLeaderAuction] Sending refuse to
+<11:36:35> [Periodic Behaviour] I'm a helper, sending to monitor and leader
+<11:36:38> [Periodic Behaviour] I'm a helper, sending to monitor and leader
+<11:36:39> [RobotAuction]: Killed by SIGINT

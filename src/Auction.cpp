@@ -1,18 +1,15 @@
 #include <iostream>
 
 #include <boost/thread.hpp>
-#include <boost/atomic/atomic.hpp>
-#include <move_base_msgs/MoveBaseAction.h>
-#include <actionlib/client/simple_action_client.h>
+#include <boost/atomic.hpp>
 #include "RobotManager.h"
+#include "GoalManager.h"
 
 #include <signal.h>
 #include <ctime>
 #include <cstdlib>
 
 #include <ros/ros.h>
-
-typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseClient;
 
 
 boost::atomic<bool> running(true);
@@ -36,6 +33,24 @@ int get_rand_range(int min, int max)
     int rnd = (rand() % (max - min + 1)) + min;
 }
 
+
+void ros_polling_loop()
+{
+    ros::Rate rate(1); //Hz
+    while (ros::ok())
+    {
+        ros::spinOnce();
+        rate.sleep();
+    }
+}
+
+void odom_callback(const nav_msgs::Odometry::ConstPtr & msg)
+{
+    auto pos = msg->pose.pose.position;
+    boost::atomic<Auction::Point2D> new_current(Auction::Point2D(pos.x,pos.y));
+    // Update current position
+}
+
 int main(int argc, char ** argv)
 {
     using std::cout;
@@ -43,42 +58,37 @@ int main(int argc, char ** argv)
     using namespace Auction;
     srand(time(0));
 
-    ros::init(argc,argv,"robot_node", ros::init_options::AnonymousName);
-    
-    // MoveBaseClient goal_client("move_base", true);
-    // while (!goal_client.waitForServer(ros::Duration(2.0)))
-    // {
-    //     ROS_INFO("Waiting for the move_base action server to come up");
-    // }
-
-
-    // ros::NodeHandle nh("~");
-
-    // std::string host_param;
-    // int port_param;
-    // nh.getParam("host",host_param);
-    // nh.getParam("port",port_param);
-
-    // std::cout <<"Params: "<< host_param << "," << port_param << "\n";
-    // std::string host = host_param.c_str();
-    // std::string port = std::to_string(port_param);
-
-    
-
     if (argc < 3)
     {
         cout << "Usage: auction host port" << endl;
         return -1;
     }
 
+    // Initializes ros
+    ros::init(argc,argv,"robot_node", ros::init_options::AnonymousName);
+    
+    // Get param robot_name
+    ros::NodeHandle nh("~");
+    std::string robot_name;
+    if (!nh.getParam("robot_name", robot_name))
+        ROS_INFO_STREAM("Could not load param 'robot_name'");
+    
+    
+    // Creates a goal_client, a subscriber to odometry and a GoalManager
+    MoveBaseClient goal_client(robot_name+"/move_base", true);
+    ros::Subscriber odom_subscriber = nh.subscribe("/"+robot_name+"/odom",1,odom_callback);
+    GoalManager goalManager(&goal_client);
+
     char * host = argv[1];
     char * port = argv[2];
     
+    // Constructs the Robot's NetProfile
     NetProfile np(host,port);
 
     // Constructs the RobotManager object
     RobotManager r(std::string(argv[0]),np);
 
+    // Randomizes max speed and load capacity
     int max_vel = get_rand_range(3,6);
     int load_capacity = get_rand_range(1,4);
 
@@ -95,10 +105,12 @@ int main(int argc, char ** argv)
     boost::thread server_thread(&RobotManager::message_server, &r, boost::ref(running));
     boost::thread auction_thread(&RobotManager::auction_process, &r, boost::ref(running));
     boost::thread periodic_thread(&RobotManager::periodic_behaviour, &r, boost::ref(running));
+    boost::thread ros_thread(&ros_polling_loop);
     
     server_thread.join();
     auction_thread.join();
     periodic_thread.join();
+    ros_thread.join();
 
 }
 
