@@ -1,5 +1,5 @@
-<11:35:42> [Message thread] ---> running
-<11:35:42> [Monitor] --> listening on port 25555
+<18:07:02> [Message thread] ---> running
+<18:07:02> [Monitor] --> listening on port 25555
 Received NewRobot message from host: localhost, port: 25556
 Received NewRobot message from host: localhost, port: 25556
 Received NewRobot message from host: localhost, port: 25556
@@ -9,12 +9,8 @@ Received NewRobot message from host: localhost, port: 25557
 Received NewRobot message from host: localhost, port: 25558
 Received NewRobot message from host: localhost, port: 25558
 Received NewRobot message from host: localhost, port: 25558
-Received NewRobot message from host: localhost, port: 25559
-Received NewRobot message from host: localhost, port: 25559
-Received NewRobot message from host: localhost, port: 25559
-<11:36:21> [NewRobotMessageHandler]: Received new task from web service.Broadcasting as task 1
-<11:36:26> [LeaderAliveMessageHandler] Received from 3 who is leading task 1
-<11:36:29> [LeaderAliveMessageHandler] Received from 3 who is leading task 1
-<11:36:33> [LeaderAliveMessageHandler] Received from 3 who is leading task 1
-<11:36:36> [LeaderAliveMessageHandler] Received from 3 who is leading task 1
-<11:36:38> [Monitor] <--- killed by SIGINT
+<18:07:12> [NewRobotMessageHandler]: Received new task from web service.Broadcasting as task 1
+<18:07:30> [CheckRobotStatus]: Robot 1 is considered dead
+<18:07:30> [CheckRobotStatus]: Robot 2 is considered dead
+<18:07:32> [CheckRobotStatus]: Robot 3 is considered dead
+<18:08:22> [Monitor] <--- killed by SIGINT

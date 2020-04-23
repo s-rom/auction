@@ -1,10 +1,20 @@
+# How long the controller will wait in seconds in an attempt to find a valid plan 
+# before space-clearing operations are performed.
 controller_patience: 2.0
 
 recovery_behaviors: [{name: conservative_clear, type: clear_costmap_recovery/ClearCostmapRecovery},
                      {name: aggressive_clear, type: clear_costmap_recovery/ClearCostmapRecovery}]
 
+
+# --- DEFAULT ---
+# [{name: conservative_reset, type: clear_costmap_recovery/ClearCostmapRecovery}, 
+# {name: rotate_recovery, type: rotate_recovery/RotateRecovery}, 
+# {name: aggressive_reset, type: clear_costmap_recovery/ClearCostmapRecovery}] 
+
+
+
 NavfnROS:
-  allow_unknown: false
+  allow_unknown: true
 
 conservative_clear:
   reset_distance: 3.0

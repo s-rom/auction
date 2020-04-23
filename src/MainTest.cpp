@@ -44,16 +44,18 @@ public:
 
 int main(int argc, char ** argv)
 {
-    float deadline = 10;
-    float expected = 16.24;
-    float soft = Auction::soft_deadline_utility(deadline, 1, expected);
-    float hard = Auction::hard_deadline_utility(deadline, 1, expected);
+    // float deadline = 10;
+    // float expected = 16.24;
+    // float soft = Auction::soft_deadline_utility(deadline, 1, expected);
+    // float hard = Auction::hard_deadline_utility(deadline, 1, expected);
     
-    std::cout << "Expected: " << expected << "\n";
-    std::cout << "Deadline: " << deadline << "\n";
-    std::cout << "Soft: " << soft << "\n";
-    std::cout << "Hard: " << hard << "\n";
-    
+    // std::cout << "Expected: " << expected << "\n";
+    // std::cout << "Deadline: " << deadline << "\n";
+    // std::cout << "Soft: " << soft << "\n";
+    // std::cout << "Hard: " << hard << "\n";
+    Auction::InfoReporter info_log(Auction::Mode::COUT); 
+    test_messages(info_log);
+
 }
 
 void test_tuple()
@@ -185,7 +187,7 @@ void test_messages(Auction::InfoReporter & info)
     }
 
 
-    Auction::BidMessage bid(1,2,1,Auction::MessageType::BID_FOR_TASK);
+    Auction::BidMessage bid(1,2,1,2,Auction::MessageType::BID_FOR_TASK);
     info << bid.serialize() + "\n";
 
     Auction::BidMessage bid2(bid.serialize());

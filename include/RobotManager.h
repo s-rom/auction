@@ -15,6 +15,7 @@
 #include "RobotStatus.h"
 #include "InfoReporter.h"
 #include "Group.h"
+#include "GoalManager.h"
 
 // STL
 #include <iostream>
@@ -146,6 +147,8 @@ public:
      */
     float get_work_capacity(Task & t);
 
+    void set_goal_manager(Auction::GoalManager * goal_manager);
+
 
     // Member attributes
     int id = -1;                                       // Robot unique id
@@ -237,12 +240,20 @@ private:
 
     InfoReporter info_report;
 
-    // group (helpers) elated
+    // key: robot id
+    // value: status
     std::unordered_map<int, Auction::RobotStatusInfo> group;
-    
+
+    // key: robot id    
+    // value: current_travels, total_travels 
+    std::unordered_map<int, std::pair<int,int>> group_travels;
+
     // leader related
     int current_leader = NULL_ID;
     Auction::RobotStatusInfo last_leader_alive;
+
+    Auction::GoalManager * goal_manager;
+
 };
 
 #endif

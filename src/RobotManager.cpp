@@ -226,7 +226,7 @@ void RobotManager::periodic_behaviour(boost::atomic<bool> & running)
             else if (this->task_helper != NULL_TASK)
             {
                 // Send to current leader
-                info_report << "[Periodic Behaviour] I'm a helper, sending to monitor and leader\n";
+                // info_report << "[Periodic Behaviour] I'm a helper, sending to monitor and leader\n";
                 message_system.send_message_monitor(robot_alive_msg);
                 assert(current_leader != NULL_ID);
                 message_system.send_message(robot_alive_msg, current_leader);
@@ -235,7 +235,7 @@ void RobotManager::periodic_behaviour(boost::atomic<bool> & running)
             else 
             {
                 // Send only to monitor
-                info_report << "[Periodic Behaviour] I'm idle, sending to monitor\n";
+                // info_report << "[Periodic Behaviour] I'm idle, sending to monitor\n";
                 message_system.send_message_monitor(robot_alive_msg);
             }
 
@@ -357,7 +357,7 @@ void RobotManager::bid_request_message_handler(SimpleMessage &bid_req)
         bid << "\n";
 
     // Send message with that bid    
-    BidMessage my_bid(bid_req.task_id, this->id, bid, MessageType::BID_FOR_TASK);
+    BidMessage my_bid(bid_req.task_id, this->id, bid, load_capacity, MessageType::BID_FOR_TASK);
     message_system.send_message(my_bid, bid_req.robot_src);
 }
 
@@ -449,7 +449,7 @@ void RobotManager::leader_request(Task & t)
     float my_bid = this->get_work_capacity(t);
 
     // Broadcast's a message requesting this task
-    BidMessage my_req(t.task_id, this->id, my_bid, MessageType::LEADER_REQUEST);
+    BidMessage my_req(t.task_id, this->id, my_bid, load_capacity, MessageType::LEADER_REQUEST);
     info_report << "[LeaderAlgorithm] Robot "<< this->id <<" requesting task "
         << t.task_id << ", bid: " << my_bid << "\n";
     message_system.broadcast_message(my_req);
@@ -543,14 +543,25 @@ bool sort_descending_by_second(const std::pair<int,float> &a, const std::pair<in
 }
 
 
+bool sort_descending_by_second_tuple(const std::tuple<int,float,float> &a, const std::tuple<int,float,float> &b)
+{
+    return std::get<2>(a) > std::get<2>(b);
+}
+
+
 
 void RobotManager::leader_task_auction(Task & t)
 {
     info_report << "[TaskAuction] Starting auction round for task "<<t.task_id <<"\n";
+    
+    // clear old group info
+    this->group_travels.clear();
+    this->group.clear();
 
     // int - robot_src_id
-    // float - bid
-    std::vector<std::pair<int,float>> group_bid;
+    // float - bid (workCapacity)
+    // float - bid2 (loadCapacity)
+    std::vector<std::tuple<int,float,float>> group_bid;
     
     // vector of selected robots IDs 
     std::vector<int> selected_group;
@@ -589,7 +600,9 @@ void RobotManager::leader_task_auction(Task & t)
                     // Copy them into variables to avoid segmentation fault
                     int lead_id = bid_msg->robot_src_id;
                     float lead_bid = bid_msg->bid;
-                    group_bid.push_back(std::make_pair(lead_id, lead_bid));            
+                    float lead_load_capacity = bid_msg->bid2;
+
+                    group_bid.push_back(std::make_tuple(lead_id, lead_bid, lead_load_capacity));            
 
                     // Remove message from queue
                     message_queue.erase(it);
@@ -609,7 +622,7 @@ void RobotManager::leader_task_auction(Task & t)
     info_report << "[AuctionForTask - Round 1] End of round 1\n";
 
     // Sort the set (descending) by bid (second element) 
-    std::sort(group_bid.begin(), group_bid.end(), sort_descending_by_second);
+    std::sort(group_bid.begin(), group_bid.end(), sort_descending_by_second_tuple);
     // Deadline to be acomplished, DLj
     float goal_deadline = t.dead_line / 1000.0f;
     
@@ -624,8 +637,11 @@ void RobotManager::leader_task_auction(Task & t)
         it!=group_bid.end() && (accumulated_deadline >= goal_deadline); it++)
     {
         // Add first robot to the group
-        int robot_id = it->first;
-        float robot_bid = it->second;
+        auto rob_tuple = *it;
+        int robot_id = std::get<0>(rob_tuple);
+        float robot_bid = std::get<1>(rob_tuple);
+        float robot_bid2 = std::get<2>(rob_tuple);
+
         selected_group.push_back(robot_id);
 
         // Increments Sum of all group workcapacity 
@@ -662,14 +678,48 @@ void RobotManager::leader_task_auction(Task & t)
     //------------------------------------------------------------------------------------
 
 
+    // Resets travels for the selected group
+    for (const auto &rob: selected_group)
+    {
+        auto travels = std::make_pair<int,int>(0,0);
+        this->group_travels[rob] = travels;
+    }
+
+
+    float remaining_workload = t.task_work_load;
+    while (remaining_workload > 0)
+    {
+        for (auto it = selected_group.begin(); it != selected_group.end(); it++)
+        {
+            if (remaining_workload <= 0) break;
+
+            int robot_id = *it;
+            auto robot_tuple = group_bid[robot_id];
+            float load_capacity = std::get<2>(robot_tuple);
+
+            remaining_workload -= load_capacity;
+            this->group_travels[robot_id].second++;
+        }
+    }
+
+    info_report << "[AuctionForTask - Travels] Task workload: "<<t.task_work_load<<" kg\n";
+    
+    // Resets travels for the selected group
+    for (const auto &rob: selected_group)
+    {
+        auto total_travels = this->group_travels[rob].second;
+        info_report << "[AuctionForTask - Travels] Robot "<<rob
+            <<" whose workCapacity is "<<std::get<2>(group_bid[rob])
+            <<"kg, is assigned with "<<total_travels<<" travels\n";
+    }
+
     // SECOND AUCTION ROUND: Bid selected robots with Uj(DLg,j)
     for (auto it = selected_group.begin(); it != selected_group.end(); it++)
     {
         int robot_id = *it;
-        BidMessage bid_msg(t.task_id, this->id, utility, MessageType::BID_FOR_TASK);
+        BidMessage bid_msg(t.task_id, this->id, utility, group_travels[robot_id].second, MessageType::BID_FOR_TASK);
         message_system.send_message(bid_msg, robot_id);
     }
-
 }
 
 bool third_greater(const std::tuple<int,int,float> &a, 
@@ -779,6 +829,7 @@ void RobotManager::non_leader_task_auction(Task & t, BidMessage first_bid)
 void RobotManager::set_load_capacity(float new_load_capacity)
 {
     this->load_capacity = (new_load_capacity < 0) ? 0 : new_load_capacity;
+    info_report << "[LoadCapacity] New vale: "<<new_load_capacity<<"\n";
 }
 
 
@@ -787,6 +838,10 @@ void RobotManager::set_max_linear_vel(float new_max_vel)
     this->max_vel = (new_max_vel < 0) ? 10 : new_max_vel;
 }
 
+void RobotManager::set_goal_manager(Auction::GoalManager * goal_manager)
+{
+    this->goal_manager = goal_manager;
+}
 
 float RobotManager::get_work_capacity(Task& t)
 {

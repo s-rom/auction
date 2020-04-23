@@ -164,11 +164,12 @@ public:
 class Auction::BidMessage : public Auction::Message
 {
 public:
-	BidMessage(int task_id, int src_id, float bid, MessageType type)
+	BidMessage(int task_id, int src_id, float bid, float bid2, MessageType type)
 	:	
 		task_id(task_id),
 		robot_src_id(src_id),
-		bid(bid)
+		bid(bid),
+		bid2(bid2)
 	{
 		this->type = type;
 	};
@@ -177,7 +178,7 @@ public:
 	 * Creates a Message given a serialized string
 	 * 
 	 * Format required:  
-	 * #type#task_id#src#bid#
+	 * #type#task_id#src#bid#bid2#
 	 */
 	BidMessage(string serialized_message)
 	{
@@ -198,13 +199,15 @@ public:
 		next_int_token(task_id);
 		next_int_token(robot_src_id);
 		next_float_token(bid);
+		next_float_token(bid2);
+
 	}
  	
 	/**
      * Creates a serialized string of this Message
      * 
      * Format:  
-     * #type#task_id#src#bid#
+     * #type#task_id#src#bid#bid2#
 	 */
 	string serialize()
 	{
@@ -214,7 +217,8 @@ public:
 				to_string(type) + DELIM +
 				to_string(task_id) + DELIM +
 				to_string(robot_src_id) + DELIM +
-				to_string(bid) +
+				to_string(bid) + DELIM +
+				to_string(bid2) +
 			DELIM;
 		return s;
 	}
@@ -222,6 +226,7 @@ public:
 	int task_id;
 	int robot_src_id;
 	float bid;
+	float bid2;
 };
 
 

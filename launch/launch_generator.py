@@ -1,7 +1,7 @@
 import random as rnd
 
 ### Number of robots to generate
-N_ROBOTS = 3
+N_ROBOTS = 2
 
 ### Each robot will take a random color from the following list
 colors = ['green', 'blue', 'red']

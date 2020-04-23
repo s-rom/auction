@@ -13,7 +13,6 @@ add_compile_options(-std=c++11)
 add_definitions(-DBOOST_LOG_DYN_LINK=1)
 
 
-
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES RcSocket
@@ -26,7 +25,6 @@ include_directories(
     ${catkin_INCLUDE_DIRS}
     ${Boost_INCLUDE_DIRS}
 )
-
 
 #---- Executables ----#
 add_executable(auction src/Auction.cpp)
@@ -45,12 +43,17 @@ add_library(MessageSystem src/MessageSystem.cpp)
 add_library(RobotManager src/RobotManager.cpp)
 add_library(WebService src/WebService.cpp)
 add_library(Monitor src/Monitor.cpp)
+add_library(GoalManager src/GoalManager.cpp)
 
 
+#--- GoalManager ---#
+target_link_libraries(GoalManager ${catkin_LIBRARIES})
+target_link_libraries(GoalManager ${Boost_LIBRARIES})
 
 #---- RobotManager ----#
 target_link_libraries(RobotManager RcSocket)
 target_link_libraries(RobotManager MessageSystem)
+target_link_libraries(RobotManager GoalManager)
 
 #---- Auction ----#
 target_link_libraries(auction ${catkin_LIBRARIES})
@@ -58,6 +61,7 @@ target_link_libraries(auction ${Boost_LIBRARIES})
 target_link_libraries(auction RcSocket)
 target_link_libraries(auction MessageSystem)
 target_link_libraries(auction RobotManager)
+target_link_libraries(auction GoalManager)
 
 #---- Monitor ----#
 target_link_libraries(Monitor ${catkin_LIBRARIES})
@@ -76,7 +80,7 @@ target_link_libraries(WebService Monitor)
 #---- GoalSender ----#
 target_link_libraries(goal_sender ${catkin_LIBRARIES})
 target_link_libraries(goal_sender ${Boost_LIBRARIES})
-
+target_link_libraries(goal_sender GoalManager)
 
 #---- Tests ----#
 target_link_libraries(auction_test ${catkin_LIBRARIES})
@@ -84,3 +88,4 @@ target_link_libraries(auction_test ${Boost_LIBRARIES})
 #target_link_libraries(auction_test RcSocket)
 target_link_libraries(auction_test MessageSystem)
 target_link_libraries(auction_test RobotManager)
+target_link_libraries(auction_test GoalManager)

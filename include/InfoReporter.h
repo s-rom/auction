@@ -42,7 +42,7 @@ public:
     {
         this->options = Mode::FILE | Mode::COUT;
     }
-
+    
     ~InfoReporter()
     {
         close();
