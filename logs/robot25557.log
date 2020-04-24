@@ -1,19 +1,12 @@
-<18:07:06> [LoadCapacity] New vale: 3
-<18:07:06> [Auction process] ---> Running
-<18:07:06> [wait_until_id] I'm waiting until I receive my ID
-<18:07:07> [wait_until_id] I'm waiting until I receive my ID
-<18:07:07> [NewRobotHandler] Received other robot profile: host: localhost, port: 25556, 1
-<18:07:07> [NewRobotHandler] Received my own id: 2
-<18:07:08> [NewRobotHandler] Received other robot profile: host: localhost, port: 25556, 1
-<18:07:08> [NewRobotHandler] Received other robot profile: host: localhost, port: 25556, 1
-<18:07:08> [NewRobotHandler] Received other robot profile: host: localhost, port: 25556, 1
-<18:07:08> [NewRobotHandler] Received other robot profile: host: localhost, port: 25558, 3
-<18:07:08> [NewRobotHandler] Received other robot profile: host: localhost, port: 25556, 1
-<18:07:08> [NewRobotHandler] Received other robot profile: host: localhost, port: 25558, 3
-<18:07:08> [NewRobotHandler] Received other robot profile: host: localhost, port: 25556, 1
-<18:07:08> [NewRobotHandler] Received other robot profile: host: localhost, port: 25558, 3
-<18:07:12> [NeTaskHandler] new task: 1
-<18:07:12> [LeaderAlgorithm] Starting a leader request process for task 1
-<18:07:12> [LeaderAlgorithm] Robot 2 requesting task 1, bid: 0.314613
-<18:07:12> [LeaderAlgorithm] Received bid 0.314613, and mine is 0.314613, giving up... 
-<18:07:29> [RobotAuction]: Killed by SIGINT
+<12:00:08> [LoadCapacity] New vale: 2
+<12:00:08> [Auction process] ---> Running
+<12:00:08> [wait_until_id] I'm waiting until I receive my ID
+<12:00:08> [NewRobotHandler] Received my own id: 2
+<12:00:14> [NeTaskHandler] new task: 1
+<12:00:14> [LeaderAlgorithm] Starting a leader request process for task 1
+<12:00:14> [LeaderAlgorithm] Robot 2 requesting task 1, bid: 0.265409
+<12:00:14> [LeaderAlgorithm] Received bid 0.280006, and mine is 0.265409, giving up... 
+<12:00:17> [LeaderOfTaskHandler] Robot 3 is the new leader of task 1
+<12:00:17> [BidRequestMessageHandler]: Received a bid request from Robot3 for task 1. Replying with bid: 0.265409
+<12:00:20> [NonLeaderAuction] Received bid from 3 for task 1 with a bid of 0.008498
+<12:00:23> [RobotAuction]: Killed by SIGINT

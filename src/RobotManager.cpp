@@ -311,8 +311,8 @@ void RobotManager::new_robot_message_handler(NewRobotMessage & nr)
     } 
     else // stores other robot id 
     {
-        info_report << "[NewRobotHandler] Received other robot profile: "<<nr.np.to_string()<<
-        ", "<<nr.unique_id<<"\n";
+        // info_report << "[NewRobotHandler] Received other robot profile: "<<nr.np.to_string()<<
+        // ", "<<nr.unique_id<<"\n";
         message_system.add_robot_info(nr.unique_id, nr.np);
     }
 }                
@@ -503,11 +503,12 @@ void RobotManager::leader_request(Task & t)
                     delete m;
 
                     // Other robot bid is higher than this robot's bid
-                    if (other_bid > my_bid)
+                    // In case bids are equals, the robot with the lower id gives up
+                    if (other_bid > my_bid || (my_bid == other_bid && lreq->robot_src_id > this->id))
                     {
                         // Give up task request process
                         info_report << "[LeaderAlgorithm] Received bid " << other_bid
-                            <<", and mine is "<<my_bid<<", giving up... \n";
+                            <<", and mine is " << my_bid << ", giving up... \n";
                         return;
                     } 
                     // Other robot bid is less or equals to this robot's bid
@@ -515,7 +516,7 @@ void RobotManager::leader_request(Task & t)
                     {
                         // Continue task request process
                         info_report << "[LeaderAlgorithm] Received bid " << other_bid
-                            << ", but mine is "<<my_bid<<", resuming... \n";
+                            << ", but mine is "<< my_bid <<", resuming... \n";
                     }
                 }
             }
@@ -633,6 +634,9 @@ void RobotManager::leader_task_auction(Task & t)
     // Total accumulated work capacity
     float accum_group_work_capacity = 0.0f;
 
+    std::unordered_map<int,float> load_capacities;
+
+
     for (auto it = group_bid.begin(); 
         it!=group_bid.end() && (accumulated_deadline >= goal_deadline); it++)
     {
@@ -643,6 +647,7 @@ void RobotManager::leader_task_auction(Task & t)
         float robot_bid2 = std::get<2>(rob_tuple);
 
         selected_group.push_back(robot_id);
+        load_capacities[robot_id] = robot_bid2;
 
         // Increments Sum of all group workcapacity 
         // with individual workcapacity (bid)
@@ -669,7 +674,7 @@ void RobotManager::leader_task_auction(Task & t)
     info_report << "[AuctionForTask - Round 2] ---> Selected group: \n";
     for (auto it = selected_group.begin(); it != selected_group.end(); it++)
     {   
-        info_report << "\tRobot "<< *it << "\n";
+        info_report << "\tRobot " << *it << " | LoadCapacity: " << load_capacities[*it] << "\n";
     }
     info_report << "[AuctionForTask - Round 2] Total group_work_capacity: " << accum_group_work_capacity << "\n";
     info_report << "[AuctionForTask - Round 2] Expected time: " << accumulated_deadline << "s\n";
@@ -684,34 +689,44 @@ void RobotManager::leader_task_auction(Task & t)
         auto travels = std::make_pair<int,int>(0,0);
         this->group_travels[rob] = travels;
     }
+    // Add leader to group
+    auto travels = std::make_pair<int,int>(0,0);
+    this->group_travels[this->id] = travels;
+
 
 
     float remaining_workload = t.task_work_load;
     while (remaining_workload > 0)
     {
-        for (auto it = selected_group.begin(); it != selected_group.end(); it++)
+        remaining_workload -= this->load_capacity;
+        this->group_travels[this->id].second++;
+        
+        info_report << "[Travels] I'll make a travel carrying "<<this->load_capacity<<"kg\n";
+
+        for (const auto & rob : selected_group)
         {
+        
             if (remaining_workload <= 0) break;
 
-            int robot_id = *it;
-            auto robot_tuple = group_bid[robot_id];
-            float load_capacity = std::get<2>(robot_tuple);
-
-            remaining_workload -= load_capacity;
-            this->group_travels[robot_id].second++;
+            info_report << "[Travels] Robot "<<rob<<" will make a travel carrying "<< load_capacities[rob] <<"kg\n";
+            remaining_workload -= load_capacities[rob];
+            group_travels[rob].second++;
+        
         }
     }
 
+
     info_report << "[AuctionForTask - Travels] Task workload: "<<t.task_work_load<<" kg\n";
     
-    // Resets travels for the selected group
-    for (const auto &rob: selected_group)
+    for (const auto & rob: group_travels)
     {
-        auto total_travels = this->group_travels[rob].second;
-        info_report << "[AuctionForTask - Travels] Robot "<<rob
-            <<" whose workCapacity is "<<std::get<2>(group_bid[rob])
-            <<"kg, is assigned with "<<total_travels<<" travels\n";
+        int id = rob.first;
+        int total_travels = rob.second.second;
+
+        info_report << "[AuctionForTask - Travels] Robot " << id 
+            << " is assigned with " << total_travels << " travels\n";
     }
+
 
     // SECOND AUCTION ROUND: Bid selected robots with Uj(DLg,j)
     for (auto it = selected_group.begin(); it != selected_group.end(); it++)
