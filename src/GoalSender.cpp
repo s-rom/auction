@@ -54,6 +54,7 @@ int main(int argc, char **argv)
     std::string robot_name;
     std::string odom_topic;
     std::string move_base_server;
+    std::string map_frame;
 
     if (!nh.getParam("robot_name", robot_name))
     {
@@ -61,9 +62,11 @@ int main(int argc, char **argv)
         robot_name = "";
         odom_topic = "/odom";
         move_base_server = "/move_base";
+        map_frame = "/map";
     }
     else 
     {
+        map_frame = robot_name+"/map";
         move_base_server = robot_name+"/move_base";
         odom_topic = "/"+robot_name+"/odom";
     }
@@ -76,9 +79,10 @@ int main(int argc, char **argv)
     goal_manager_ptr = &goal_manager;
     
     
-    goal_manager.set_goal(Auction::Point2D(-5, 7));
+    goal_manager.set_goal(Auction::Point2D(5, 0));
     goal_manager.set_delivery(Auction::Point2D(0,0));
     goal_manager.set_total_travels(1);
+    goal_manager.set_map_frame(map_frame);
     
     boost::thread ros_thread(&ros_polling_loop);
     boost::thread goal_thread(&Auction::GoalManager::goal_loop, &goal_manager);

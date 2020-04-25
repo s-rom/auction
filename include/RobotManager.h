@@ -14,7 +14,6 @@
 #include "SafeQueue.h"
 #include "RobotStatus.h"
 #include "InfoReporter.h"
-#include "Group.h"
 #include "GoalManager.h"
 
 // STL
@@ -230,8 +229,8 @@ private:
     int task_helper;                    // Task id of which he is healper, default NULL_TASK
 
 
-    float load_capacity = 1;            // Maximum load capacity - kg
-    float max_vel = 10;                 // Max linear velocity - m/s                   
+    float load_capacity = 1;            // Maximum load capacity - kg, default value
+    float max_vel = 10;                 // Max linear velocity - m/s, default value   
     
     
     const int TIME_LEADERSHIP = 3000;   // Max time for the leader request - millis

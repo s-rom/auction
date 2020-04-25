@@ -10,6 +10,7 @@
 #include <actionlib/client/simple_action_client.h>
 #include <nav_msgs/Odometry.h>
 #include <boost/thread/mutex.hpp>
+#include <string>
 
 
 namespace Auction
@@ -31,15 +32,17 @@ public:
     void set_total_travels(int travels);
     void cancel_goal();
     void close_info_reporter();
-
     void goal_loop();
+    bool is_goal_completed();
+    void set_map_frame(std::string map_frame);
 
 private:
-
     bool goal_valid;
     int total_travels;
     int current_travels;
-    float tolerance = 2.0f;
+    float tolerance = 1.0f;
+
+    std::string map_frame;
 
     Auction::MoveBaseClient * moveBaseClient;
 

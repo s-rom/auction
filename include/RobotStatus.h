@@ -7,6 +7,7 @@
 namespace Auction
 {
     enum RobotStatus {UNKOWN, ALIVE, DEAD};
+    enum RobotRole { LEADING, HELPING, IDLE };
     struct RobotStatusInfo;
 }
 

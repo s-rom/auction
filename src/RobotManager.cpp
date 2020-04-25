@@ -212,15 +212,6 @@ void RobotManager::periodic_behaviour(boost::atomic<bool> & running)
                 info_report << "[Periodic Behaviour] I'm a leader, sending to monitor and ALL robots\n";
                 
                 message_system.broadcast_message(leader_alive_msg);
-
-
-
-                // for (const auto & helper: group)
-                // {
-                //     int id = helper.first;
-                //     message_system.send_message(leader_alive_msg, id);    
-                // }
-
             } 
             // Helper
             else if (this->task_helper != NULL_TASK)
@@ -265,9 +256,11 @@ void RobotManager::check_robots_status()
             this->task_leader = NULL_TASK;
             this->task_helper = NULL_TASK;
             this->current_leader = NULL_ID;
+
+            this->goal_manager->cancel_goal();
+
         }
 
-        // TODO: cancel task
         return;
     } 
 
@@ -335,7 +328,9 @@ void RobotManager::new_task_message_handler(NewTaskMessage & nt)
         Task & t = task_list[this->task_leader];
         this->leader_task_auction(t);
 
-        // Send goal to move_base
+        this->goal_manager->set_goal(t.task_location);
+        this->goal_manager->set_delivery(t.delivery_point);
+        this->goal_manager->set_total_travels(1);
     }
 }             
 
@@ -374,9 +369,12 @@ void RobotManager::bid_for_task_message_handler(BidMessage & bid_msg)
     // If helping any task
     if (this->task_helper != NULL_TASK)
     {
-        //TODO: send goal -- manage task execution
-    }
+        Auction::Task & task = this->task_list[task_helper];
 
+        this->goal_manager->set_goal(task.task_location);
+        this->goal_manager->set_delivery(task.delivery_point);
+        this->goal_manager->set_total_travels(1);
+    }
 }
 
 

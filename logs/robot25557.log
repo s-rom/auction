@@ -1,12 +1,15 @@
-<12:00:08> [LoadCapacity] New vale: 2
-<12:00:08> [Auction process] ---> Running
-<12:00:08> [wait_until_id] I'm waiting until I receive my ID
-<12:00:08> [NewRobotHandler] Received my own id: 2
-<12:00:14> [NeTaskHandler] new task: 1
-<12:00:14> [LeaderAlgorithm] Starting a leader request process for task 1
-<12:00:14> [LeaderAlgorithm] Robot 2 requesting task 1, bid: 0.265409
-<12:00:14> [LeaderAlgorithm] Received bid 0.280006, and mine is 0.265409, giving up... 
-<12:00:17> [LeaderOfTaskHandler] Robot 3 is the new leader of task 1
-<12:00:17> [BidRequestMessageHandler]: Received a bid request from Robot3 for task 1. Replying with bid: 0.265409
-<12:00:20> [NonLeaderAuction] Received bid from 3 for task 1 with a bid of 0.008498
-<12:00:23> [RobotAuction]: Killed by SIGINT
+<13:50:24> [LoadCapacity] New vale: 1
+<13:50:24> [Auction process] ---> Running
+<13:50:24> [wait_until_id] I'm waiting until I receive my ID
+<13:50:25> [wait_until_id] I'm waiting until I receive my ID
+<13:50:25> [NewRobotHandler] Received my own id: 2
+<13:51:23> [NeTaskHandler] new task: 1
+<13:51:23> [LeaderAlgorithm] Starting a leader request process for task 1
+<13:51:23> [LeaderAlgorithm] Robot 2 requesting task 1, bid: 0.207107
+<13:51:23> [LeaderAlgorithm] Received bid 0.265409, and mine is 0.207107, giving up... 
+<13:51:26> [LeaderOfTaskHandler] Robot 1 is the new leader of task 1
+<13:51:26> [BidRequestMessageHandler]: Received a bid request from Robot1 for task 1. Replying with bid: 0.207107
+<13:51:29> [NonLeaderAuction] Received bid from 1 for task 1 with a bid of 0.103021
+<13:51:35> [NonLeaderAuction] Best option: task 1 from leader 1 whose bid is 0.103021
+<13:51:35> [NonLeaderAuction] Sending refuse to
+<13:51:53> [RobotAuction]: Killed by SIGINT

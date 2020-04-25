@@ -21,6 +21,7 @@ void sigint_handler(int signal)
     std::cout <<"\nNode killed by user. Shuting down..."<<std::endl;
     running = false;
     r_ptr->close_info_reporter("[RobotAuction]: Killed by SIGINT\n");
+    goal_ptr->close_info_reporter();
     exit(0);
 }
 
@@ -78,6 +79,7 @@ int main(int argc, char ** argv)
     std::string robot_name;
     std::string odom_topic;
     std::string move_base_server;
+    std::string map_frame;
 
     if (!nh.getParam("port", port))
     {
@@ -103,11 +105,13 @@ int main(int argc, char ** argv)
         odom_topic = "/odom";
         robot_name = "";
         move_base_server = "/move_base";
+        map_frame = "/map";
     }
     else 
     {
         move_base_server = robot_name+"/move_base";
         odom_topic = "/"+robot_name+"/odom";
+        map_frame=robot_name+"/map";
         ROS_INFO_STREAM("Robot name: "<<robot_name);
     }
 
@@ -116,6 +120,7 @@ int main(int argc, char ** argv)
     MoveBaseClient goal_client(move_base_server, true);
     ros::Subscriber odom_subscriber = nh.subscribe(odom_topic, 1, odom_callback);
     GoalManager goal_manager(&goal_client, log_path);
+    goal_manager.set_map_frame(map_frame);
     goal_ptr = &goal_manager;
     
     // Constructs the Robot's NetProfile
@@ -128,6 +133,7 @@ int main(int argc, char ** argv)
     int max_vel = get_rand_range(3,6);
     int load_capacity = get_rand_range(1,4);
 
+    r.set_goal_manager(goal_ptr);
     r.set_max_linear_vel(max_vel);
     r.set_load_capacity(load_capacity);
 

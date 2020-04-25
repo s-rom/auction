@@ -1,15 +1,21 @@
-<12:00:05> [Message thread] ---> running
-<12:00:05> [Monitor] --> listening on port 25555
+<13:50:19> [Message thread] ---> running
+<13:50:19> [Monitor] --> listening on port 25555
 Received NewRobot message from host: localhost, port: 25556
 Received NewRobot message from host: localhost, port: 25556
 Received NewRobot message from host: localhost, port: 25556
 Received NewRobot message from host: localhost, port: 25557
 Received NewRobot message from host: localhost, port: 25557
-Received NewRobot message from host: localhost, port: 25558
-Received NewRobot message from host: localhost, port: 25558
-Received NewRobot message from host: localhost, port: 25558
-<12:00:14> [NewRobotMessageHandler]: Received new task from web service.Broadcasting as task 1
-<12:00:19> [LeaderAliveMessageHandler] Received from 3 who is leading task 1
-<12:00:22> [LeaderAliveMessageHandler] Received from 3 who is leading task 1
-<12:00:23> [CheckRobotStatus]: Robot 2 is considered dead
-<12:00:24> [Monitor] <--- killed by SIGINT
+Received NewRobot message from host: localhost, port: 25557
+<13:51:23> [NewRobotMessageHandler]: Received new task from web service.Broadcasting as task 1
+<13:51:27> [LeaderAliveMessageHandler] Received from 1 who is leading task 1
+<13:51:30> [LeaderAliveMessageHandler] Received from 1 who is leading task 1
+<13:51:33> [LeaderAliveMessageHandler] Received from 1 who is leading task 1
+<13:51:36> [LeaderAliveMessageHandler] Received from 1 who is leading task 1
+<13:51:39> [LeaderAliveMessageHandler] Received from 1 who is leading task 1
+<13:51:42> [LeaderAliveMessageHandler] Received from 1 who is leading task 1
+<13:51:45> [LeaderAliveMessageHandler] Received from 1 who is leading task 1
+<13:51:48> [LeaderAliveMessageHandler] Received from 1 who is leading task 1
+<13:51:51> [LeaderAliveMessageHandler] Received from 1 who is leading task 1
+<13:51:54> [CheckRobotStatus]: Robot 2 is considered dead
+<13:51:54> [LeaderAliveMessageHandler] Received from 1 who is leading task 1
+<13:51:55> [Monitor] <--- killed by SIGINT

@@ -46,6 +46,9 @@ public:
     Auction::MessageSystem message_system;
     Auction::InfoReporter info_report;
     std::unordered_map<int, Auction::RobotStatusInfo> robot_status;
+    
+    // Task monitoring -- TODO unused
+    std::unordered_map<int, Auction::RobotRole> robot_role;
     std::unordered_map<int, std::pair<Auction::Task, Auction::TaskStatus>> task_list;
 
     int get_number_of_robots()
