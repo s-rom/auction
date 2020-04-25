@@ -1,21 +1,27 @@
-<13:50:19> [Message thread] ---> running
-<13:50:19> [Monitor] --> listening on port 25555
-Received NewRobot message from host: localhost, port: 25556
+<17:50:51> [Message thread] ---> running
+<17:50:51> [Monitor] --> listening on port 25555
+<17:50:57> [CheckRobotStatus]: Robot 2 is considered dead
 Received NewRobot message from host: localhost, port: 25556
 Received NewRobot message from host: localhost, port: 25556
 Received NewRobot message from host: localhost, port: 25557
 Received NewRobot message from host: localhost, port: 25557
+Received NewRobot message from host: localhost, port: 25556
 Received NewRobot message from host: localhost, port: 25557
-<13:51:23> [NewRobotMessageHandler]: Received new task from web service.Broadcasting as task 1
-<13:51:27> [LeaderAliveMessageHandler] Received from 1 who is leading task 1
-<13:51:30> [LeaderAliveMessageHandler] Received from 1 who is leading task 1
-<13:51:33> [LeaderAliveMessageHandler] Received from 1 who is leading task 1
-<13:51:36> [LeaderAliveMessageHandler] Received from 1 who is leading task 1
-<13:51:39> [LeaderAliveMessageHandler] Received from 1 who is leading task 1
-<13:51:42> [LeaderAliveMessageHandler] Received from 1 who is leading task 1
-<13:51:45> [LeaderAliveMessageHandler] Received from 1 who is leading task 1
-<13:51:48> [LeaderAliveMessageHandler] Received from 1 who is leading task 1
-<13:51:51> [LeaderAliveMessageHandler] Received from 1 who is leading task 1
-<13:51:54> [CheckRobotStatus]: Robot 2 is considered dead
-<13:51:54> [LeaderAliveMessageHandler] Received from 1 who is leading task 1
-<13:51:55> [Monitor] <--- killed by SIGINT
+<17:51:10> [NewRobotMessageHandler]: Received new task from web service.Broadcasting as task 1
+<17:51:14> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
+<17:51:17> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
+<17:51:20> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
+<17:51:23> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
+<17:51:26> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
+<17:51:29> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
+<17:51:32> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
+<17:51:35> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
+<17:51:38> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
+<17:51:41> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
+<17:51:44> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
+<17:51:47> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
+<17:51:50> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
+<17:51:53> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
+<17:51:56> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
+<17:51:59> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
+<17:52:02> [Monitor] <--- killed by SIGINT

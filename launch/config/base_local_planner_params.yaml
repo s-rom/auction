@@ -15,15 +15,15 @@ TrajectoryPlannerROS:
     yaw_goal_tolerance: 5.6
 
     # Forward Simulation Parameters
-    sim_time: 2.1
+    sim_time: 3
     sim_granularity: 0.025
     vx_samples: 3
-    vtheta_samples: 20
+    vtheta_samples: 9
 
     # Trajectory Scoring Parameters
     # goal_distance_bias: 0.8
     # path_distance_bias: 0.6
-    goal_distance_bias: 32
+    goal_distance_bias: 35
     path_distance_bias: 20
     occdist_scale: 0.02
     heading_lookahead: 0.325

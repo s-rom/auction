@@ -328,9 +328,12 @@ void RobotManager::new_task_message_handler(NewTaskMessage & nt)
         Task & t = task_list[this->task_leader];
         this->leader_task_auction(t);
 
+        int travels = this->group_travels[this->id].second;
         this->goal_manager->set_goal(t.task_location);
         this->goal_manager->set_delivery(t.delivery_point);
-        this->goal_manager->set_total_travels(1);
+        this->goal_manager->set_total_travels(travels);
+
+        info_report << "[NewTaskHandler] Setting goal with " << travels << " travels\n";
     }
 }             
 
@@ -373,7 +376,9 @@ void RobotManager::bid_for_task_message_handler(BidMessage & bid_msg)
 
         this->goal_manager->set_goal(task.task_location);
         this->goal_manager->set_delivery(task.delivery_point);
-        this->goal_manager->set_total_travels(1);
+
+        info_report << "[BidForTaskMessageHandler] Setting " << bid_msg.bid2 << " travels\n";
+        this->goal_manager->set_total_travels(bid_msg.bid2);
     }
 }
 
