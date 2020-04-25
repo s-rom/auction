@@ -26,9 +26,6 @@ bool GoalManager::is_goal_completed()
     return this->current_travels == this->total_travels;
 }
 
-
-
-
 void GoalManager::set_goal(Auction::Point2D goal)
 {
     this->goal = goal;
@@ -87,11 +84,13 @@ void GoalManager::goal_loop()
 
     while(true)
     {
-        if (!this->goal_valid) continue;
-        if (this->total_travels == 0) continue;
-        if (this->current_travels == this->total_travels)
+        if (!goal_valid) continue;
+        if (total_travels == 0) continue;
+        if (is_goal_completed())
         {
-            info_report << "[GoalLoop] The goal management is completed. Reseting status...\n";
+            info_report << "[GoalLoop] The goal management is completed "
+                << "with " << total_travels / 2 << " travels between delivery and goal point\n";
+
             goal_valid = false;
             current_travels = 0;
             total_travels = 0;
@@ -103,33 +102,16 @@ void GoalManager::goal_loop()
 
         Auction::Point2D target;
 
-        if (Auction::Point2D::equals(current, goal, tolerance))
-        {           
+        if (current_travels % 2 == 0)
+        {
+            if (current_travels == 0)
+                info_report << "[GoalLoop] First travel set to goal\n";
+            target = goal;   
+        }
+        else 
+        {
             target = delivery;
-            current_travels++;
-
-            info_report << "[GoalLoop] Arrived to task goal point."
-                << " Current travels: "<< current_travels << "\n";
-        } 
-        else if (Auction::Point2D::equals(current, delivery, tolerance))
-        {
-            target = goal;
-            current_travels++;
-
-            if (current_travels == total_travels)
-                info_report << "[GoalLoop] Finished task";
-            else 
-                info_report << "[GoalLoop] Arrived to task delivery point."
-                    << " Current travels: "<< current_travels << "\n";
         }
-
-        // First travel
-        if (current_travels == 0)
-        {
-            info_report << "[GoalLoop] First travel set to goal\n";
-            target = goal;
-        }
-       
 
         move_base_msgs::MoveBaseGoal goal_msg;
         goal_msg.target_pose.header.frame_id = this->map_frame;
@@ -141,6 +123,11 @@ void GoalManager::goal_loop()
 
         info_report << "[Goal Loop] Sending goal to "<<target.x<<","<<target.y<<"\n";
         moveBaseClient->sendGoal(goal_msg);
-        moveBaseClient->waitForResult();
+        if (moveBaseClient->waitForResult())
+        {
+            info_report << "[Goal Loop] Goal achieved, incrementing travels\n";
+            this->current_travels++;
+        }
+        
     }
 }

@@ -1,7 +1,7 @@
 import random as rnd
 
 ### Number of robots to generate
-N_ROBOTS = 2
+N_ROBOTS = 1
 
 ### Each robot will take a random color from the following list
 colors = ['green', 'blue', 'red']
@@ -20,7 +20,13 @@ generated_world_suffix = "_robots.world"         # suffix for the generated worl
 generated_launch_suffix = "_robots.launch"       # suffix for the generated launch file (n_robots.launch)
 
 def main():
+    global N_ROBOTS
     generate_world_file(N_ROBOTS)
+
+    # At least two robots must be generated to avoid stage name collisions
+    if (N_ROBOTS == 1)
+        N_ROBOTS = 2
+    
     generate_launch_file(world_path + str(N_ROBOTS) + generated_world_suffix, N_ROBOTS)
 
 
@@ -72,3 +78,4 @@ def get_robot_world_chunk(robot_id, x, y, z, yaw, color):
 
 if __name__ == "__main__":
     main()
+

@@ -81,7 +81,7 @@ int main(int argc, char **argv)
     
     goal_manager.set_goal(Auction::Point2D(5, 0));
     goal_manager.set_delivery(Auction::Point2D(0,0));
-    goal_manager.set_total_travels(1);
+    goal_manager.set_total_travels(2);
     goal_manager.set_map_frame(map_frame);
     
     boost::thread ros_thread(&ros_polling_loop);
