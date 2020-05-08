@@ -8,9 +8,12 @@
         <remap from="odom" to="$(eval arg('robot_name') + '/odom')" />
         <remap from="cmd_vel" to="$(eval arg('robot_name') + '/cmd_vel')"/>
         <remap from="move_base" to="$(eval arg('robot_name') + '/move_base')"/>
+        <remap from="map" to="$(eval arg('robot_name') + '/map')"/>
+
     
         <!-- Load global navigation specific parameters -->
         <rosparam file="$(find auction)/launch/config/move_base_params.yaml" command="load"/>
+        <rosparam file="$(find auction)/launch/config/costmap_common_params.yaml" command="load"/>
         <rosparam file="$(find auction)/launch/config/local_costmap_params.yaml" command="load"/>
         <rosparam file="$(find auction)/launch/config/global_costmap_params.yaml" command="load"/>
         <rosparam file="$(find auction)/launch/config/base_local_planner_params.yaml" command="load" />

@@ -8,7 +8,7 @@
 define visionbeacon model
 (
   shape "circle" 
-  size [0.2 0.2] 
+  size [1 1] 
   color "red"
 )
 

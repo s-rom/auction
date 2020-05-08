@@ -18,7 +18,7 @@ TrajectoryPlannerROS:
     sim_time: 3
     sim_granularity: 0.025
     vx_samples: 3
-    vtheta_samples: 9
+    vtheta_samples: 20
 
     # Trajectory Scoring Parameters
     # goal_distance_bias: 0.8

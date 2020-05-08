@@ -1,27 +1,9 @@
-<17:50:51> [Message thread] ---> running
-<17:50:51> [Monitor] --> listening on port 25555
-<17:50:57> [CheckRobotStatus]: Robot 2 is considered dead
-Received NewRobot message from host: localhost, port: 25556
-Received NewRobot message from host: localhost, port: 25556
+<12:58:04> [Message thread] ---> running
+<12:58:04> [Monitor] --> listening on port 25555
 Received NewRobot message from host: localhost, port: 25557
 Received NewRobot message from host: localhost, port: 25557
 Received NewRobot message from host: localhost, port: 25556
+Received NewRobot message from host: localhost, port: 25556
 Received NewRobot message from host: localhost, port: 25557
-<17:51:10> [NewRobotMessageHandler]: Received new task from web service.Broadcasting as task 1
-<17:51:14> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
-<17:51:17> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
-<17:51:20> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
-<17:51:23> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
-<17:51:26> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
-<17:51:29> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
-<17:51:32> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
-<17:51:35> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
-<17:51:38> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
-<17:51:41> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
-<17:51:44> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
-<17:51:47> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
-<17:51:50> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
-<17:51:53> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
-<17:51:56> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
-<17:51:59> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
-<17:52:02> [Monitor] <--- killed by SIGINT
+Received NewRobot message from host: localhost, port: 25556
+<13:02:56> [Monitor] <--- killed by SIGINT

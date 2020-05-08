@@ -11,6 +11,8 @@ window
   center [0.000 0.000] 
   rotate [ 0.000 0.000 ]
   scale 55.000 
+  show_grid 1
+  show_occupancy 1
   show_data 1 # make sure we can see the effect of the controller
 )
 
