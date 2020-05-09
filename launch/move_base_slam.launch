@@ -17,6 +17,9 @@
         <rosparam file="$(find auction)/launch/config/local_costmap_params.yaml" command="load"/>
         <rosparam file="$(find auction)/launch/config/global_costmap_params.yaml" command="load"/>
         <rosparam file="$(find auction)/launch/config/base_local_planner_params.yaml" command="load" />
+<!-- 
+        <param name="global_costmap/static_map" value="false"/>
+        <param name="local_costmap/rolling_window" value="true"/> -->
 
         <param name="local_costmap/global_frame" value="$(eval arg('robot_name') + '/map')"/>
         <param name="global_costmap/global_frame" value="$(eval arg('robot_name') + '/map')"/>

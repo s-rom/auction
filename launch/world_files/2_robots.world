@@ -15,9 +15,9 @@ define block model
 window
 ( 
   size [ 1000 716 ] 
-  center [1.151 -0.094] 
-  rotate [ 0.000 0.500 ]
-  scale 25.658 
+  center [3.817 5.579] 
+  rotate [ 19.000 22.500 ]
+  scale 31.046 
   show_grid 1
   show_occupancy 1
   show_data 1 # make sure we can see the effect of the controller
@@ -34,7 +34,7 @@ floorplan
 pioneer2dx
 (
   name "robot_0"
-  pose [ 1.000 -3.000 0.000 0.000 ]
+  pose [ -5.838 4.476 0.000 -76.110 ]
   color "green"
   sicklaser
   ( 
@@ -47,10 +47,53 @@ block(
   pose [ 0.000 0.000 0.000 0.000]
 )
 
+block(
+  color "black"
+  pose [ 0.500 0.000 0.000 0.000]
+)
+
+block(
+  color "black"
+  pose [ 1.000 0.000 0.000 0.000]
+)
+
+block(
+  color "black"
+  pose [ 1.500 0.000 0.000 0.000]
+)
+
+block(
+  color "black"
+  pose [ 2.000 0.000 0.000 0.000]
+)block(
+  color "black"
+  pose [ 0.000 2.000 0.000 0.000]
+)
+
+block(
+  color "black"
+  pose [ 0.000 2.500 0.000 0.000]
+)
+
+block(
+  color "black"
+  pose [ 0.000 3.000 0.000 0.000]
+)
+
+block(
+  color "black"
+  pose [ 0.000 3.500 0.000 0.000]
+)
+
+block(
+  color "black"
+  pose [ 0.000 4.000 0.000 0.000]
+)
+
 pioneer2dx
 (
   name "robot_1"
-  pose [ 7.000 9.000 0.000 0.000 ]
+  pose [ -1.606 12.165 0.000 95.476 ]
   color "red"
   sicklaser
   ( 

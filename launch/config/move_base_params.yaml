@@ -2,6 +2,7 @@
 # before space-clearing operations are performed.
 controller_patience: 2.0
 controller_frequency: 10 #prev10
+planner_frequency: 5
 
 # recovery_behaviors: [{name: conservative_clear, type: clear_costmap_recovery/ClearCostmapRecovery},
 #                      {name: aggressive_clear, type: clear_costmap_recovery/ClearCostmapRecovery}]
