@@ -5,7 +5,7 @@
     <node pkg="move_base" type="move_base" respawn="false" 
         name="$(eval arg('robot_name') + '_move_base_node')" output="screen">
         
-        <remap from="odom" to="$(eval arg('robot_name') + '/odom')" />
+        <remap from="odom" to="$(eval arg('robot_name') + '/base_pose_truth')" />
         <remap from="cmd_vel" to="$(eval arg('robot_name') + '/cmd_vel')"/>
         <remap from="move_base" to="$(eval arg('robot_name') + '/move_base')"/>
         <remap from="map" to="$(eval arg('robot_name') + '/map')"/>

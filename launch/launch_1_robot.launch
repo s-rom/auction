@@ -4,7 +4,7 @@
 
     <include file="$(find auction)/launch/slam_gmapping.launch" pass_all_args="true"/>
     <include file="$(find auction)/launch/move_base_slam.launch" pass_all_args="true"/>
- 
+    
     <!-- Goal_sender is a test node that uses the GoalManager class -->
     <!-- <node pkg="auction" type="goal_sender" name="$(eval arg('robot_name') + '_goal_sender')" output="screen">
         <param name="robot_name" value="$(eval robot_name)"/>

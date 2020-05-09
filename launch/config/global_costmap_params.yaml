@@ -5,7 +5,7 @@ global_costmap:
     
     update_frequency: 5.0
     publish_frequency: 2.0
-    static_map: false
+    static_map: true
     width: 40
     height: 40
     origin_x: -20.0
