@@ -164,7 +164,7 @@ void RobotManager::wait_until_id(long millis)
 {
     while (this->id == NULL_ID)
     {
-        info_report << "[wait_until_id] I'm waiting until I receive my ID\n";
+        //info_report << "[wait_until_id] I'm waiting until I receive my ID\n";
 
         auto it = message_queue.begin();
         auto end = message_queue.end();
@@ -257,7 +257,7 @@ void RobotManager::check_robots_status()
             this->task_helper = NULL_TASK;
             this->current_leader = NULL_ID;
 
-            this->goal_manager->cancel_goal();
+            //this->goal_manager->cancel_goal();
 
         }
 
@@ -329,9 +329,9 @@ void RobotManager::new_task_message_handler(NewTaskMessage & nt)
         this->leader_task_auction(t);
 
         int travels = this->group_travels[this->id].second;
-        this->goal_manager->set_goal(t.task_location);
-        this->goal_manager->set_delivery(t.delivery_point);
-        this->goal_manager->set_total_travels(travels);
+        // this->goal_manager->set_goal(t.task_location);
+        // this->goal_manager->set_delivery(t.delivery_point);
+        // this->goal_manager->set_total_travels(travels);
 
         info_report << "[NewTaskHandler] Setting goal with " << travels << " travels\n";
     }
@@ -374,11 +374,11 @@ void RobotManager::bid_for_task_message_handler(BidMessage & bid_msg)
     {
         Auction::Task & task = this->task_list[task_helper];
 
-        this->goal_manager->set_goal(task.task_location);
-        this->goal_manager->set_delivery(task.delivery_point);
+        // this->goal_manager->set_goal(task.task_location);
+        // this->goal_manager->set_delivery(task.delivery_point);
 
         info_report << "[BidForTaskMessageHandler] Setting " << bid_msg.bid2 << " travels\n";
-        this->goal_manager->set_total_travels(bid_msg.bid2);
+        // this->goal_manager->set_total_travels(bid_msg.bid2);
     }
 }
 
@@ -856,10 +856,10 @@ void RobotManager::set_max_linear_vel(float new_max_vel)
     this->max_vel = (new_max_vel < 0) ? 10 : new_max_vel;
 }
 
-void RobotManager::set_goal_manager(Auction::GoalManager * goal_manager)
-{
-    this->goal_manager = goal_manager;
-}
+// void RobotManager::set_goal_manager(Auction::GoalManager * goal_manager)
+// {
+//     this->goal_manager = goal_manager;
+// }
 
 float RobotManager::get_work_capacity(Task& t)
 {

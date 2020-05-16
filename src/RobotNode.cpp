@@ -3,7 +3,8 @@
 #include <boost/thread.hpp>
 #include <boost/atomic.hpp>
 #include "RobotManager.h"
-#include "GoalManager.h"
+//#include "GoalManager.h"
+#include "vfh_node.h"
 
 #include <signal.h>
 #include <ctime>
@@ -14,14 +15,14 @@
 
 boost::atomic<bool> running(true);
 Auction::RobotManager * r_ptr;
-Auction::GoalManager * goal_ptr;
+// Auction::GoalManager * goal_ptr;
 
 void sigint_handler(int signal)
 {
     std::cout <<"\nNode killed by user. Shuting down..."<<std::endl;
     running = false;
     r_ptr->close_info_reporter("[RobotAuction]: Killed by SIGINT\n");
-    goal_ptr->close_info_reporter();
+    // goal_ptr->close_info_reporter();
     exit(0);
 }
 
@@ -42,7 +43,7 @@ void ros_polling_loop()
     while (ros::ok())
     {
         ros::spinOnce();
-        rate.sleep();
+        //rate.sleep();
     }
 }
 
@@ -51,7 +52,7 @@ void odom_callback(const nav_msgs::Odometry::ConstPtr & msg)
 {
     auto pos = msg->pose.pose.position;
     Auction::Point2D new_p(msg->pose.pose.position.x, msg->pose.pose.position.y); 
-    goal_ptr->update_position(new_p); 
+    //goal_ptr->update_position(new_p); 
 }
 
 
@@ -69,11 +70,12 @@ int main(int argc, char ** argv)
     // }
 
     // Initializes ros
-    ros::init(argc,argv,"robot_node", ros::init_options::AnonymousName);
-     
+    ros::init(argc,argv,"robot_node");
+
 
     // Get param robot_name
     ros::NodeHandle nh("~");
+    ros::NodeHandle n;
     std::string hostname;
     std::string port;
     std::string robot_name;
@@ -115,13 +117,18 @@ int main(int argc, char ** argv)
         ROS_INFO_STREAM("Robot name: "<<robot_name);
     }
 
+    VFH_node vfh_node(n, nh, robot_name);
+    vfh_node.set_delivery(Auction::Point2D(0,0));
+    vfh_node.set_goal(Auction::Point2D(5,0));
+    vfh_node.set_total_travels(2);
+
     std::string log_path = "/home/sergi/Desktop/" + robot_name + "_goal_sender.log";
     
-    MoveBaseClient goal_client(move_base_server, true);
+    // MoveBaseClient goal_client(move_base_server, true);
     ros::Subscriber odom_subscriber = nh.subscribe(odom_topic, 1, odom_callback);
-    GoalManager goal_manager(&goal_client, log_path);
-    goal_manager.set_map_frame(map_frame);
-    goal_ptr = &goal_manager;
+    // GoalManager goal_manager(&goal_client, log_path);
+    // goal_manager.set_map_frame(map_frame);
+    // goal_ptr = &goal_manager;
     
     // Constructs the Robot's NetProfile
     NetProfile np(hostname, port);
@@ -133,7 +140,7 @@ int main(int argc, char ** argv)
     int max_vel = get_rand_range(3,6);
     int load_capacity = get_rand_range(1,4);
 
-    r.set_goal_manager(goal_ptr);
+    // r.set_goal_manager(goal_ptr);
     r.set_max_linear_vel(max_vel);
     r.set_load_capacity(load_capacity);
 
@@ -149,17 +156,14 @@ int main(int argc, char ** argv)
     boost::thread auction_thread(&RobotManager::auction_process, &r, boost::ref(running));
     boost::thread periodic_thread(&RobotManager::periodic_behaviour, &r, boost::ref(running));
     boost::thread ros_thread(&ros_polling_loop);
-    boost::thread goal_management_thread(&GoalManager::goal_loop, &goal_manager);
+    // boost::thread goal_management_thread(&GoalManager::goal_loop, &goal_manager);
     
     server_thread.join();
     auction_thread.join();
     periodic_thread.join();
     ros_thread.join();
-    goal_management_thread.join();
+    // goal_management_thread.join();
 }
-
-
-
 
 
 

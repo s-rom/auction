@@ -55,6 +55,7 @@ int main(int argc, char **argv)
     std::string odom_topic;
     std::string move_base_server;
     std::string map_frame;
+    std::string goal_topic = "/goal";
 
     if (!nh.getParam("robot_name", robot_name))
     {
@@ -71,22 +72,16 @@ int main(int argc, char **argv)
         odom_topic = "/"+robot_name+"/odom";
     }
     
+    ros::Publisher pub = nh.advertise<nav_msgs::Odometry>(goal_topic, 1);
+
+
     std::string log_path = "/home/sergi/Desktop/" + robot_name + "_goal_sender.log";
-    
-    MoveBaseClient aux(move_base_server, true);
-    ros::Subscriber odom_subscriber = nh.subscribe(odom_topic, 1, odom_callback);
-    Auction::GoalManager goal_manager(&aux, log_path);
+    Auction::GoalManager goal_manager(pub, log_path);
     goal_manager_ptr = &goal_manager;
     
-    
-    goal_manager.set_goal(Auction::Point2D(5, 0));
-    goal_manager.set_delivery(Auction::Point2D(0,0));
-    goal_manager.set_total_travels(2);
-    goal_manager.set_map_frame(map_frame);
+    ros::Subscriber odom_subscriber = nh.subscribe(odom_topic, 1, odom_callback);
     
     boost::thread ros_thread(&ros_polling_loop);
-    boost::thread goal_thread(&Auction::GoalManager::goal_loop, &goal_manager);
 
     ros_thread.join();
-    goal_thread.join();
 }

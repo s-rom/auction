@@ -14,7 +14,7 @@
 #include "SafeQueue.h"
 #include "RobotStatus.h"
 #include "InfoReporter.h"
-#include "GoalManager.h"
+//#include "GoalManager.h"
 
 // STL
 #include <iostream>
@@ -146,7 +146,7 @@ public:
      */
     float get_work_capacity(Task & t);
 
-    void set_goal_manager(Auction::GoalManager * goal_manager);
+    //void set_goal_manager(Auction::GoalManager * goal_manager);
 
 
     // Member attributes
@@ -251,7 +251,7 @@ private:
     int current_leader = NULL_ID;
     Auction::RobotStatusInfo last_leader_alive;
 
-    Auction::GoalManager * goal_manager;
+    //Auction::GoalManager * goal_manager;
 
 };
 

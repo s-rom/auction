@@ -1,0 +1,29 @@
+<launch>
+
+    <arg name="robot_name"/>
+    <arg name="hostname"/>
+    <arg name="port"/>
+
+    <node pkg="auction" type="robot_node" name="$(eval arg('robot_name'))" output="screen">
+	
+		<param name="hostname" value="$(eval arg('hostname'))"/>
+		<param name="port" value="$(eval arg('port'))"/>
+		<param name="robot_name" value="$(eval arg('robot_name'))"/>
+
+		<param name="scan_topic" value="$(eval arg('robot_name') + '/base_scan_1')"/>
+		<param name="odom_topic" value="$(eval arg('robot_name') + '/odom')"/>
+		<param name="cmd_vel_topic" value="$(eval arg('robot_name') + '/cmd_vel')"/>
+
+		<!-- <param name="scan_topic" value="/base_scan_1"/>
+		<param name="odom_topic" value="/odom"/>
+		<param name="cmd_vel_topic" value="/cmd_vel"/> -->
+		
+		<param name="m_max_speed" value="300"/>
+		<param name="m_max_acceleration" value="50"/>
+		<param name="m_weight_desired_dir" value="10"/>
+		<param name="m_weight_current_dir" value="0.5"/>
+        <param name="rotation_tolerance" value="10"/>
+
+	</node>
+
+</launch>

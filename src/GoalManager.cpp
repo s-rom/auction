@@ -2,23 +2,22 @@
 
 using namespace Auction;
 
-GoalManager::GoalManager(MoveBaseClient * moveBaseClient)
-:
-    moveBaseClient(moveBaseClient)
+GoalManager::GoalManager(ros::Publisher goal_pub)
 {
     total_travels = 0;
     current_travels = 0;
     goal_valid = false;
+    this->goal_pub = goal_pub;
 }
 
-GoalManager::GoalManager(MoveBaseClient * moveBaseClient, std::string info_path)
+GoalManager::GoalManager(ros::Publisher goal_pub, std::string info_path)
 :
-    moveBaseClient(moveBaseClient),
     info_report(info_path)
 {
     total_travels = 0;
     current_travels = 0;
     goal_valid = false;
+    this->goal_pub = goal_pub;
 }
 
 bool GoalManager::is_goal_completed()
@@ -60,7 +59,6 @@ void GoalManager::cancel_goal()
 {
     info_report << "[GoalManager] Goal canceled\n";
     this->goal_valid = false;
-    moveBaseClient->cancelGoal();
 }
 
 
@@ -70,22 +68,17 @@ void GoalManager::close_info_reporter()
 }
 
 
-void GoalManager::set_map_frame(std::string map_frame)
-{
-    this->map_frame = map_frame;
-}
-
-
 void GoalManager::goal_loop()
 {
-    while (!moveBaseClient->waitForServer(ros::Duration(2.0)));
-
     info_report << "[GoalLoop] running...\n";
 
     while(true)
     {
-        if (!goal_valid) continue;
-        if (total_travels == 0) continue;
+        if (!goal_valid || total_travels == 0) 
+        {
+            continue;
+        }
+
         if (is_goal_completed())
         {
             info_report << "[GoalLoop] The goal management is completed "
@@ -113,21 +106,24 @@ void GoalManager::goal_loop()
             target = delivery;
         }
 
-        move_base_msgs::MoveBaseGoal goal_msg;
-        goal_msg.target_pose.header.frame_id = this->map_frame;
-        goal_msg.target_pose.header.stamp = ros::Time::now();
+        nav_msgs::Odometry odom_msg();
 
-        goal_msg.target_pose.pose.position.x = target.x;
-        goal_msg.target_pose.pose.position.y = target.y;
-        goal_msg.target_pose.pose.orientation.w = 1;
 
-        info_report << "[Goal Loop] Sending goal to "<<target.x<<","<<target.y<<"\n";
-        moveBaseClient->sendGoal(goal_msg);
-        if (moveBaseClient->waitForResult())
-        {
-            info_report << "[Goal Loop] Goal achieved, incrementing travels\n";
-            this->current_travels++;
-        }
+        // move_base_msgs::MoveBaseGoal goal_msg;
+        // goal_msg.target_pose.header.frame_id = this->map_frame;
+        // goal_msg.target_pose.header.stamp = ros::Time::now();
+
+        // goal_msg.target_pose.pose.position.x = target.x;
+        // goal_msg.target_pose.pose.position.y = target.y;
+        // goal_msg.target_pose.pose.orientation.w = 1;
+
+        // info_report << "[Goal Loop] Sending goal to "<<target.x<<","<<target.y<<"\n";
+        // moveBaseClient->sendGoal(goal_msg);
+        // if (moveBaseClient->waitForResult())
+        // {
+        //     info_report << "[Goal Loop] Goal achieved, incrementing travels\n";
+        //     this->current_travels++;
+        // }
         
     }
 }

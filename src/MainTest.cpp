@@ -11,6 +11,11 @@
 #include <fstream>
 #include <ros/ros.h>
 #include <cstdlib>
+#include <geometry_msgs/Pose.h>
+
+#include <tf2/LinearMath/Quaternion.h>
+#include <tf2_geometry_msgs/tf2_geometry_msgs.h>
+
 
 void test_messages(Auction::InfoReporter & info);
 void vector_test();
@@ -44,17 +49,33 @@ public:
 
 int main(int argc, char ** argv)
 {
-    // float deadline = 10;
-    // float expected = 16.24;
-    // float soft = Auction::soft_deadline_utility(deadline, 1, expected);
-    // float hard = Auction::hard_deadline_utility(deadline, 1, expected);
+
+    geometry_msgs::Pose rob_pose;
+    rob_pose.position.x = 5;
+    rob_pose.position.y = -7;
+    rob_pose.position.z = 0;
+
     
-    // std::cout << "Expected: " << expected << "\n";
-    // std::cout << "Deadline: " << deadline << "\n";
-    // std::cout << "Soft: " << soft << "\n";
-    // std::cout << "Hard: " << hard << "\n";
-    Auction::InfoReporter info_log(Auction::Mode::COUT); 
-    test_messages(info_log);
+    geometry_msgs::Pose goal_pose;
+    goal_pose.position.x = 0;
+    goal_pose.position.y = 0;
+    goal_pose.position.z = 0;
+    
+
+    
+    tf2::Vector3 dir
+    (
+        goal_pose.position.x - rob_pose.position.x, 
+        goal_pose.position.y - rob_pose.position.y, 
+        0
+    );
+
+
+
+    dir.normalize();
+    
+
+
 
 }
 

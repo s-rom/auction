@@ -1,0 +1,20 @@
+<launch>
+
+    <node pkg="stage_ros" type="stageros" name="stage" args="/home/sergi/catkin_ws/src/auction/launch/world_files/1_robots.world"/>
+
+    <node pkg="auction" type="robot_node" name="robot_node" output="screen">
+		<param name="port" value="#25556"/>
+		<param name="hostname" value="localhost"/>
+
+		<param name="scan_topic" value="/base_scan_1"/>
+		<param name="odom_topic" value="/odom"/>
+		<param name="cmd_vel_topic" value="/cmd_vel"/>
+
+		<param name="m_max_speed" value="300"/>
+		<param name="m_max_acceleration" value="50"/>
+		<param name="m_weight_desired_dir" value="10"/>
+		<param name="m_weight_current_dir" value="0.5"/>
+        <param name="rotation_tolerance" value="10"/>
+    </node>
+
+</launch>

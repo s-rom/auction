@@ -7,7 +7,7 @@ include "sick.inc"
 
 window
 ( 
-  size [ 1000 1000 ] 
+  size [700  7000 ] 
   center [0.000 0.000] 
   rotate [ 0.000 0.000 ]
   scale 55.000 
@@ -19,13 +19,13 @@ floorplan
   name "rink"
   size [30.000 30.000 1.000]
   pose [0.000 0.000 0.000 0.000 ]
-  bitmap "bitmaps/rink.png"  
+  bitmap "bitmaps/rink.png"
 )
 
 pioneer2dx
 (
   name "robot_0"
-  pose [ 6 -3 0 0 ]
+  pose [ -7 7 0 90 ]
   color "red"
   sicklaser
   ( 
