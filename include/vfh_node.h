@@ -80,7 +80,7 @@ private:
 	bool has_valid_goal;
 	bool rotating_in_place;
 
-	float goal_tolerance = 0.5f;
+	float goal_tolerance;
 	float rotation_tolerance = 4.0f;
 	
 	double m_cell_size;			// 100 mm

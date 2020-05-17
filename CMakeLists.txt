@@ -60,6 +60,7 @@ target_link_libraries(GoalManager ${Boost_LIBRARIES})
 target_link_libraries(RobotManager RcSocket)
 target_link_libraries(RobotManager MessageSystem)
 target_link_libraries(RobotManager GoalManager)
+target_link_libraries(RobotManager vfh_node)
 
 
 #---- robot_node -----#

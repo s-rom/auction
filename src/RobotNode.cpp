@@ -117,10 +117,23 @@ int main(int argc, char ** argv)
         ROS_INFO_STREAM("Robot name: "<<robot_name);
     }
 
+
+    float load_capacity;
+    if (!nh.getParam("load_capacity", load_capacity))
+    {
+        load_capacity = get_rand_range(1,4);
+    }
+
+    
+    float max_linear_speed;
+    if (!nh.getParam("max_linear_speed", max_linear_speed))
+    {
+        max_linear_speed = get_rand_range(3,6);
+    }
+
+
     VFH_node vfh_node(n, nh, robot_name);
-    vfh_node.set_delivery(Auction::Point2D(0,0));
-    vfh_node.set_goal(Auction::Point2D(5,0));
-    vfh_node.set_total_travels(2);
+ 
 
     std::string log_path = "/home/sergi/Desktop/" + robot_name + "_goal_sender.log";
     
@@ -135,16 +148,14 @@ int main(int argc, char ** argv)
 
     // Constructs the RobotManager object
     RobotManager r(std::string(argv[0]),np);
+    r.set_vfh_node(&vfh_node);
 
-    // Randomizes max speed and load capacity
-    int max_vel = get_rand_range(3,6);
-    int load_capacity = get_rand_range(1,4);
 
     // r.set_goal_manager(goal_ptr);
-    r.set_max_linear_vel(max_vel);
+    r.set_max_linear_vel(max_linear_speed);
     r.set_load_capacity(load_capacity);
 
-    std::cout << "Generated robot with max_vel: "<<max_vel<<" and load_capacity: "<<load_capacity<<"\n";
+    std::cout << "Generated robot with max_vel: "<<max_linear_speed<<" and load_capacity: "<<load_capacity<<"\n";
 
     // For SIGINT handling
     r_ptr = &r;

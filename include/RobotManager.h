@@ -16,6 +16,8 @@
 #include "InfoReporter.h"
 //#include "GoalManager.h"
 
+#include "vfh_node.h"
+
 // STL
 #include <iostream>
 #include <cstring>
@@ -147,7 +149,7 @@ public:
     float get_work_capacity(Task & t);
 
     //void set_goal_manager(Auction::GoalManager * goal_manager);
-
+    void set_vfh_node(VFH_node * vfh_node);
 
     // Member attributes
     int id = -1;                                       // Robot unique id
@@ -252,6 +254,8 @@ private:
     Auction::RobotStatusInfo last_leader_alive;
 
     //Auction::GoalManager * goal_manager;
+    VFH_node * vfh_node;
+    
 
 };
 

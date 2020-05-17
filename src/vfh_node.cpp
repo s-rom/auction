@@ -95,6 +95,9 @@ nh_(nh), nh_private_(nh_private)
 	if (!nh_private_.getParam ("rotation_tolerance", rotation_tolerance))
 		rotation_tolerance = 4.0f;
 
+	if (!nh_private_.getParam ("goal_tolerance", goal_tolerance))
+		goal_tolerance = 1.0f;
+
 	m_vfh = new VFH_Algorithm(m_cell_size, m_window_diameter, m_sector_angle,
 			m_safety_dist_0ms, m_safety_dist_1ms, m_max_speed,
 			m_max_speed_narrow_opening, m_max_speed_wide_opening,

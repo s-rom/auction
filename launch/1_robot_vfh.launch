@@ -1,6 +1,6 @@
 <launch>
 
-    <node pkg="stage_ros" type="stageros" name="stage" args="/home/sergi/catkin_ws/src/auction/launch/world_files/1_robots.world"/>
+    <node pkg="stage_ros" type="stageros" name="stage" args="/home/sergi/catkin_ws/src/auction/launch/world_files/2_robots.world"/>
 
     <node pkg="auction" type="robot_node" name="robot_node" output="screen">
 		<param name="port" value="#25556"/>

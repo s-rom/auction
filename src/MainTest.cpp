@@ -2,7 +2,7 @@
 #include "InfoReporter.h"
 #include "SafeQueue.h"
 #include "Message.h"
-#include "Group.h"
+//#include "Group.h"
 #include "RobotManager.h"
 #include "MathUtil.h"
 #include <vector>

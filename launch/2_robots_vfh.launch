@@ -1,16 +1,19 @@
 <launch>
 
-    <node pkg="stage_ros" type="stageros" name="stage" args="/home/sergi/catkin_ws/src/auction/launch/world_files/2_robots.world"/>
+	<node pkg="stage_ros" type="stageros" name="stage" args="/home/sergi/catkin_ws/src/auction/launch/world_files/2_robots.world"/>
 	<include file="$(find auction)/launch/launch_1_robot_vfh.launch">
 		<arg name="robot_name" value="robot_0"/>
-		<arg name="hostname" value="localhost"/>
 		<arg name="port" value="#25556"/>
-	</include>
-
-    <include file="$(find auction)/launch/launch_1_robot_vfh.launch">
-		<arg name="robot_name" value="robot_1"/>
 		<arg name="hostname" value="localhost"/>
+		<arg name="load_capacity" value="3"/>
+		<arg name="max_linear_speed" value="4"/>
+	</include>
+	<include file="$(find auction)/launch/launch_1_robot_vfh.launch">
+		<arg name="robot_name" value="robot_1"/>
 		<arg name="port" value="#25557"/>
+		<arg name="hostname" value="localhost"/>
+		<arg name="load_capacity" value="4"/>
+		<arg name="max_linear_speed" value="6"/>
 	</include>
 
 </launch>
