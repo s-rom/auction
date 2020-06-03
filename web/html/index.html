@@ -12,85 +12,126 @@
 
     <!-- custom scripts -->
     <script src="../scripts/query_info.js"></script>
+    <script src="../scripts/button.js"></script>
+
+
+
+  <style>
+    #upButton {
+      position: fixed; /* Fixed/sticky position */
+      bottom: 20px; /* Place the button at the bottom of the page */
+      right: 30px; /* Place the button 30px from the right */
+      z-index: 99; /* Make sure it does not overlap */
+      border: none; /* Remove borders */
+      outline: none; /* Remove outline */
+      color: white; /* Text color */
+      cursor: pointer; /* Add a mouse pointer on hover */
+      padding: 15px; /* Some padding */
+      border-radius: 10px; /* Rounded corners */
+      font-size: 18px; /* Increase font size */
+    }
+
+    #upButton:hover {
+      background-color: #555; /* Add a dark-grey background on hover */
+    }
+  
+  </style>
+
 </head>
 
 
 <body>
-  <div class="container-fluid">
+
+  <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark nav-pills">
+    <a class="navbar-brand" href="index.html">MONITOR</a>
+  </nav>
+
+  <div class="container">
     
+    <div class="row mb-3"></div>
     <!-- Add task form -->
-    <div class="row">
-      <div class="col-md-5">
-        <h4>Add a new task</h4>
-        <form id="new_task_form">
-          <div class="form-group row">
-            <label for="workload" class="col-sm-5 col-form-label">WorkLoad (Kg)</label>
-            <div class="col-sm-6">
-              <input type="number" class="form-control" id="workload" placeholder="1" min="0">
-            </div>
-          </div>
-          <div class="form-group row">
-            <label for="deadline" class="col-sm-5 col-form-label">Deadline (s)</label>
-            <div class="col-sm-6">
-              <input type="number" class="form-control" id="deadline" min="0">
-            </div>
-          </div>
+    <div class="row mb-3">
 
-          <div class="form-group row">
-            <label class="col-sm-5" title="Point where the load will be delivered">Delivery point</label>
-            <label for="delivery_x" class="col-sm-1 col-form-label">x</label>
-            <div class="col-sm-2">
-              <input type="number" class="form-control" id="delivery_x">
-            </div>
-
-            <label for="delivery_y" class="col-sm-1 col-form-label">y</label>
-            <div class="col-sm-2">
-              <input type="number" class="form-control" id="delivery_y">
-            </div>
-          </div>
-
-          <div class="form-group row">
-            <label class="col-sm-5" title="Point where the load will be taken from">Goal point</label>
-            <label for="goal_x" class="col-sm-1 col-form-label">x</label>
-            <div class="col-sm-2">
-              <input type="number" class="form-control" id="goal_x">
-            </div>
-
-            <label for="goal_y" class="col-sm-1 col-form-label">y</label>
-            <div class="col-sm-2">
-              <input type="number" class="form-control" id="goal_y">
-            </div>
-          </div>
-
-
-          <fieldset class="form-group">
-            <div class="row">
-              <legend class="col-form-label col-sm-5 pt-0">Deadline utility function</legend>
-              <div class="col-sm-7">
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="gridRadios" id="soft" value="0" checked>
-                  <label class="form-check-label" for="gridRadios1">
-                    Soft deadline
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="gridRadios" id="hard" value="1">
-                  <label class="form-check-label" for="gridRadios2">
-                    Hard deadline
-                  </label>
-                </div>
+        <div class="col-md-6 bg-light">
+          <h4><b>Add a new task</b></h4>
+          <form id="new_task_form">
+            <div class="form-group row">
+              <label for="workload" class="col-sm-5 col-form-label">WorkLoad (Kg)</label>
+              <div class="col-sm-6">
+                <input type="number" class="form-control" id="workload" placeholder="1" min="0">
               </div>
             </div>
-          </fieldset>
-          
-          <div class="form-group row">
-            <div class="col-sm-10">
-              <button id="button_new_task" type="button" class="btn btn-primary" onclick="add_new_task();">Send</button>
+            <div class="form-group row">
+              <label for="deadline" class="col-sm-5 col-form-label">Deadline (s)</label>
+              <div class="col-sm-6">
+                <input type="number" class="form-control" id="deadline" min="0">
+              </div>
             </div>
-          </div>
-        </form>
 
-      </div>
+            <div class="form-group row">
+              <label class="col-sm-5" title="Point where the load will be delivered">Delivery point</label>
+              <label for="delivery_x" class="col-sm-1 col-form-label">x</label>
+              <div class="col-sm-2">
+                <input type="number" class="form-control" id="delivery_x">
+              </div>
+
+              <label for="delivery_y" class="col-sm-1 col-form-label">y</label>
+              <div class="col-sm-2">
+                <input type="number" class="form-control" id="delivery_y">
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label class="col-sm-5" title="Point where the load will be taken from">Goal point</label>
+              <label for="goal_x" class="col-sm-1 col-form-label">x</label>
+              <div class="col-sm-2">
+                <input type="number" class="form-control" id="goal_x">
+              </div>
+
+              <label for="goal_y" class="col-sm-1 col-form-label">y</label>
+              <div class="col-sm-2">
+                <input type="number" class="form-control" id="goal_y">
+              </div>
+            </div>
+
+
+            <fieldset class="form-group">
+              <div class="row mb-3">
+                <legend class="col-form-label col-sm-5 pt-0">Deadline utility function</legend>
+                <div class="col-sm-7">
+                  <div class="row">
+                    <div class="form-check col-sm-6">
+                    <input class="form-check-input" type="radio" name="gridRadios" id="soft" value="0" checked>
+                    <label class="form-check-label" for="gridRadios1">
+                      Soft deadline
+                    </label>
+                   <image src="../resources/images/soft_alpha.png"  style="width: 80px; min-width: 80px;"/>
+
+                   
+                    </div>
+                    <div class="form-check col-sm-6">
+                      <input class="form-check-input" type="radio" name="gridRadios" id="hard" value="1">
+                      <label class="form-check-label" for="gridRadios2">
+                        Hard deadline
+                      </label>
+                      <image src="../resources/images/hard_alpha.png"  style="width: 80px; min-width: 80px;;"/> 
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+            
+            <div class="form-group row">
+              <div class="col-sm-10">
+                <button id="button_new_task" type="button" class="btn btn-primary" onclick="add_new_task();">
+                  Send
+                </button>
+              </div>
+            </div>
+          </form>
+
+        </div>
     </div>
 
 
@@ -125,8 +166,8 @@
             <tr>
               <th scope="col">ID</th>
               <th scope="col">WorkLoad (Kg)</th>
-              <th scope="col">Delivery Point</th>
-              <th scope="col">Goal Point</th>
+              <th scope="col">Delivery</th>
+              <th scope="col">Goal</th>
               <th scope="col">Deadline (s)</th>
               <th scope="col">Status</th>
             </tr>
@@ -139,6 +180,9 @@
 
     
     
+  <button onclick="topFunction()" id="upButton" title="Go to top">
+    <image src="../resources/images/up-icon.svg"/>
+  </button>
 
 </body>
 

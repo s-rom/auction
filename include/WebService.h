@@ -19,7 +19,7 @@ namespace MonitorWS
     class MonitorApplication;
 }
 
-
+    
 class MonitorWS::MonitorApplication : public cppcms::application
 {
 public:

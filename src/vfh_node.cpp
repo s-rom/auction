@@ -299,8 +299,17 @@ void VFH_node::set_delivery(Auction::Point2D delivery)
  */
 float VFH_node::get_last_yaw()
 {
+	/* 
+		x --- q0 
+	   	y --- q1
+	   	z --- q2
+	   	w --- q3
+	*/
+
 	tf2::Quaternion q = last_orientation;
+	// 2 * (q3 q2 + q0 q1)
 	double siny_cosp = 2 * (q.w() * q.z() + q.x() * q.y());
+	// 1 - 2 * (q1^2 + q2^2)
     double cosy_cosp = 1 - 2 * (q.y() * q.y() + q.z() * q.z());
     double yaw = std::atan2(siny_cosp, cosy_cosp);
 	return yaw;

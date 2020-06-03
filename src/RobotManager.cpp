@@ -657,6 +657,7 @@ void RobotManager::leader_task_auction(Task & t)
         float robot_bid = std::get<1>(rob_tuple);
         float robot_bid2 = std::get<2>(rob_tuple);
 
+        info_report << "Robot "<<robot_id<<" WorkCapacity: "<<robot_bid<<"\n";
         selected_group.push_back(robot_id);
         load_capacities[robot_id] = robot_bid2;
 

@@ -54,10 +54,6 @@ function request_robots_info() {
                     if (net_status == "DEAD") row_class = "table-danger";
                     else row_class = "table-default";
 
-                    // $('#robots_table> tbody:last-child').
-                    // append('<tr class=\'robot_row\'><td>'+id+'</td><td>'+host+'</td><td>'+port+'</td><td>'+net_status+'</td>'+
-                    // '<td>UNKNOWN</td>'+'</tr>');
-
                     let button;
                     if (net_status != "DEAD") 
                         button='<td><button type="button" class="btn btn-danger"'+

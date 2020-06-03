@@ -76,6 +76,8 @@ void Monitor::message_processor(boost::atomic<bool>& running)
     }
 }
 
+
+
 void Monitor::kill_robot_message_handler(Auction::SimpleMessage & kill_robot)
 {
     info_report << "[KillRobotMessageHandler]: Received an order to kill robot "<< kill_robot.robot_src<<"\n";

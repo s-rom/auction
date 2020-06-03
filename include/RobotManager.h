@@ -111,13 +111,14 @@ public:
     void leader_task_auction(Task & t);
     
     /**
-     * Aucton for a robot algorithm.
-     * Executed by a non-leader (assistant robot). The robot
+     * Auction for a robot algorithm.
+     * Executed by a non-leader (helper robot). The robot
      * receives several bids from leaders and choose the one 
      * at which he expects to contribute the most utility
      *
      */ 
     void non_leader_task_auction(Task & t, BidMessage m);
+
 
     /**
      * Closes InfoReporter member's file if it's open 

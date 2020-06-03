@@ -105,7 +105,8 @@ public:
 
 
 private:
-	std::unordered_map<int, NetProfile> net_list; // List of net profiles of other robots
+
+	std::unordered_map<int, NetProfile> net_list; //List of net profiles of other robots
 	const int MONITOR_ID = 0;		              // Unique id of system's monitor
 	NetProfile monitor_info; 			          // Monitor's net profiles
 

@@ -11,7 +11,7 @@ namespace Auction
 	using std::strlen;
 	struct NetProfile;
 }
-
+ 
 
 struct Auction::NetProfile
 {
@@ -118,8 +118,6 @@ struct Auction::NetProfile
 
 	char* host; // ip
 	char* port; // Message system port
-
-
 
 };
 
