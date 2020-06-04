@@ -51,15 +51,28 @@ public:
     std::unordered_map<int, Auction::RobotRole> robot_role;
     std::unordered_map<int, std::pair<Auction::Task, Auction::TaskStatus>> task_list;
 
-    int get_number_of_robots()
+    // Simulation ploting
+    void update_robot_pose(int id, Auction::Point2D point, float yaw)
     {
-        return num_of_robots;
+        if (robot_points.find(id) == robot_points.end())
+        {
+            info_report << "[Update Robot Pos] First instanciate\n";
+            auto pair = std::make_pair(point, yaw);
+            robot_points[id] = pair;
+        }
+        else 
+        {
+            auto & pair = robot_points[id];
+            pair.first = point;
+            pair.second = yaw;
+        }
     }
 
-    int get_number_of_tasks()
-    {
-        return num_of_tasks;
-    }
+
+    std::unordered_map<int, std::pair<Auction::Point2D, float>> robot_points;
+
+    int get_number_of_robots() { return num_of_robots; }
+    int get_number_of_tasks() { return num_of_tasks; }
 
     
 private:

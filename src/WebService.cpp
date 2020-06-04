@@ -91,6 +91,51 @@ std::string MonitorApplication::json_task_info(int task_id)
 }
 
 
+std::string MonitorApplication::json_robot_pose_info(int id)
+{
+    if (id < 0) return "";
+    auto &pair =monitor->robot_points[id];
+    Auction::Point2D pose = pair.first;
+    float yaw = pair.second / M_PI * 180.0f;
+
+    std::string pose_json = "{";
+    pose_json += get_json_float("x", pose.x)+COMMA+ENDL;
+        pose_json += get_json_float("y", pose.y)+COMMA+ENDL;
+    pose_json += get_json_float("yaw", yaw) + ENDL;
+    pose_json += "}";
+
+    return pose_json;
+}
+
+void MonitorApplication::robot_pose_response()
+{
+    response().set_header("Access-Control-Allow-Origin","*");
+    std::string resp = "{\"positions\":[";
+
+    if (monitor->robot_points.size()== 0)
+    {
+        response().out() << "No hay robots en el sistema";
+        return;
+    }
+
+
+    int count = 0;
+    for (const auto & record : monitor->robot_points)
+    {
+        int id = record.first;
+        resp += this->json_robot_pose_info(id);
+     
+        if (count < monitor->robot_points.size()-1)  resp+= COMMA;
+
+        count++;
+    }
+
+    resp += "]}";
+
+    response().out() << resp;
+}
+
+
 
 void MonitorApplication::task_info_response()
 {
@@ -165,6 +210,10 @@ void MonitorApplication::set_dispatcher_mappings()
 
     dispatcher().assign("/get_tasks_info",&MonitorApplication::task_info_response, this);  
     mapper().assign("get_tasks_info","/get_tasks_info");
+
+    dispatcher().assign("/get_robots_positions",&MonitorApplication::robot_pose_response, this);  
+    mapper().assign("get_robots_positions","/get_robots_positions");
+
 
 
     mapper().root("/monitor");

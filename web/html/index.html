@@ -14,6 +14,7 @@
     <script src="../scripts/query_info.js"></script>
     <script src="../scripts/button.js"></script>
 
+    <script src="../scripts/simulation.js"></script>
 
 
   <style>
@@ -34,13 +35,25 @@
     #upButton:hover {
       background-color: #555; /* Add a dark-grey background on hover */
     }
-  
+    canvas { 
+      border: 1px solid black; 
+      /* width: 100%;
+      height: auto; */
+    }
+
+    
+
   </style>
 
 </head>
 
 
 <body>
+
+  <!-- Canvas resource images -->
+  <div style="display:none;">
+    <img id="source" src="../resources/images/arrow.png">
+  </div>
 
   <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark nav-pills">
     <a class="navbar-brand" href="index.html">MONITOR</a>
@@ -130,8 +143,11 @@
               </div>
             </div>
           </form>
-
         </div>
+
+        <div class="col-md-6">
+          <canvas id="main_canvas" width=500 height=500></canvas>
+      </div>
     </div>
 
 

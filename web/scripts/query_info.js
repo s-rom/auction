@@ -1,4 +1,5 @@
 var robots_info = null;
+var tasks_info = null;
 var server_root = "http://localhost:8080/monitor";
 
 $(document).ready(function(){

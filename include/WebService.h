@@ -34,9 +34,9 @@ private:
     void task_info_response();
     void robot_kill_response(std::string id_str);
     void new_task_response(std::string serialized_task);
+    void robot_pose_response();
 
-
-
+    std::string json_robot_pose_info(int id);
     std::string get_json_string(std::string var, std::string value);
     std::string get_json_int(std::string var, int value);
     std::string get_json_float(std::string var, float value);

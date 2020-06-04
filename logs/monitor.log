@@ -1,9 +1,13 @@
-<11:53:41> [Monitor] --> listening on port 25555
-<11:53:41> [Message thread] ---> running
-Received NewRobot message from host: localhost, port: 25557
-Received NewRobot message from host: localhost, port: 25557
+<13:45:25> [Message thread] ---> running
+<13:45:25> [Monitor] --> listening on port 25555
 Received NewRobot message from host: localhost, port: 25556
 Received NewRobot message from host: localhost, port: 25556
 Received NewRobot message from host: localhost, port: 25557
+Received NewRobot message from host: localhost, port: 25557
+<13:45:25> [Update Robot Pos] First instanciate
+<13:45:25> [Update Robot Pos] First instanciate
 Received NewRobot message from host: localhost, port: 25556
-<12:00:10> [Monitor] <--- killed by SIGINT
+Received NewRobot message from host: localhost, port: 25557
+<13:45:34> [CheckRobotStatus]: Robot 1 is considered dead
+<13:45:34> [CheckRobotStatus]: Robot 2 is considered dead
+<13:45:35> [Monitor] <--- killed by SIGINT

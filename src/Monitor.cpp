@@ -116,7 +116,6 @@ void Monitor::leader_alive_message_handler(Auction::SimpleMessage & leader_alive
     
     
     // TODO: Change task status in task_list
-
     info.update_last_time_point();   
     info.first_time_point = false;
 }

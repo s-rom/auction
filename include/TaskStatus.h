@@ -4,7 +4,6 @@
 namespace Auction
 {
     enum TaskStatus { WAITING, AUCTIONING, CONDUCTING, COMPLETED};
-    class TaskStatusInfo;
 }
 
 

@@ -5,12 +5,12 @@
 #include <boost/thread.hpp>
 #include <boost/atomic/atomic.hpp>
 
-
 #include <ros/ros.h>
 #include <ros/master.h>
 #include <nav_msgs/Odometry.h>
+#include <tf2/LinearMath/Quaternion.h>
 
-Auction::Monitor * monitor_ptr;
+Auction::Monitor * monitor_ptr = nullptr;
 cppcms::service * service_ptr;
 boost::atomic<bool> running(true);
 
@@ -53,6 +53,26 @@ void ros_polling_loop()
 void odom_callback(const nav_msgs::Odometry::ConstPtr & msg)
 {
     //std::cout << "Odom received: "<<msg->pose.pose.position << "\n";
+    if (monitor_ptr == nullptr) return;
+    
+    std::string frame_id = msg->header.frame_id;
+    frame_id = frame_id.substr(frame_id.find('_')+1, 1);
+    int id = std::stoi(frame_id);
+
+    Auction::Point2D p(msg->pose.pose.position.x, msg->pose.pose.position.y);
+   
+    
+    float x = msg->pose.pose.orientation.x;
+    float y = msg->pose.pose.orientation.y;
+    float z = msg->pose.pose.orientation.z;
+    float w = msg->pose.pose.orientation.w;
+    
+    double siny_cosp = 2 * (w * z + x * y);
+	double cosy_cosp = 1 - 2 * (y * y + z * z);
+    double yaw = std::atan2(siny_cosp, cosy_cosp);
+
+    monitor_ptr->update_robot_pose(id, p, yaw);
+
 }
 
 
@@ -66,9 +86,9 @@ int main(int argc, char ** argv)
     ros::master::V_TopicInfo topic_infos;
     ros::master::getTopics(topic_infos);
 
-    std::string odom_topic = "/robot_0/odom";
-    ros::Subscriber odom_subscriber = nh.subscribe(odom_topic, 1, odom_callback);
-
+    ros::Subscriber odom_subscriber = nh.subscribe("/robot_0/odom", 1, odom_callback);
+    ros::Subscriber odom_subscriber2 = nh.subscribe("/robot_1/odom", 1, odom_callback);
+    
 
     Auction::Monitor m(program_path);
     monitor_ptr = &m;

@@ -14,6 +14,8 @@ struct Auction::Point2D
 {
 	float x, y;
 
+	const static Auction::Point2D zero;
+
 	/**
 	 * Constructor 
 	 * Requires initialization for x and y values
