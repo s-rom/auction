@@ -5,6 +5,7 @@ var robot_width = 12;
 var robot_height = 18;
 var arrow;
 var backColor = '#f5f5f5';
+var updateRate = 100; //ms
 
 function render(){
     ctx.fillStyle = backColor;
@@ -74,7 +75,7 @@ function update(deltaTime){
 
 $(document).ready(function() {
     arrow = document.getElementById('source');
-    setInterval(queryPositions, 100);
+    setInterval(queryPositions, updateRate);
     startSimulation();
 });
 

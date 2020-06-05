@@ -7,7 +7,7 @@
 namespace Auction
 {
     enum RobotStatus {UNKOWN, ALIVE, DEAD};
-    enum RobotRole { LEADING, HELPING, IDLE };
+    enum RobotRole {LEADING, HELPING, IDLE};
     struct RobotStatusInfo;
 }
 
@@ -15,6 +15,7 @@ namespace Auction
 struct Auction::RobotStatusInfo
 {
     RobotStatus current_status;
+    RobotRole current_role;
     std::chrono::time_point<std::chrono::system_clock> last_time_point;
     bool first_time_point;
 

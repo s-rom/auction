@@ -49,35 +49,14 @@ public:
 
 int main(int argc, char ** argv)
 {
-
-    geometry_msgs::Pose rob_pose;
-    rob_pose.position.x = 5;
-    rob_pose.position.y = -7;
-    rob_pose.position.z = 0;
-
-    
-    geometry_msgs::Pose goal_pose;
-    goal_pose.position.x = 0;
-    goal_pose.position.y = 0;
-    goal_pose.position.z = 0;
-    
-
-    
-    tf2::Vector3 dir
-    (
-        goal_pose.position.x - rob_pose.position.x, 
-        goal_pose.position.y - rob_pose.position.y, 
-        0
-    );
-
-
-
-    dir.normalize();
-    
-
+    Auction::MonitoringMessage ms(1, 1, 6, true, Auction::MessageType::LEADER_ALIVE);
+    Auction::MonitoringMessage ms2(ms.serialize());
+    std::cout << "From params: "<<ms.serialize() << "\n";
+    std::cout << "From serialized: "<<ms2.serialize() << "\n";
 
 
 }
+
 
 void test_tuple()
 {

@@ -187,6 +187,21 @@ void RobotManager::wait_until_id(long millis)
     }
 }
 
+void RobotManager::check_own_status()
+{
+    if ((task_helper != NULL_TASK || task_leader != NULL_TASK) &&
+         vfh_node->is_goal_completed())
+    {
+        task_helper = NULL_TASK;
+        task_leader = NULL_TASK;
+        current_leader = NULL_TASK;
+        this->group.clear();
+        this->group_travels.clear();
+        info_report << "[Periodic Behaviour] Task is completed: Clearing group and group travels\n";
+    }
+}
+
+
 
 void RobotManager::periodic_behaviour(boost::atomic<bool> & running)
 {
@@ -198,6 +213,7 @@ void RobotManager::periodic_behaviour(boost::atomic<bool> & running)
     {
         if (this->id == NULL_ID) continue;
         check_robots_status();
+        check_own_status();
         
         if (delta_time >= RobotStatusInfo::TIME_LEAD_ALIVE_MILLIS){
 
@@ -209,7 +225,7 @@ void RobotManager::periodic_behaviour(boost::atomic<bool> & running)
             {
                 SimpleMessage leader_alive_msg(task_leader, this->id, MessageType::LEADER_ALIVE);
                 message_system.send_message_monitor(leader_alive_msg);
-                info_report << "[Periodic Behaviour] I'm a leader, sending to monitor and ALL robots\n";
+                //info_report << "[Periodic Behaviour] I'm a leader, sending to monitor and ALL robots\n";
                 
                 message_system.broadcast_message(leader_alive_msg);
             } 
@@ -218,6 +234,7 @@ void RobotManager::periodic_behaviour(boost::atomic<bool> & running)
             {
                 // Send to current leader
                 // info_report << "[Periodic Behaviour] I'm a helper, sending to monitor and leader\n";
+                SimpleMessage robot_alive_msg(task_helper, this->id, MessageType::ROBOT_ALIVE);
                 message_system.send_message_monitor(robot_alive_msg);
                 assert(current_leader != NULL_ID);
                 message_system.send_message(robot_alive_msg, current_leader);
@@ -226,7 +243,7 @@ void RobotManager::periodic_behaviour(boost::atomic<bool> & running)
             else 
             {
                 // Send only to monitor
-                // info_report << "[Periodic Behaviour] I'm idle, sending to monitor\n";
+                SimpleMessage robot_alive_msg(task_helper, this->id, MessageType::ROBOT_ALIVE);
                 message_system.send_message_monitor(robot_alive_msg);
             }
 

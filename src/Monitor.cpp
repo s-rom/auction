@@ -113,10 +113,9 @@ void Monitor::leader_alive_message_handler(Auction::SimpleMessage & leader_alive
         << " who is leading task " << leader_alive.task_id << "\n";
 
     Auction::RobotStatusInfo & info = this->robot_status[leader_alive.robot_src];
-    
-    
     // TODO: Change task status in task_list
     info.update_last_time_point();   
+    info.current_role = RobotRole::LEADING;
     info.first_time_point = false;
 }
 

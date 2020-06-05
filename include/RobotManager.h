@@ -217,6 +217,7 @@ private:
 
 
     void check_robots_status();
+    void check_own_status();
 
     void wait_until_id(long millis);
 

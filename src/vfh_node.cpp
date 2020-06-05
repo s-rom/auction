@@ -153,7 +153,7 @@ void VFH_node::goalCallback (const nav_msgs::Odometry::ConstPtr& goal_msg)
 
 bool VFH_node::is_goal_completed()
 {
-	return current_travels == total_travels;
+	return current_travels == total_travels && total_travels != 0;
 }
 
 void VFH_node::odomCallback (const nav_msgs::Odometry::ConstPtr& odom_msg)

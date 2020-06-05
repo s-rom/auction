@@ -18,6 +18,7 @@ namespace Auction
 	class BidMessage;
 	class LeaderOfTaskMessage;
 	class NewRobotMessage;
+	class MonitoringMessage;
 
 	enum MessageType
 	{ 
@@ -63,7 +64,6 @@ namespace Auction
 #define next_float_token(id) getline(ss,token,DELIM); id = stof(token);
 #define next_int_token(id) getline(ss,token,DELIM); id = stoi(token);
 #define next_token(id) getline(ss,token,DELIM); id = token;
-
 
 class Auction::Message
 {
@@ -134,6 +134,78 @@ public:
 	int robot_src;
 	int task_id;
 };
+
+
+
+class Auction::MonitoringMessage : public Auction::Message
+{
+public:
+
+	MonitoringMessage(int task_id, int robot_src, int load, bool completed,  MessageType type)
+	:
+		task_id(task_id),
+		robot_src(robot_src),
+		completed(completed),
+		load(load)
+	{
+		this->type = type;
+	}
+	
+	/**
+	 * Creates a Message given a serialized string
+	 * 
+	 * Format required:  
+	 * #type#task_id#src#load#completed#
+	 */
+	MonitoringMessage(string serialized_message)
+	{
+		using std::stringstream;
+		using std::getline;
+		using std::stoi;
+		using std::stof;
+
+
+		stringstream ss(serialized_message);
+		string token;
+		
+		getline(ss,token,DELIM); // DELIM
+		getline(ss,token,DELIM); // type
+
+		this->type = static_cast<MessageType>(std::stoi(token));
+
+		next_int_token(task_id);
+		next_int_token(robot_src);
+		next_int_token(load);
+		next_int_token(completed);
+	}
+ 	
+	/**
+     * Creates a serialized string of this Message
+     * 
+     * Format:  
+     * #type#task_id#src#load#completed#
+	 */
+	string serialize()
+	{
+		using std::to_string;
+		string s;
+		s = DELIM +	
+				to_string(type) 		+ DELIM +
+				to_string(task_id) 		+ DELIM +
+				to_string(robot_src) 	+ DELIM +
+				to_string(load) 		+ DELIM + 
+				to_string(completed ? 1 : 0) 	+
+			DELIM;
+		return s;
+	}
+
+	int robot_src;
+	int task_id;
+	bool completed;
+	int load;
+};
+
+
 
 
 class Auction::NewTaskMessage : public Auction::Message
