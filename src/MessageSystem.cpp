@@ -77,24 +77,42 @@ Message* MessageSystem::create_message_from(char * msg)
         case MessageType::NEW_TASK:
             return new NewTaskMessage(serialized_message);
             break;
+
         case MessageType::LEADER_OF_TASK:
             return new LeaderOfTaskMessage(serialized_message);
             break;
+
         case MessageType::LEADER_REQUEST:
         case MessageType::BID_FOR_TASK:
             return new BidMessage(serialized_message);
             break;
+
         case MessageType::NEW_ROBOT:
             return new NewRobotMessage(serialized_message);
             break;
 
         case MessageType::BID_REQUEST:
         case MessageType::REFUSE:
+        case MessageType::ROBOT_KILL:
+            return new SimpleMessage(serialized_message);
+            break;
+        
+        case MessageType::HELPER_ALIVE:
         case MessageType::ROBOT_ALIVE:
         case MessageType::LEADER_ALIVE:
-        case MessageType::ROBOT_KILL:
-        case MessageType::HELPER_ALIVE:
-            return new SimpleMessage(serialized_message);
+
+
+            MonitoringMessage * mm;
+            try 
+            {
+                mm = new MonitoringMessage(serialized_message);
+            } 
+            catch (std::invalid_argument & ex)
+            {
+                std::cout << "FAILED TO PARSE MONITORING MESSAGE!!!! -->  "<<serialized_message<<"\n";
+            }
+
+            return mm;
             break;
     }
 

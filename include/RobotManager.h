@@ -203,17 +203,17 @@ private:
      * 
      * The robot accepts the group invitation.
      */
-    void robot_alive_message_handler(SimpleMessage & robot_alive);
+    void robot_alive_message_handler(MonitoringMessage & robot_alive);
     
     /**
      * TODO
      */
-    void leader_alive_message_handler(SimpleMessage & lead_alive);
+    void leader_alive_message_handler(MonitoringMessage & lead_alive);
 
     /**
      * TODO
      */
-    void helper_alive_message_handler(SimpleMessage & lead_alive);
+    void helper_alive_message_handler(MonitoringMessage & helper_alive);
 
 
     void check_robots_status();

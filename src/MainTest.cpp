@@ -49,11 +49,14 @@ public:
 
 int main(int argc, char ** argv)
 {
-    Auction::MonitoringMessage ms(1, 1, 6, true, Auction::MessageType::LEADER_ALIVE);
+    bool completed = true;
+    Auction::MonitoringMessage ms(1, 1, 6, completed, Auction::MessageType::LEADER_ALIVE);
     Auction::MonitoringMessage ms2(ms.serialize());
     std::cout << "From params: "<<ms.serialize() << "\n";
     std::cout << "From serialized: "<<ms2.serialize() << "\n";
 
+    bool success = ms.serialize().compare(ms2.serialize()) == 0;
+    std::cout << ((success)?"success!":"error!")<<"\n";
 
 }
 

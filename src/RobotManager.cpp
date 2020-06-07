@@ -126,21 +126,21 @@ void RobotManager::process_message_queue(boost::atomic<bool> & running)
             
             case ROBOT_ALIVE:
             {
-                SimpleMessage * robot_alive = dynamic_cast<SimpleMessage*>(m);
+                MonitoringMessage * robot_alive = dynamic_cast<MonitoringMessage*>(m);
                 robot_alive_message_handler(*robot_alive);
                 break;
             }
 
             case LEADER_ALIVE:
             {
-                SimpleMessage * lead_alive = dynamic_cast<SimpleMessage*>(m);
+                MonitoringMessage * lead_alive = dynamic_cast<MonitoringMessage*>(m);
                 leader_alive_message_handler(*lead_alive);
                 break;
             }
 
             case HELPER_ALIVE:
             {
-                SimpleMessage * helper_alive = dynamic_cast<SimpleMessage*>(m);
+                MonitoringMessage * helper_alive = dynamic_cast<MonitoringMessage*>(m);
                 helper_alive_message_handler(*helper_alive);
                 break;
             }
@@ -217,13 +217,23 @@ void RobotManager::periodic_behaviour(boost::atomic<bool> & running)
         
         if (delta_time >= RobotStatusInfo::TIME_LEAD_ALIVE_MILLIS){
 
-            SimpleMessage robot_alive_msg(task_helper, this->id, MessageType::ROBOT_ALIVE);
-
-
             // Leader 
             if (this->task_leader != NULL_TASK)
             {
-                SimpleMessage leader_alive_msg(task_leader, this->id, MessageType::LEADER_ALIVE);
+               
+                int travels = vfh_node->get_current_travels() / 2;
+                int load = travels * this->load_capacity;
+                bool completed = vfh_node->is_goal_completed();
+                
+                MonitoringMessage leader_alive_msg
+                (
+                    task_leader, 
+                    id, 
+                    load, 
+                    completed, 
+                    MessageType::LEADER_ALIVE
+                );
+                
                 message_system.send_message_monitor(leader_alive_msg);
                 //info_report << "[Periodic Behaviour] I'm a leader, sending to monitor and ALL robots\n";
                 
@@ -234,7 +244,20 @@ void RobotManager::periodic_behaviour(boost::atomic<bool> & running)
             {
                 // Send to current leader
                 // info_report << "[Periodic Behaviour] I'm a helper, sending to monitor and leader\n";
-                SimpleMessage robot_alive_msg(task_helper, this->id, MessageType::ROBOT_ALIVE);
+                
+                int travels = vfh_node->get_current_travels() / 2;
+                int load = travels * this->load_capacity;
+                bool completed = vfh_node->is_goal_completed();
+
+                MonitoringMessage robot_alive_msg
+                (
+                    task_leader, 
+                    id, 
+                    load, 
+                    completed, 
+                    MessageType::HELPER_ALIVE
+                );
+                
                 message_system.send_message_monitor(robot_alive_msg);
                 assert(current_leader != NULL_ID);
                 message_system.send_message(robot_alive_msg, current_leader);
@@ -243,7 +266,14 @@ void RobotManager::periodic_behaviour(boost::atomic<bool> & running)
             else 
             {
                 // Send only to monitor
-                SimpleMessage robot_alive_msg(task_helper, this->id, MessageType::ROBOT_ALIVE);
+                MonitoringMessage robot_alive_msg
+                (   
+                    0, 
+                    id, 
+                    0, 
+                    false, 
+                    MessageType::ROBOT_ALIVE
+                );
                 message_system.send_message_monitor(robot_alive_msg);
             }
 
@@ -410,7 +440,7 @@ void RobotManager::bid_for_task_message_handler(BidMessage & bid_msg)
 
 
 
-void RobotManager::robot_alive_message_handler(SimpleMessage & robot_alive)
+void RobotManager::robot_alive_message_handler(MonitoringMessage & robot_alive)
 {
     if (this->task_leader == NULL_TASK) return;
 
@@ -423,14 +453,16 @@ void RobotManager::robot_alive_message_handler(SimpleMessage & robot_alive)
     else 
     {
         info_report << "[RobotAliveMessageHandler] Robot "<<robot_alive.robot_src << 
-        " is in the group. Time elapsed: "<<group[robot_alive.robot_src].get_elapsed_millis() << "\n";
+            " is in the group. Time elapsed: "<<group[robot_alive.robot_src].get_elapsed_millis() 
+            << "\n";
+
         group[robot_alive.robot_src].update_last_time_point();
         group[robot_alive.robot_src].first_time_point = false;
     }
 
 }
 
-void RobotManager::leader_alive_message_handler(SimpleMessage & lead_alive)
+void RobotManager::leader_alive_message_handler(MonitoringMessage & lead_alive)
 {
     
     // Leading same task
@@ -456,8 +488,26 @@ void RobotManager::leader_alive_message_handler(SimpleMessage & lead_alive)
 
 }
     
-void RobotManager::helper_alive_message_handler(SimpleMessage & lead_alive)
+void RobotManager::helper_alive_message_handler(MonitoringMessage & helper_alive)
 {
+    if (this->task_leader == NULL_TASK) return;
+
+    if (group.find(helper_alive.robot_src) == group.end())
+    {
+        group[helper_alive.robot_src] = Auction::RobotStatusInfo();
+        info_report << "[HelperAliveMessageHandler] Robot "<<helper_alive.robot_src << 
+        " is not found in the group. Accepted as a new helper\n";
+    }
+    else 
+    {
+        info_report << "[HelperAliveMessageHandler] Robot "<<helper_alive.robot_src << 
+            " is in the group. Time elapsed: "<<group[helper_alive.robot_src].get_elapsed_millis() 
+            << "Load carried: "<<helper_alive.load << ". Completed: "<<helper_alive.completed
+            << "\n";
+
+        group[helper_alive.robot_src].update_last_time_point();
+        group[helper_alive.robot_src].first_time_point = false;
+    }
 
 }
 
@@ -838,7 +888,15 @@ void RobotManager::non_leader_task_auction(Task & t, BidMessage first_bid)
 
 
     // Accept best leader's task
-    SimpleMessage accept_msg(best_task, this->id,MessageType::ROBOT_ALIVE);
+    MonitoringMessage accept_msg
+    (
+        best_task,
+        this->id,
+        0,
+        false,
+        MessageType::ROBOT_ALIVE
+    );
+    
     message_system.send_message(accept_msg, best_leader);
     task_helper = best_task;
     current_leader = best_leader;

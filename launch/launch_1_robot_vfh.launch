@@ -27,10 +27,10 @@
 		<!-- <param name="m_weight_desired_dir" value="10"/>
 		<param name="m_weight_current_dir" value="0.5"/> -->
         <param name="rotation_tolerance" value="10"/>
-		<param name="robot_radius" value="700"/> <!-- mm -->
-		<param name="goal_tolerance" value="1"/> <!-- mm -->
+		<param name="robot_radius" value="700"/> <!-- milimeters-->
+		<param name="goal_tolerance" value="1"/> <!-- milimeters -->
+		<param name="safety_dist_1ms" value="0.7"/> <!-- meters -->
 
-	
 
 	</node>
 

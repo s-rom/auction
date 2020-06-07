@@ -43,7 +43,7 @@ void Monitor::message_processor(boost::atomic<bool>& running)
                 }
                 case LEADER_ALIVE:
                 {
-                    SimpleMessage * lead_alive = dynamic_cast<SimpleMessage*>(m);
+                    MonitoringMessage * lead_alive = dynamic_cast<MonitoringMessage*>(m);
                     leader_alive_message_handler(*lead_alive);
                     break;
                 }
@@ -55,8 +55,15 @@ void Monitor::message_processor(boost::atomic<bool>& running)
                 }
                 case ROBOT_ALIVE:
                 {
-                    SimpleMessage * robot_alive = dynamic_cast<SimpleMessage*>(m);
+                    MonitoringMessage * robot_alive = dynamic_cast<MonitoringMessage*>(m);
                     robot_alive_message_handler(*robot_alive);
+                    break;
+                }
+                
+                case HELPER_ALIVE:
+                {
+                    MonitoringMessage * helper_alive = dynamic_cast<MonitoringMessage*>(m);
+                    helper_alive_message_handler(*helper_alive);
                     break;
                 }
 
@@ -107,7 +114,7 @@ void Monitor::new_task_message_handler(Auction::NewTaskMessage & new_task)
     message_system.broadcast_message(new_task);
 }
 
-void Monitor::leader_alive_message_handler(Auction::SimpleMessage & leader_alive)
+void Monitor::leader_alive_message_handler(Auction::MonitoringMessage & leader_alive)
 {
     info_report << "[LeaderAliveMessageHandler] Received from " << leader_alive.robot_src 
         << " who is leading task " << leader_alive.task_id << "\n";
@@ -119,9 +126,19 @@ void Monitor::leader_alive_message_handler(Auction::SimpleMessage & leader_alive
     info.first_time_point = false;
 }
 
-void Monitor::robot_alive_message_handler(Auction::SimpleMessage & robot_alive)
+void Monitor::robot_alive_message_handler(Auction::MonitoringMessage & robot_alive)
 {
     Auction::RobotStatusInfo & info = this->robot_status[robot_alive.robot_src];    
+    info.update_last_time_point();
+    info.first_time_point = false;    
+    info.current_role = RobotRole::IDLE;
+}
+
+
+void Monitor::helper_alive_message_handler(Auction::MonitoringMessage & helper_alive)
+{
+    Auction::RobotStatusInfo & info = this->robot_status[helper_alive.robot_src];    
+    info.current_role = RobotRole::HELPING;
     info.update_last_time_point();
     info.first_time_point = false;    
 }

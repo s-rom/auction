@@ -36,19 +36,18 @@ public:
     void message_processor(boost::atomic<bool>& running);
     void message_server(boost::atomic<bool>& running);
 
-    void leader_alive_message_handler(Auction::SimpleMessage & leader_alive);
     void new_task_message_handler(Auction::NewTaskMessage & new_task);
     void new_robot_message_handler(Auction::NewRobotMessage * nr);
-    void robot_alive_message_handler(Auction::SimpleMessage & robot_alive);
     void kill_robot_message_handler(Auction::SimpleMessage & kill_robot);
+    void leader_alive_message_handler(Auction::MonitoringMessage & leader_alive);
+    void robot_alive_message_handler(Auction::MonitoringMessage & robot_alive);
+    void helper_alive_message_handler(Auction::MonitoringMessage & helper_alive);
 
     Auction::SafeQueue<Auction::Message*> message_queue;
     Auction::MessageSystem message_system;
     Auction::InfoReporter info_report;
     std::unordered_map<int, Auction::RobotStatusInfo> robot_status;
     
-    // Task monitoring -- TODO unused
-    std::unordered_map<int, Auction::RobotRole> robot_role;
     std::unordered_map<int, std::pair<Auction::Task, Auction::TaskStatus>> task_list;
 
     // Simulation ploting

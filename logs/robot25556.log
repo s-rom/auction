@@ -1,25 +1,25 @@
-<10:44:43> [Auction process] ---> Running
-<10:44:45> [NewRobotHandler] Received my own id: 1
-<10:45:19> [NeTaskHandler] new task: 1
-<10:45:19> [LeaderAlgorithm] Starting a leader request process for task 1
-<10:45:19> [LeaderAlgorithm] Robot 1 requesting task 1, bid: 0.339811
-<10:45:20> [LeaderAlgorithm] Received bid 0.363076, and mine is 0.339811, giving up... 
-<10:45:22> [LeaderOfTaskHandler] Robot 2 is the new leader of task 1
-<10:45:22> [BidRequestMessageHandler]: Received a bid request from Robot2 for task 1. Replying with bid: 0.339811
-<10:45:25> [NonLeaderAuction] Received bid from 2 for task 1 with a bid of 0.129293
-<10:45:32> [NonLeaderAuction] Best option: task 1 from leader 2 whose bid is 0.129293
-<10:45:32> [NonLeaderAuction] Sending refuse to
-<10:45:32> [BidForTaskMessageHandler] Setting 2 travels
-<10:46:39> [Periodic Behaviour] Task is completed: Clearing group and group travels
-<10:47:06> [NeTaskHandler] new task: 2
-<10:47:06> [LeaderAlgorithm] Starting a leader request process for task 2
-<10:47:06> [LeaderAlgorithm] Robot 1 requesting task 2, bid: 0.339811
-<10:47:06> [LeaderAlgorithm] Received bid 0.363076, and mine is 0.339811, giving up... 
-<10:47:09> [LeaderOfTaskHandler] Robot 2 is the new leader of task 2
-<10:47:09> [BidRequestMessageHandler]: Received a bid request from Robot2 for task 2. Replying with bid: 0.339811
-<10:47:12> [NonLeaderAuction] Received bid from 2 for task 2 with a bid of 0.129293
-<10:47:18> [NonLeaderAuction] Best option: task 2 from leader 2 whose bid is 0.129293
-<10:47:18> [NonLeaderAuction] Sending refuse to
-<10:47:18> [BidForTaskMessageHandler] Setting 2 travels
-<10:48:35> [CheckRobotStatus] Leader of my task is not responding. (Elapsed:3412ms)Exiting group
-<10:48:50> [RobotAuction]: Killed by SIGINT
+<11:33:15> [Auction process] ---> Running
+<11:33:18> [NewRobotHandler] Received my own id: 1
+<11:33:51> [NeTaskHandler] new task: 1
+<11:33:51> [LeaderAlgorithm] Starting a leader request process for task 1
+<11:33:51> [LeaderAlgorithm] Robot 1 requesting task 1, bid: 0.314613
+<11:33:51> [LeaderAlgorithm] Received bid 0.339811, and mine is 0.314613, giving up... 
+<11:33:54> [LeaderOfTaskHandler] Robot 2 is the new leader of task 1
+<11:33:54> [BidRequestMessageHandler]: Received a bid request from Robot2 for task 1. Replying with bid: 0.314613
+<11:33:57> [NonLeaderAuction] Received bid from 2 for task 1 with a bid of 0.106181
+<11:34:03> [NonLeaderAuction] Best option: task 1 from leader 2 whose bid is 0.106181
+<11:34:03> [NonLeaderAuction] Sending refuse to
+<11:34:03> [BidForTaskMessageHandler] Setting 2 travels
+<11:35:30> [Periodic Behaviour] Task is completed: Clearing group and group travels
+<11:36:06> [NeTaskHandler] new task: 2
+<11:36:06> [LeaderAlgorithm] Starting a leader request process for task 2
+<11:36:06> [LeaderAlgorithm] Robot 1 requesting task 2, bid: 0.404628
+<11:36:07> [LeaderAlgorithm] Received bid 0.420676, and mine is 0.404628, giving up... 
+<11:36:10> [LeaderOfTaskHandler] Robot 2 is the new leader of task 2
+<11:36:10> [BidRequestMessageHandler]: Received a bid request from Robot2 for task 2. Replying with bid: 0.404628
+<11:36:13> [NonLeaderAuction] Received bid from 2 for task 2 with a bid of 1
+<11:36:19> [NonLeaderAuction] Best option: task 2 from leader 2 whose bid is 1
+<11:36:19> [NonLeaderAuction] Sending refuse to
+<11:36:19> [BidForTaskMessageHandler] Setting 1 travels
+<11:36:33> [CheckRobotStatus] Leader of my task is not responding. (Elapsed:3401ms)Exiting group
+<11:36:34> [RobotAuction]: Killed by SIGINT

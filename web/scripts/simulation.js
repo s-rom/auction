@@ -3,23 +3,83 @@ var server_root = "http://localhost:8080/monitor";
 var positions = null;
 var robot_width = 12;
 var robot_height = 18;
+var stageScale = 20;
 var arrow;
 var backColor = '#f5f5f5';
+var goalColor = '#3473ad';
+var deliveryColor = '#24ad37';
+var posRadius = 15;
 var updateRate = 100; //ms
 
 function render(){
+    ctx.globalAlpha = 1;
     ctx.fillStyle = backColor;
     ctx.fillRect(0,0,cw,ch);
 
+    renderTasks();
+    renderRobots();
+}
+
+function stageToCanvasPoint(point){
+    point[0] = point[0] * (cw/stageScale) + cw/2;
+    point[1] = - point[1] * (ch/stageScale) + ch/2;   
+    return point;
+}
+
+function parsePoint(pointStr){
+    let len = pointStr.length;
+    let delimIdx = pointStr.indexOf(",");
+    let xStr = pointStr.substring(1, delimIdx);
+    let yStr = pointStr.substring(delimIdx+1, len-1);
+
+    let x = parseFloat(xStr);
+    let y = parseFloat(yStr);
+
+    return [x, y];
+}
+
+function renderTasks(){
+    if (tasks_info == null) return;
+    ctx.setTransform(1,0,0,1,0,0);
+
+    ctx.globalAlpha = 0.4;
+
+    for (let t = 0; t<tasks_info.tasks.length; t++){
+        let task = tasks_info.tasks[t];
+        
+        let goal = stageToCanvasPoint(parsePoint(task.goal));
+        let delivery = stageToCanvasPoint(parsePoint(task.delivery));
+        
+        
+        ctx.beginPath();
+        ctx.arc(goal[0], goal[1], posRadius, 0, 2 * Math.PI);
+        ctx.strokeStyle='#000000';
+        ctx.stroke();
+        ctx.fillStyle = goalColor;
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.arc(delivery[0], delivery[1], posRadius, 0, 2 * Math.PI);
+        ctx.strokeStyle='#000000';
+        ctx.stroke();
+        ctx.fillStyle = deliveryColor;
+        ctx.fill();
+       
+    }
+}
+
+function renderRobots(){
+    
     if (positions == null) return;
+    ctx.globalAlpha = 1;
 
     for (let i = 0; i < positions.positions.length; i ++)
     {
         ctx.setTransform(1,0,0,1,0,0);
         let pos = positions.positions[i];
         
-        let x = pos.x * (cw/20) + cw/2;
-        let y = -pos.y * (ch/20) + ch/2;
+        let x = pos.x * (cw/stageScale) + cw/2;
+        let y = -pos.y * (ch/stageScale) + ch/2;
         let cx = x + robot_width/2;
         let cy = y + robot_height/2;
 
@@ -34,11 +94,10 @@ function render(){
         ctx.strokeRect(x, y, robot_width, robot_height);
         ctx.fillStyle = '#3262a8';
 
-
         
-        ctx.beginPath();
-        ctx.arc(cx, cy, 20, 0, 2 * Math.PI);
-        ctx.stroke();
+        // ctx.beginPath();
+        // ctx.arc(cx, cy, 20, 0, 2 * Math.PI);
+        // ctx.stroke();
 
         ctx.translate(cx, cy);
         ctx.rotate(Math.PI/2);
@@ -47,13 +106,6 @@ function render(){
 
     }
 
-
-    /* RENDER TASK LOCATIONS*/
-    // if (tasks_info == null) return;
-    // for (let t = 0; t<tasks_info.tasks.length; t++){
-    //     let task = tasks_info.tasks[t];
-
-    // }
 
 }
 

@@ -1,5 +1,11 @@
 //Get the button:
-mybutton = document.getElementById("upButton");
+var myButton;
+
+$(document).ready(function() {
+  mybutton = document.getElementById("upButton");
+});
+
+
 
 // When the user scrolls down 20px from the top of the document, show the button
 window.onscroll = function() {scrollFunction()};

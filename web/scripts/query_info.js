@@ -50,6 +50,7 @@ function request_robots_info() {
                     let host = robots_info.robots[i].host;
                     let port = robots_info.robots[i].port;
                     let net_status = robots_info.robots[i].net_status;
+                    let role = robots_info.robots[i].role;
 
                     let row_class;
                     if (net_status == "DEAD") row_class = "table-danger";
@@ -67,8 +68,8 @@ function request_robots_info() {
                             +id+'</td><td>'
                             +host+'</td><td>'
                             +port+'</td><td>'
-                            +net_status+'</td>'
-                            +'<td>UNKNOWN</td>'
+                            +net_status+'</td><td>'
+                            +role+'</td>'
                             +button+'</td>'
                             +'</tr>');
                     
@@ -100,12 +101,7 @@ function request_tasks_info() {
                     let deadline = tasks_info.tasks[i].deadline;
                     let status = tasks_info.tasks[i].status;
 
-                    console.log("----- Task "+id+"-----");
-                    console.log(workload);
-                    console.log(delivery);
-                    console.log(goal);
-                    console.log(deadline);
-                    console.log(status);
+                    
 
                     row_class = "table-default";
 

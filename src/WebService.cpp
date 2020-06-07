@@ -47,19 +47,18 @@ std::string MonitorApplication::json_robot_info(int robot_id)
 
     Auction::NetProfile netp = (monitor->message_system).get_robot_info(robot_id);
     Auction::RobotStatusInfo robot_info = monitor->robot_status[robot_id];
-    std::vector<std::string> status_equivalent;
-    status_equivalent.push_back("UNKNOWN");
-    status_equivalent.push_back("ALIVE");
-    status_equivalent.push_back("DEAD");
+    std::vector<std::string> status_equivalent = {"UNKNOWN", "ALIVE", "DEAD"};
+    std::vector<std::string> role_equivalent = {"LEADING","HELPING","IDLE"};
 
     std::string net_status = status_equivalent.at(robot_info.current_status); 
-
+    std::string role = role_equivalent.at(robot_info.current_role);
 
     std::string robot_json = "{";
     robot_json += get_json_int("id",robot_id) + COMMA + ENDL;
     robot_json += get_json_string("host",std::string(netp.host)) + COMMA + ENDL;
     robot_json += get_json_string("port",std::string(netp.port)) + COMMA + ENDL;
-    robot_json += get_json_string("net_status", net_status) + ENDL;
+    robot_json += get_json_string("net_status", net_status) + COMMA + ENDL;
+    robot_json += get_json_string("role", role) + ENDL;
     robot_json += "}";
 
     return robot_json;

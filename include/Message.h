@@ -48,13 +48,13 @@ namespace Auction
 		// Used by non leader robot to refuse a group								- SimpleMessage
 		REFUSE,
 
-		// TODO																		- SimpleMessage
+		// TODO																		- MonitoringMessage
 		LEADER_ALIVE,
 
-		// TODO																		- SimpleMessage
+		// TODO																		- MonitoringMessage
 		HELPER_ALIVE,
 
-		// Used by monitor to kill robots											- SimpleMessage
+		// Used by monitor to kill robots											- MonitoringMessage
 		ROBOT_KILL															
 	};
 

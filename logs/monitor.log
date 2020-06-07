@@ -1,70 +1,58 @@
-<10:44:43> [Message thread] ---> running
-<10:44:43> [Monitor] --> listening on port 25555
-<10:44:44> [Update Robot Pos] First instanciate
-<10:44:44> [Update Robot Pos] First instanciate
+<11:33:16> [Message thread] ---> running
+<11:33:16> [Monitor] --> listening on port 25555
+<11:33:16> [Update Robot Pos] First instanciate
+<11:33:16> [Update Robot Pos] First instanciate
 Received NewRobot message from host: localhost, port: 25556
 Received NewRobot message from host: localhost, port: 25557
 Received NewRobot message from host: localhost, port: 25556
 Received NewRobot message from host: localhost, port: 25557
-<10:45:19> [NewRobotMessageHandler]: Received new task from web service.Broadcasting as task 1
-<10:45:25> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
-<10:45:28> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
-<10:45:31> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
-<10:45:34> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
-<10:45:37> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
-<10:45:40> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
-<10:45:43> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
-<10:45:46> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
-<10:45:49> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
-<10:45:52> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
-<10:45:55> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
-<10:45:58> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
-<10:46:01> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
-<10:46:04> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
-<10:46:07> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
-<10:46:10> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
-<10:46:13> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
-<10:46:16> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
-<10:46:19> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
-<10:46:22> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
-<10:46:25> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
-<10:46:28> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
-<10:46:31> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
-<10:46:34> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
-<10:46:37> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
-<10:46:40> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
-<10:46:43> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
-<10:46:46> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
-<10:46:49> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
-<10:46:52> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
-<10:46:55> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
-<10:47:06> [NewRobotMessageHandler]: Received new task from web service.Broadcasting as task 2
-<10:47:10> [LeaderAliveMessageHandler] Received from 2 who is leading task 2
-<10:47:13> [LeaderAliveMessageHandler] Received from 2 who is leading task 2
-<10:47:16> [LeaderAliveMessageHandler] Received from 2 who is leading task 2
-<10:47:19> [LeaderAliveMessageHandler] Received from 2 who is leading task 2
-<10:47:22> [LeaderAliveMessageHandler] Received from 2 who is leading task 2
-<10:47:25> [LeaderAliveMessageHandler] Received from 2 who is leading task 2
-<10:47:28> [LeaderAliveMessageHandler] Received from 2 who is leading task 2
-<10:47:31> [LeaderAliveMessageHandler] Received from 2 who is leading task 2
-<10:47:34> [LeaderAliveMessageHandler] Received from 2 who is leading task 2
-<10:47:37> [LeaderAliveMessageHandler] Received from 2 who is leading task 2
-<10:47:40> [LeaderAliveMessageHandler] Received from 2 who is leading task 2
-<10:47:43> [LeaderAliveMessageHandler] Received from 2 who is leading task 2
-<10:47:46> [LeaderAliveMessageHandler] Received from 2 who is leading task 2
-<10:47:49> [LeaderAliveMessageHandler] Received from 2 who is leading task 2
-<10:47:52> [LeaderAliveMessageHandler] Received from 2 who is leading task 2
-<10:47:55> [LeaderAliveMessageHandler] Received from 2 who is leading task 2
-<10:47:58> [LeaderAliveMessageHandler] Received from 2 who is leading task 2
-<10:48:01> [LeaderAliveMessageHandler] Received from 2 who is leading task 2
-<10:48:04> [LeaderAliveMessageHandler] Received from 2 who is leading task 2
-<10:48:07> [LeaderAliveMessageHandler] Received from 2 who is leading task 2
-<10:48:10> [LeaderAliveMessageHandler] Received from 2 who is leading task 2
-<10:48:13> [LeaderAliveMessageHandler] Received from 2 who is leading task 2
-<10:48:16> [LeaderAliveMessageHandler] Received from 2 who is leading task 2
-<10:48:19> [LeaderAliveMessageHandler] Received from 2 who is leading task 2
-<10:48:22> [LeaderAliveMessageHandler] Received from 2 who is leading task 2
-<10:48:25> [LeaderAliveMessageHandler] Received from 2 who is leading task 2
-<10:48:28> [LeaderAliveMessageHandler] Received from 2 who is leading task 2
-<10:48:31> [LeaderAliveMessageHandler] Received from 2 who is leading task 2
-<10:48:51> [Monitor] <--- killed by SIGINT
+<11:33:51> [NewRobotMessageHandler]: Received new task from web service.Broadcasting as task 1
+<11:33:57> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
+<11:34:00> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
+<11:34:03> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
+<11:34:06> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
+<11:34:09> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
+<11:34:12> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
+<11:34:15> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
+<11:34:18> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
+<11:34:21> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
+<11:34:24> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
+<11:34:27> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
+<11:34:30> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
+<11:34:33> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
+<11:34:36> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
+<11:34:39> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
+<11:34:42> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
+<11:34:45> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
+<11:34:48> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
+<11:34:51> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
+<11:34:54> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
+<11:34:57> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
+<11:35:00> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
+<11:35:03> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
+<11:35:06> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
+<11:35:09> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
+<11:35:12> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
+<11:35:15> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
+<11:35:18> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
+<11:35:21> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
+<11:35:24> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
+<11:35:27> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
+<11:35:30> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
+<11:35:33> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
+<11:35:36> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
+<11:35:39> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
+<11:35:42> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
+<11:35:45> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
+<11:35:48> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
+<11:35:51> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
+<11:35:54> [LeaderAliveMessageHandler] Received from 2 who is leading task 1
+<11:36:06> [NewRobotMessageHandler]: Received new task from web service.Broadcasting as task 2
+<11:36:12> [LeaderAliveMessageHandler] Received from 2 who is leading task 2
+<11:36:15> [LeaderAliveMessageHandler] Received from 2 who is leading task 2
+<11:36:18> [LeaderAliveMessageHandler] Received from 2 who is leading task 2
+<11:36:21> [LeaderAliveMessageHandler] Received from 2 who is leading task 2
+<11:36:24> [LeaderAliveMessageHandler] Received from 2 who is leading task 2
+<11:36:27> [LeaderAliveMessageHandler] Received from 2 who is leading task 2
+<11:36:30> [LeaderAliveMessageHandler] Received from 2 who is leading task 2
+<11:36:34> [Monitor] <--- killed by SIGINT
