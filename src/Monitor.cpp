@@ -117,13 +117,19 @@ void Monitor::new_task_message_handler(Auction::NewTaskMessage & new_task)
 void Monitor::leader_alive_message_handler(Auction::MonitoringMessage & leader_alive)
 {
     info_report << "[LeaderAliveMessageHandler] Received from " << leader_alive.robot_src 
-        << " who is leading task " << leader_alive.task_id << "\n";
+        << " who is leading task " << leader_alive.task_id << ". Completed: "
+        << leader_alive.completed <<"\n";
 
     Auction::RobotStatusInfo & info = this->robot_status[leader_alive.robot_src];
-    // TODO: Change task status in task_list
     info.update_last_time_point();   
     info.current_role = RobotRole::LEADING;
     info.first_time_point = false;
+
+    bool completed = leader_alive.completed;
+    
+    auto & task_par = this->task_list[leader_alive.task_id];
+    Auction::TaskStatus & status = task_par.second;
+    status = completed ? TaskStatus::COMPLETED : TaskStatus::CONDUCTING;
 }
 
 void Monitor::robot_alive_message_handler(Auction::MonitoringMessage & robot_alive)

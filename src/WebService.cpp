@@ -71,11 +71,8 @@ std::string MonitorApplication::json_task_info(int task_id)
     auto & task_pair = monitor->task_list[task_id];
     Auction::Task & t = task_pair.first; 
 
-    std::vector<std::string> status_names;
-    status_names.push_back("WAITING");
-    status_names.push_back("AUCTIONING");
-    status_names.push_back("CONDUCTING");
-    status_names.push_back("COMPLETED");
+    std::vector<std::string> status_names = 
+        {"WAITING", "CONDUCTING", "COMPLETED"};
 
 
     std::string task_json = "{";

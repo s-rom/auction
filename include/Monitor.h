@@ -46,8 +46,7 @@ public:
     Auction::SafeQueue<Auction::Message*> message_queue;
     Auction::MessageSystem message_system;
     Auction::InfoReporter info_report;
-    std::unordered_map<int, Auction::RobotStatusInfo> robot_status;
-    
+    std::unordered_map<int, Auction::RobotStatusInfo> robot_status;    
     std::unordered_map<int, std::pair<Auction::Task, Auction::TaskStatus>> task_list;
 
     // Simulation ploting

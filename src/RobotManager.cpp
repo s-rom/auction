@@ -192,6 +192,22 @@ void RobotManager::check_own_status()
     if ((task_helper != NULL_TASK || task_leader != NULL_TASK) &&
          vfh_node->is_goal_completed())
     {
+
+   
+        if (task_leader != NULL_TASK){
+            MonitoringMessage completedMessage 
+            (
+                task_leader,
+                id,
+                0,
+                true,
+                MessageType::LEADER_ALIVE
+            );
+            message_system.send_message_monitor(completedMessage);
+        }
+        
+
+        
         task_helper = NULL_TASK;
         task_leader = NULL_TASK;
         current_leader = NULL_TASK;
@@ -223,14 +239,13 @@ void RobotManager::periodic_behaviour(boost::atomic<bool> & running)
                
                 int travels = vfh_node->get_current_travels() / 2;
                 int load = travels * this->load_capacity;
-                bool completed = vfh_node->is_goal_completed();
                 
                 MonitoringMessage leader_alive_msg
                 (
                     task_leader, 
                     id, 
                     load, 
-                    completed, 
+                    false, 
                     MessageType::LEADER_ALIVE
                 );
                 
@@ -247,14 +262,14 @@ void RobotManager::periodic_behaviour(boost::atomic<bool> & running)
                 
                 int travels = vfh_node->get_current_travels() / 2;
                 int load = travels * this->load_capacity;
-                bool completed = vfh_node->is_goal_completed();
+                bool completed = !vfh_node->valid_goal();
 
                 MonitoringMessage robot_alive_msg
                 (
                     task_leader, 
                     id, 
                     load, 
-                    completed, 
+                    false, 
                     MessageType::HELPER_ALIVE
                 );
                 
@@ -504,6 +519,10 @@ void RobotManager::helper_alive_message_handler(MonitoringMessage & helper_alive
             " is in the group. Time elapsed: "<<group[helper_alive.robot_src].get_elapsed_millis() 
             << "Load carried: "<<helper_alive.load << ". Completed: "<<helper_alive.completed
             << "\n";
+
+        auto & travels = this->group_travels[helper_alive.robot_src];
+        int & current_travels = travels.first;
+        
 
         group[helper_alive.robot_src].update_last_time_point();
         group[helper_alive.robot_src].first_time_point = false;
@@ -777,6 +796,7 @@ void RobotManager::leader_task_auction(Task & t)
     float remaining_workload = t.task_work_load;
     while (remaining_workload > 0)
     {
+        assert(this->load_capacity > 0);
         remaining_workload -= this->load_capacity;
         this->group_travels[this->id].second++;
         

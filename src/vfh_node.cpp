@@ -154,7 +154,7 @@ void VFH_node::goalCallback (const nav_msgs::Odometry::ConstPtr& goal_msg)
 bool VFH_node::is_goal_completed()
 {
 	return current_travels == total_travels && total_travels != 0;
-}
+} 
 
 void VFH_node::odomCallback (const nav_msgs::Odometry::ConstPtr& odom_msg)
 {
@@ -173,8 +173,6 @@ void VFH_node::odomCallback (const nav_msgs::Odometry::ConstPtr& odom_msg)
 		// 	<< "with " << total_travels / 2 << " travels between delivery and goal point\n";
 
 		has_valid_goal = false;
-		current_travels = 0;
-		total_travels = 0;
 		return;
 	}
 	
@@ -272,6 +270,16 @@ void VFH_node::set_total_travels(int travels)
 	this->total_travels = (travels >= 0) ? (2 * travels) : 0;
 }
 
+bool VFH_node::valid_goal()
+{
+	return this->has_valid_goal;
+}
+
+
+int VFH_node::get_remaining_travels()
+{
+	return total_travels - current_travels;	
+}
 
 void VFH_node::set_goal(Auction::Point2D goal)
 {

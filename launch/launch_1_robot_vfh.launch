@@ -29,7 +29,8 @@
         <param name="rotation_tolerance" value="10"/>
 		<param name="robot_radius" value="700"/> <!-- milimeters-->
 		<param name="goal_tolerance" value="1"/> <!-- milimeters -->
-		<param name="safety_dist_1ms" value="0.7"/> <!-- meters -->
+		<param name="safety_dist_1ms" value="1"/> <!-- meters -->
+		<param name="safety_dist_0ms" value="0.5"/> <!-- meters -->
 
 
 	</node>

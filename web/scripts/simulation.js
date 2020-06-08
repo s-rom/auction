@@ -10,11 +10,23 @@ var goalColor = '#3473ad';
 var deliveryColor = '#24ad37';
 var posRadius = 15;
 var updateRate = 100; //ms
+var simInterval;
 
 function render(){
     ctx.globalAlpha = 1;
     ctx.fillStyle = backColor;
     ctx.fillRect(0,0,cw,ch);
+
+
+    if (positions == null && tasks_info == null){
+        ctx.strokeStyle = '#000000';
+        ctx.fillStyle = '#000000';
+        ctx.font='30px Courier New';
+        ctx.fillText('System visualization', 70, ch/2);
+        ctx.font='16px Courier New';
+        ctx.fillText('Waiting for monitor server...', 120, ch/2+40);
+        ctx.font = ''
+    }
 
     renderTasks();
     renderRobots();
@@ -46,6 +58,8 @@ function renderTasks(){
 
     for (let t = 0; t<tasks_info.tasks.length; t++){
         let task = tasks_info.tasks[t];
+
+        if (task.status == "COMPLETED") continue;
         
         let goal = stageToCanvasPoint(parsePoint(task.goal));
         let delivery = stageToCanvasPoint(parsePoint(task.delivery));
@@ -64,7 +78,12 @@ function renderTasks(){
         ctx.stroke();
         ctx.fillStyle = deliveryColor;
         ctx.fill();
-       
+
+        ctx.globalAlpha = 1;
+        ctx.fillStyle='#000000';
+        ctx.font = '12px consolas';
+        ctx.strokeText(task.goal, goal[0], goal[1]);
+        ctx.strokeText(task.delivery, delivery[0], delivery[1]);
     }
 }
 
@@ -117,6 +136,9 @@ function queryPositions(){
             } catch(e){
                 console.log("Invalid JSON: "+result);
             }
+        },
+        error: function(){
+            clearInterval(simInterval);
         }
     });
 }
@@ -127,7 +149,7 @@ function update(deltaTime){
 
 $(document).ready(function() {
     arrow = document.getElementById('source');
-    setInterval(queryPositions, updateRate);
+    simInterval = setInterval(queryPositions, updateRate);
     startSimulation();
 });
 

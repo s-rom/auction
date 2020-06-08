@@ -1,85 +1,36 @@
-<11:33:15> [Auction process] ---> Running
-<11:33:18> [NewRobotHandler] Received my own id: 2
-<11:33:51> [NeTaskHandler] new task: 1
-<11:33:51> [LeaderAlgorithm] Starting a leader request process for task 1
-<11:33:51> [LeaderAlgorithm] Robot 2 requesting task 1, bid: 0.339811
-<11:33:51> [LeaderAlgorithm] Received bid 0.314613, but mine is 0.339811, resuming... 
-<11:33:54> [LeaderAlgorithm] I'm the new leader for task 1
-<11:33:54> [TaskAuction] Starting auction round for task 1
-<11:33:54> [AuctionForTask - Round 1] Received bid from Robot 1, with a bid of 0.314613
-<11:33:57> [AuctionForTask - Round 1] End of round 1
-Robot 1 WorkCapacity: 0.314613
-<11:33:57> [AuctionForTask - Round 2] ---> Selected group: 
+<11:35:18> [Auction process] ---> Running
+<11:35:20> [NewRobotHandler] Received my own id: 2
+<11:35:28> [NeTaskHandler] new task: 1
+<11:35:28> [LeaderAlgorithm] Starting a leader request process for task 1
+<11:35:28> [LeaderAlgorithm] Robot 2 requesting task 1, bid: 0.375
+<11:35:28> [LeaderAlgorithm] Received bid 0.352941, but mine is 0.375, resuming... 
+<11:35:31> [LeaderAlgorithm] I'm the new leader for task 1
+<11:35:31> [TaskAuction] Starting auction round for task 1
+<11:35:31> [AuctionForTask - Round 1] Received bid from Robot 1, with a bid of 0.352941
+<11:35:34> [AuctionForTask - Round 1] End of round 1
+Robot 1 WorkCapacity: 0.352941
+<11:35:34> [AuctionForTask - Round 2] ---> Selected group: 
 	Robot 1 | LoadCapacity: 2
-<11:33:57> [AuctionForTask - Round 2] Total group_work_capacity: 0.314613
-<11:33:57> [AuctionForTask - Round 2] Expected time: 31.7851s
-<11:33:57> [AuctionForTask - Round 2] Task deadline: 20s
-<11:33:57> [AuctionForTask - Round 2] TaskUtility(expected_deadline) <<Uj(DLgj)>>: 0.106181
-<11:33:57> [Travels] I'll make a travel carrying 3kg
-<11:33:57> [Travels] Robot 1 will make a travel carrying 2kg
-<11:33:57> [Travels] I'll make a travel carrying 3kg
-<11:33:57> [Travels] Robot 1 will make a travel carrying 2kg
-<11:33:57> [AuctionForTask - Travels] Task workload: 10 kg
-<11:33:57> [AuctionForTask - Travels] Robot 2 is assigned with 2 travels
-<11:33:57> [AuctionForTask - Travels] Robot 1 is assigned with 2 travels
-<11:33:57> [NewTaskHandler] Setting goal with 2 travels
-<11:34:03> [RobotAliveMessageHandler] Robot 1 is not found in the group. Accepted as a new helper
-<11:34:06> [HelperAliveMessageHandler] Robot 1 is in the group. Time elapsed: 2566Load carried: 0. Completed: 0
-<11:34:09> [HelperAliveMessageHandler] Robot 1 is in the group. Time elapsed: 3008Load carried: 0. Completed: 0
-<11:34:12> [HelperAliveMessageHandler] Robot 1 is in the group. Time elapsed: 2995Load carried: 0. Completed: 0
-<11:34:15> [HelperAliveMessageHandler] Robot 1 is in the group. Time elapsed: 2998Load carried: 0. Completed: 0
-<11:34:18> [HelperAliveMessageHandler] Robot 1 is in the group. Time elapsed: 3009Load carried: 0. Completed: 0
-<11:34:21> [HelperAliveMessageHandler] Robot 1 is in the group. Time elapsed: 3015Load carried: 0. Completed: 0
-<11:34:24> [HelperAliveMessageHandler] Robot 1 is in the group. Time elapsed: 3005Load carried: 0. Completed: 0
-<11:34:27> [HelperAliveMessageHandler] Robot 1 is in the group. Time elapsed: 3013Load carried: 0. Completed: 0
-<11:34:30> [HelperAliveMessageHandler] Robot 1 is in the group. Time elapsed: 2987Load carried: 0. Completed: 0
-<11:34:33> [HelperAliveMessageHandler] Robot 1 is in the group. Time elapsed: 3011Load carried: 0. Completed: 0
-<11:34:36> [HelperAliveMessageHandler] Robot 1 is in the group. Time elapsed: 3011Load carried: 0. Completed: 0
-<11:34:39> [HelperAliveMessageHandler] Robot 1 is in the group. Time elapsed: 2982Load carried: 0. Completed: 0
-<11:34:42> [HelperAliveMessageHandler] Robot 1 is in the group. Time elapsed: 3009Load carried: 0. Completed: 0
-<11:34:45> [HelperAliveMessageHandler] Robot 1 is in the group. Time elapsed: 3006Load carried: 0. Completed: 0
-<11:34:48> [HelperAliveMessageHandler] Robot 1 is in the group. Time elapsed: 3025Load carried: 2. Completed: 0
-<11:34:51> [HelperAliveMessageHandler] Robot 1 is in the group. Time elapsed: 3003Load carried: 2. Completed: 0
-<11:34:54> [HelperAliveMessageHandler] Robot 1 is in the group. Time elapsed: 2996Load carried: 2. Completed: 0
-<11:34:57> [HelperAliveMessageHandler] Robot 1 is in the group. Time elapsed: 2999Load carried: 2. Completed: 0
-<11:35:00> [HelperAliveMessageHandler] Robot 1 is in the group. Time elapsed: 3005Load carried: 2. Completed: 0
-<11:35:03> [HelperAliveMessageHandler] Robot 1 is in the group. Time elapsed: 3007Load carried: 2. Completed: 0
-<11:35:06> [HelperAliveMessageHandler] Robot 1 is in the group. Time elapsed: 3013Load carried: 2. Completed: 0
-<11:35:09> [HelperAliveMessageHandler] Robot 1 is in the group. Time elapsed: 3002Load carried: 2. Completed: 0
-<11:35:12> [HelperAliveMessageHandler] Robot 1 is in the group. Time elapsed: 3029Load carried: 2. Completed: 0
-<11:35:15> [HelperAliveMessageHandler] Robot 1 is in the group. Time elapsed: 2999Load carried: 2. Completed: 0
-<11:35:18> [HelperAliveMessageHandler] Robot 1 is in the group. Time elapsed: 3006Load carried: 2. Completed: 0
-<11:35:21> [HelperAliveMessageHandler] Robot 1 is in the group. Time elapsed: 2991Load carried: 2. Completed: 0
-<11:35:24> [HelperAliveMessageHandler] Robot 1 is in the group. Time elapsed: 3008Load carried: 2. Completed: 0
-<11:35:27> [HelperAliveMessageHandler] Robot 1 is in the group. Time elapsed: 3001Load carried: 2. Completed: 0
-<11:35:30> [HelperAliveMessageHandler] Robot 1 is in the group. Time elapsed: 2998Load carried: 2. Completed: 0
-<11:35:33> [CheckRobotStatus] Helper 1 is considered dead. Removing from group...
-<11:35:54> [Periodic Behaviour] Task is completed: Clearing group and group travels
-<11:36:07> [NeTaskHandler] new task: 2
-<11:36:07> [LeaderAlgorithm] Starting a leader request process for task 2
-<11:36:07> [LeaderAlgorithm] Robot 2 requesting task 2, bid: 0.420676
-<11:36:07> [LeaderAlgorithm] Received bid 0.404628, but mine is 0.420676, resuming... 
-<11:36:10> [LeaderAlgorithm] I'm the new leader for task 2
-<11:36:10> [TaskAuction] Starting auction round for task 2
-<11:36:10> [AuctionForTask - Round 1] Received bid from Robot 1, with a bid of 0.404628
-<11:36:13> [AuctionForTask - Round 1] End of round 1
-Robot 1 WorkCapacity: 0.404628
-<11:36:13> [AuctionForTask - Round 2] ---> Selected group: 
-	Robot 1 | LoadCapacity: 2
-<11:36:13> [AuctionForTask - Round 2] Total group_work_capacity: 0.404628
-<11:36:13> [AuctionForTask - Round 2] Expected time: 12.357s
-<11:36:13> [AuctionForTask - Round 2] Task deadline: 30s
-<11:36:13> [AuctionForTask - Round 2] TaskUtility(expected_deadline) <<Uj(DLgj)>>: 1
-<11:36:13> [Travels] I'll make a travel carrying 3kg
-<11:36:13> [Travels] Robot 1 will make a travel carrying 2kg
-<11:36:13> [AuctionForTask - Travels] Task workload: 5 kg
-<11:36:13> [AuctionForTask - Travels] Robot 2 is assigned with 1 travels
-<11:36:13> [AuctionForTask - Travels] Robot 1 is assigned with 1 travels
-<11:36:13> [NewTaskHandler] Setting goal with 1 travels
-<11:36:19> [RobotAliveMessageHandler] Robot 1 is not found in the group. Accepted as a new helper
-<11:36:21> [HelperAliveMessageHandler] Robot 1 is in the group. Time elapsed: 2297Load carried: 0. Completed: 0
-<11:36:24> [HelperAliveMessageHandler] Robot 1 is in the group. Time elapsed: 3010Load carried: 0. Completed: 0
-<11:36:27> [HelperAliveMessageHandler] Robot 1 is in the group. Time elapsed: 3005Load carried: 0. Completed: 0
-<11:36:30> [HelperAliveMessageHandler] Robot 1 is in the group. Time elapsed: 2992Load carried: 0. Completed: 0
-<11:36:30> [Periodic Behaviour] Task is completed: Clearing group and group travels
-<11:36:34> [RobotAuction]: Killed by SIGINT
+<11:35:34> [AuctionForTask - Round 2] Total group_work_capacity: 0.352941
+<11:35:34> [AuctionForTask - Round 2] Expected time: 14.1667s
+<11:35:34> [AuctionForTask - Round 2] Task deadline: 20s
+<11:35:34> [AuctionForTask - Round 2] TaskUtility(expected_deadline) <<Uj(DLgj)>>: 1
+<11:35:34> [Travels] I'll make a travel carrying 3kg
+<11:35:34> [Travels] Robot 1 will make a travel carrying 2kg
+<11:35:34> [AuctionForTask - Travels] Task workload: 5 kg
+<11:35:34> [AuctionForTask - Travels] Robot 2 is assigned with 1 travels
+<11:35:34> [AuctionForTask - Travels] Robot 1 is assigned with 1 travels
+<11:35:34> [NewTaskHandler] Setting goal with 1 travels
+<11:35:40> [RobotAliveMessageHandler] Robot 1 is not found in the group. Accepted as a new helper
+<11:35:42> [HelperAliveMessageHandler] Robot 1 is in the group. Time elapsed: 1756Load carried: 0. Completed: 0
+<11:35:45> [HelperAliveMessageHandler] Robot 1 is in the group. Time elapsed: 3011Load carried: 0. Completed: 0
+<11:35:48> [HelperAliveMessageHandler] Robot 1 is in the group. Time elapsed: 3003Load carried: 0. Completed: 0
+<11:35:51> [HelperAliveMessageHandler] Robot 1 is in the group. Time elapsed: 3015Load carried: 0. Completed: 0
+<11:35:54> [HelperAliveMessageHandler] Robot 1 is in the group. Time elapsed: 2988Load carried: 0. Completed: 0
+<11:35:57> [HelperAliveMessageHandler] Robot 1 is in the group. Time elapsed: 3003Load carried: 0. Completed: 0
+<11:36:00> [HelperAliveMessageHandler] Robot 1 is in the group. Time elapsed: 3015Load carried: 0. Completed: 0
+<11:36:03> [HelperAliveMessageHandler] Robot 1 is in the group. Time elapsed: 2991Load carried: 0. Completed: 0
+<11:36:06> [HelperAliveMessageHandler] Robot 1 is in the group. Time elapsed: 2991Load carried: 0. Completed: 0
+<11:36:09> [CheckRobotStatus] Helper 1 is considered dead. Removing from group...
+<11:36:43> [Periodic Behaviour] Task is completed: Clearing group and group travels
+<11:36:56> [RobotAuction]: Killed by SIGINT

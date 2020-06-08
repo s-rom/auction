@@ -55,9 +55,12 @@ public:
 	void set_delivery(Auction::Point2D delivery);
 	void set_total_travels(int travels);
 
+
 	int get_current_travels() { return current_travels; }
+	bool valid_goal();
 	bool is_goal_completed();
 	void force_stop();
+	int get_remaining_travels();
 
 private:
 

@@ -1,10 +1,11 @@
 var robots_info = null;
 var tasks_info = null;
 var server_root = "http://localhost:8080/monitor";
+var queryInterval;
 
 $(document).ready(function(){
     $('#status_info').text('Waiting for monitor process to start...');
-    setInterval(request_info, 1000);
+    queryInterval = setInterval(request_info, 1000);
 })
 
 
@@ -25,6 +26,18 @@ function add_new_task() {
     mode = $("#new_task_form input[type='radio']:checked").val();
 
 
+    if (workload == "" || 
+        deadline == "" || 
+        x_goal == "" || 
+        y_goal == "" || 
+        x_delivery == "" || 
+        y_delivery == "" || 
+        mode == "") 
+    {
+        alert("Please, fill all the fields for adding a new task!");
+        return;
+    }
+
     message = "_0_-1_"+x_goal+"_"+y_goal+"_"+x_delivery+"_"+y_delivery+"_"+workload+"_"+deadline+"_"+mode+"_";
     $.ajax({url: server_root+"/new_task/"+message, error: function(){}});
     
@@ -44,7 +57,6 @@ function request_robots_info() {
             try{
                 robots_info = JSON.parse(result);
 
-
                 for (let i = 0; i < robots_info.robots.length; i++){
                     let id = robots_info.robots[i].id;
                     let host = robots_info.robots[i].host;
@@ -53,8 +65,10 @@ function request_robots_info() {
                     let role = robots_info.robots[i].role;
 
                     let row_class;
-                    if (net_status == "DEAD") row_class = "table-danger";
-                    else row_class = "table-default";
+                    if (net_status == "DEAD") 
+                        row_class = "table-danger";
+                    else 
+                        row_class = "table-default";
 
                     let button;
                     if (net_status != "DEAD") 
@@ -79,6 +93,9 @@ function request_robots_info() {
             catch(e){
                 //console.log("Output is not valid json");
             }
+        }, error: function (){
+            clearInterval(queryInterval); 
+            alert("Please, refresh the page when the monitor is running.");
         }
     });
 }
@@ -86,6 +103,7 @@ function request_robots_info() {
 function request_tasks_info() {
     $.ajax({url: server_root+"/get_tasks_info",
         error: function(result){
+            clearInterval(queryInterval);
         },
         success: function (result) {
             $('#tasks_table_body').empty();
@@ -100,10 +118,11 @@ function request_tasks_info() {
                     let goal = tasks_info.tasks[i].goal;
                     let deadline = tasks_info.tasks[i].deadline;
                     let status = tasks_info.tasks[i].status;
-
                     
-
-                    row_class = "table-default";
+                    if (status == "CONDUCTING")
+                        row_class = "table-primary";
+                    else 
+                        row_class = "table-default";
 
                     $('#task_table> tbody:last-child').
                     append('<tr class=\''+row_class+'\'><td>'
@@ -114,8 +133,6 @@ function request_tasks_info() {
                             +(deadline / 1000.0).toFixed(1)+'</td><td>'
                             +status+'</td>'
                             +'</tr>');
-                    
-                    
                 }
             }
             catch(e){
