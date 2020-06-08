@@ -1,14 +1,13 @@
-<11:35:18> [Auction process] ---> Running
-<11:35:20> [NewRobotHandler] Received my own id: 1
-<11:35:28> [NeTaskHandler] new task: 1
-<11:35:28> [LeaderAlgorithm] Starting a leader request process for task 1
-<11:35:28> [LeaderAlgorithm] Robot 1 requesting task 1, bid: 0.352941
-<11:35:28> [LeaderAlgorithm] Received bid 0.375, and mine is 0.352941, giving up... 
-<11:35:31> [LeaderOfTaskHandler] Robot 2 is the new leader of task 1
-<11:35:31> [BidRequestMessageHandler]: Received a bid request from Robot2 for task 1. Replying with bid: 0.352941
-<11:35:34> [NonLeaderAuction] Received bid from 2 for task 1 with a bid of 1
-<11:35:40> [NonLeaderAuction] Best option: task 1 from leader 2 whose bid is 1
-<11:35:40> [NonLeaderAuction] Sending refuse to
-<11:35:40> [BidForTaskMessageHandler] Setting 1 travels
-<11:36:06> [Periodic Behaviour] Task is completed: Clearing group and group travels
-<11:36:56> [RobotAuction]: Killed by SIGINT
+<17:18:40> [Auction process] ---> Running
+<17:18:43> [NewRobotHandler] Received my own id: 2
+<17:18:56> [NeTaskHandler] new task: 1
+<17:18:56> [LeaderAlgorithm] Starting a leader request process for task 1
+<17:18:56> [LeaderAlgorithm] Robot 2 requesting task 1, bid: 0.292893
+<17:18:56> [LeaderAlgorithm] Received bid 0.319349, and mine is 0.292893, giving up... 
+<17:18:59> [LeaderOfTaskHandler] Robot 1 is the new leader of task 1
+<17:18:59> [BidRequestMessageHandler]: Received a bid request from Robot1 for task 1. Replying with bid: 0.292893
+<17:19:02> [NonLeaderAuction] Received bid from 1 for task 1 with a bid of 1
+<17:19:08> [NonLeaderAuction] Best option: task 1 from leader 1 whose bid is 1
+<17:19:08> [NonLeaderAuction] Sending refuse to
+<17:19:08> [BidForTaskMessageHandler] Setting 1 travels
+<17:19:25> [RobotAuction]: Killed by SIGINT
