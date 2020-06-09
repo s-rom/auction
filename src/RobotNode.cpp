@@ -130,7 +130,7 @@ int main(int argc, char ** argv)
     {
         max_linear_speed = get_rand_range(3,6);
     }
-
+    
 
     VFH_node vfh_node(n, nh, robot_name);
  

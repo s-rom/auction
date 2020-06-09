@@ -104,6 +104,13 @@ public:
 	NetProfile get_monitor_info();
 
 
+	/**
+	 * Returns true if there is a NetProfile associated to
+	 * the id, false otherwise. 
+	 */
+	bool find_robot(int id);
+
+
 private:
 
 	std::unordered_map<int, NetProfile> net_list; //List of net profiles of other robots

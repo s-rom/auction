@@ -155,6 +155,11 @@ NetProfile MessageSystem::get_monitor_info()
 }
 
 NetProfile MessageSystem::get_robot_info(int id)
-{
+{    
     return net_list[id];
+}
+
+bool MessageSystem::find_robot(int id){
+    return net_list.find(id) != net_list.end();
+
 }

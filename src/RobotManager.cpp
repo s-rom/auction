@@ -164,7 +164,7 @@ void RobotManager::wait_until_id(long millis)
 {
     while (this->id == NULL_ID)
     {
-        //info_report << "[wait_until_id] I'm waiting until I receive my ID\n";
+        info_report << "[wait_until_id] I'm waiting until I receive my ID\n";
 
         auto it = message_queue.begin();
         auto end = message_queue.end();
@@ -366,8 +366,9 @@ void RobotManager::new_robot_message_handler(NewRobotMessage & nr)
     } 
     else // stores other robot id 
     {
-        // info_report << "[NewRobotHandler] Received other robot profile: "<<nr.np.to_string()<<
-        // ", "<<nr.unique_id<<"\n";
+        if (!message_system.find_robot(nr.unique_id))
+            info_report << "[NewRobotHandler] Received other robot profile: "<<nr.np.to_string()<<
+            ", "<<nr.unique_id<<"\n";
         message_system.add_robot_info(nr.unique_id, nr.np);
     }
 }                

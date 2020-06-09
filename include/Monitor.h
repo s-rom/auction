@@ -54,7 +54,7 @@ public:
     {
         if (robot_points.find(id) == robot_points.end())
         {
-            info_report << "[Update Robot Pos] First instanciate\n";
+            info_report << "[Update Robot Pos] First instanciation for robot"<< id <<"\n";
             auto pair = std::make_pair(point, yaw);
             robot_points[id] = pair;
         }

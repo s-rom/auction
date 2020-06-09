@@ -147,9 +147,10 @@ function renderRobots(){
         let cy = y + robot_height/2;
 
 
-        ctx.translate(cx, cy);
-        ctx.rotate((-pos.yaw) * Math.PI / 180.0);
-        ctx.translate(-cx, -cy);
+        ctx.translate(cx, cy);                      //T1
+        ctx.rotate((-pos.yaw) * Math.PI / 180.0);   //T2
+        ctx.translate(-cx, -cy);                    //T3
+        // T1 * T2 * T3 * rect
 
 
         ctx.fillStyle = colors[i % colors.length];

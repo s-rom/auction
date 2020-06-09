@@ -1,7 +1,7 @@
 import random as rnd
 
 ### Generation params
-N_ROBOTS = 1
+N_ROBOTS = 6
 load_capacity_range = [1, 4]
 max_linear_speed_range = [3, 6]
 

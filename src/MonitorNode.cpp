@@ -83,12 +83,19 @@ int main(int argc, char ** argv)
     ros::init(argc,argv,"monitor");
     
     ros::NodeHandle nh;
-    ros::master::V_TopicInfo topic_infos;
+  
+    ros::master::V_TopicInfo topic_infos;   
     ros::master::getTopics(topic_infos);
 
-    ros::Subscriber odom_subscriber = nh.subscribe("/robot_0/odom", 1, odom_callback);
-    ros::Subscriber odom_subscriber2 = nh.subscribe("/robot_1/odom", 1, odom_callback);
+    // subscribers get released when out of scope
+    std::vector<ros::Subscriber> odom_subs;
     
+    for (const auto & topic : topic_infos){
+        if (topic.name.find("odom") != std::string::npos){
+            std::cout << "Subscribed to " <<topic.name<< std::endl;
+            odom_subs.push_back(nh.subscribe(topic.name, 1, odom_callback));
+        }
+    }
 
     Auction::Monitor m(program_path);
     monitor_ptr = &m;

@@ -1,31 +1,48 @@
-<17:18:40> [Auction process] ---> Running
-<17:18:43> [NewRobotHandler] Received my own id: 1
-<17:18:56> [NeTaskHandler] new task: 1
-<17:18:56> [LeaderAlgorithm] Starting a leader request process for task 1
-<17:18:56> [LeaderAlgorithm] Robot 1 requesting task 1, bid: 0.319349
-<17:18:56> [LeaderAlgorithm] Received bid 0.292893, but mine is 0.319349, resuming... 
-<17:18:59> [LeaderAlgorithm] I'm the new leader for task 1
-<17:18:59> [TaskAuction] Starting auction round for task 1
-<17:18:59> [AuctionForTask - Round 1] Received bid from Robot 2, with a bid of 0.292893
-<17:19:02> [AuctionForTask - Round 1] End of round 1
-Robot 2 WorkCapacity: 0.292893
-<17:19:02> [AuctionForTask - Round 2] ---> Selected group: 
-	Robot 2 | LoadCapacity: 2
-<17:19:02> [AuctionForTask - Round 2] Total group_work_capacity: 0.292893
-<17:19:02> [AuctionForTask - Round 2] Expected time: 17.0711s
-<17:19:02> [AuctionForTask - Round 2] Task deadline: 20s
-<17:19:02> [AuctionForTask - Round 2] TaskUtility(expected_deadline) <<Uj(DLgj)>>: 1
-<17:19:02> [Travels] I'll make a travel carrying 3kg
-<17:19:02> [Travels] Robot 2 will make a travel carrying 2kg
-<17:19:02> [AuctionForTask - Travels] Task workload: 5 kg
-<17:19:02> [AuctionForTask - Travels] Robot 1 is assigned with 1 travels
-<17:19:02> [AuctionForTask - Travels] Robot 2 is assigned with 1 travels
-<17:19:02> [NewTaskHandler] Setting goal with 1 travels
-<17:19:08> [RobotAliveMessageHandler] Robot 2 is not found in the group. Accepted as a new helper
-<17:19:10> [HelperAliveMessageHandler] Robot 2 is in the group. Time elapsed: 1752Load carried: 0. Completed: 0
-<17:19:13> [HelperAliveMessageHandler] Robot 2 is in the group. Time elapsed: 3001Load carried: 0. Completed: 0
-<17:19:16> [HelperAliveMessageHandler] Robot 2 is in the group. Time elapsed: 3002Load carried: 0. Completed: 0
-<17:19:19> [HelperAliveMessageHandler] Robot 2 is in the group. Time elapsed: 3004Load carried: 0. Completed: 0
-<17:19:22> [HelperAliveMessageHandler] Robot 2 is in the group. Time elapsed: 2988Load carried: 0. Completed: 0
-<17:19:25> [HelperAliveMessageHandler] Robot 2 is in the group. Time elapsed: 3003Load carried: 0. Completed: 0
-<17:19:25> [RobotAuction]: Killed by SIGINT
+<18:40:22> [Auction process] ---> Running
+<18:40:22> [wait_until_id] I'm waiting until I receive my ID
+<18:40:23> [wait_until_id] I'm waiting until I receive my ID
+<18:40:24> [wait_until_id] I'm waiting until I receive my ID
+<18:40:25> [wait_until_id] I'm waiting until I receive my ID
+<18:40:26> [wait_until_id] I'm waiting until I receive my ID
+<18:40:27> [wait_until_id] I'm waiting until I receive my ID
+<18:40:28> [wait_until_id] I'm waiting until I receive my ID
+<18:40:29> [wait_until_id] I'm waiting until I receive my ID
+<18:40:30> [wait_until_id] I'm waiting until I receive my ID
+<18:40:31> [wait_until_id] I'm waiting until I receive my ID
+<18:40:32> [wait_until_id] I'm waiting until I receive my ID
+<18:40:32> [NewRobotHandler] Received other robot profile: host: localhost, port: 25556, 1
+<18:40:32> [NewRobotHandler] Received other robot profile: host: localhost, port: 25558, 2
+<18:40:32> [NewRobotHandler] Received my own id: 3
+<18:40:32> [NewRobotHandler] Received other robot profile: host: localhost, port: 25559, 4
+<18:41:12> [NeTaskHandler] new task: 1
+<18:41:12> [LeaderAlgorithm] Starting a leader request process for task 1
+<18:41:12> [LeaderAlgorithm] Robot 3 requesting task 1, bid: 0.35898
+<18:41:12> [LeaderAlgorithm] Received bid 0.339811, but mine is 0.35898, resuming... 
+<18:41:12> [LeaderAlgorithm] Received bid 0.369398, and mine is 0.35898, giving up... 
+<18:41:15> [LeaderOfTaskHandler] Robot 4 is the new leader of task 1
+<18:41:15> [BidRequestMessageHandler]: Received a bid request from Robot4 for task 1. Replying with bid: 0.35898
+<18:41:49> [NeTaskHandler] new task: 2
+<18:41:49> [LeaderAlgorithm] Starting a leader request process for task 2
+<18:41:49> [LeaderAlgorithm] Robot 3 requesting task 2, bid: 0.36
+<18:41:49> [LeaderAlgorithm] Received bid 0.340909, but mine is 0.36, resuming... 
+<18:41:49> [LeaderAlgorithm] Received bid 0.315789, but mine is 0.36, resuming... 
+<18:41:52> [LeaderAlgorithm] I'm the new leader for task 2
+<18:41:52> [TaskAuction] Starting auction round for task 2
+<18:41:52> [AuctionForTask - Round 1] Received bid from Robot 4, with a bid of 0.37037
+<18:41:52> [AuctionForTask - Round 1] Received bid from Robot 1, with a bid of 0.340909
+<18:41:55> [AuctionForTask - Round 1] End of round 1
+Robot 4 WorkCapacity: 0.37037
+<18:41:55> [AuctionForTask - Round 2] ---> Selected group: 
+	Robot 4 | LoadCapacity: 4
+<18:41:55> [AuctionForTask - Round 2] Total group_work_capacity: 0.37037
+<18:41:55> [AuctionForTask - Round 2] Expected time: 13.5s
+<18:41:55> [AuctionForTask - Round 2] Task deadline: 20s
+<18:41:55> [AuctionForTask - Round 2] TaskUtility(expected_deadline) <<Uj(DLgj)>>: 1
+<18:41:55> [Travels] I'll make a travel carrying 3kg
+<18:41:55> [Travels] Robot 4 will make a travel carrying 4kg
+<18:41:55> [AuctionForTask - Travels] Task workload: 5 kg
+<18:41:55> [AuctionForTask - Travels] Robot 3 is assigned with 1 travels
+<18:41:55> [AuctionForTask - Travels] Robot 4 is assigned with 1 travels
+<18:41:55> [NewTaskHandler] Setting goal with 1 travels
+<18:41:55> [BidRequestMessageHandler]: Received a bid request from Robot4 for task 1. Replying with bid: 0.35898
+<18:42:38> [RobotAuction]: Killed by SIGINT
