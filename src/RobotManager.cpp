@@ -592,6 +592,7 @@ void RobotManager::leader_request(Task & t)
 
                 if (lreq->task_id == t.task_id)
                 {
+                    int other_id = lreq->robot_src_id;
                     float other_bid = lreq->bid;
 
                     // Pop iterator pointed object from message_queue
@@ -602,7 +603,7 @@ void RobotManager::leader_request(Task & t)
 
                     // Other robot bid is higher than this robot's bid
                     // In case bids are equals, the robot with the lower id gives up
-                    if (other_bid > my_bid || (my_bid == other_bid && lreq->robot_src_id > this->id))
+                    if (other_bid > my_bid || (my_bid == other_bid && other_id > this->id))
                     {
                         // Give up task request process
                         info_report << "[LeaderAlgorithm] Received bid " << other_bid
