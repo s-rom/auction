@@ -380,12 +380,12 @@ void RobotManager::new_task_message_handler(NewTaskMessage & nt)
     this->task_list[new_task.task_id] = new_task;
     info_report << "[NeTaskHandler] new task: "<<new_task.task_id << "\n";
 
-    // If not a task leader, start a leader request process
-    if (this->task_leader == NULL_TASK)
+    // If IDLE, start a leader request process
+    if (this->task_leader == NULL_TASK && this->task_helper == NULL_TASK) 
         leader_request(new_task);
 
-    // If leader of task
-    if (this->task_leader != NULL_TASK)
+    // If leader of the new task
+    if (this->task_leader == nt.t.task_id)
     {
         // Start auction for this task
         Task & t = task_list[this->task_leader];
@@ -395,12 +395,9 @@ void RobotManager::new_task_message_handler(NewTaskMessage & nt)
         // this->goal_manager->set_goal(t.task_location);
         // this->goal_manager->set_delivery(t.delivery_point);
         // this->goal_manager->set_total_travels(travels);
-
         vfh_node->set_delivery(t.delivery_point);
         vfh_node->set_goal(t.task_location);
         vfh_node->set_total_travels(travels);
-
-
         info_report << "[NewTaskHandler] Setting goal with " << travels << " travels\n";
     }
 }             
@@ -429,8 +426,8 @@ void RobotManager::bid_request_message_handler(SimpleMessage &bid_req)
 
 void RobotManager::bid_for_task_message_handler(BidMessage & bid_msg)
 {
-    // If not the leader for any task
-    if (this->task_leader == NULL_TASK)
+    // If IDLE
+    if (this->task_leader == NULL_TASK && this->task_helper == NULL_TASK)
     {
         Task & t = task_list[bid_msg.task_id];
         // Start the non-leader robot's auction algorithm (Algorithm 3)
@@ -444,12 +441,14 @@ void RobotManager::bid_for_task_message_handler(BidMessage & bid_msg)
 
         // this->goal_manager->set_goal(task.task_location);
         // this->goal_manager->set_delivery(task.delivery_point);
+        
+        int travels = std::max((int)bid_msg.bid2, 1);
+       
         vfh_node->set_delivery(task.delivery_point);
         vfh_node->set_goal(task.task_location);
-        vfh_node->set_total_travels(bid_msg.bid2);
-
+        vfh_node->set_total_travels(travels);
         info_report << "[BidForTaskMessageHandler] Setting " << bid_msg.bid2 << " travels\n";
-        // this->goal_manager->set_total_travels(bid_msg.bid2);
+      
     }
 }
 
@@ -739,7 +738,6 @@ void RobotManager::leader_task_auction(Task & t)
     for (auto it = group_bid.begin(); 
         it!=group_bid.end() && (accumulated_deadline >= goal_deadline); it++)
     {
-        // Add first robot to the group
         auto rob_tuple = *it;
         int robot_id = std::get<0>(rob_tuple);
         float robot_bid = std::get<1>(rob_tuple);

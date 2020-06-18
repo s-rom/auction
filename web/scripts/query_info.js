@@ -75,8 +75,8 @@ function request_robots_info() {
                         button='<td><button type="button" class="btn btn-danger"'+
                             'onclick="on_click_kill('+id+');"'+'>Kill</button>';
                     else
-                        button='<td><button type="button" class="btn btn-primary">Info</button>'; 
-                    
+                        button='<td><button type="button" class="btn btn-danger" disabled >Kill</button>';
+
                     $('#robots_table> tbody:last-child').
                     append('<tr class=\''+row_class+'\'><td>'
                             +id+'</td><td>'

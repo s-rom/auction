@@ -1,23 +1,26 @@
-<18:58:01> [Monitor] --> listening on port 25555
-<18:58:01> [Message thread] ---> running
-Received NewRobot message from host: localhost, port: 25560
+<11:45:24> [Message thread] ---> running
+<11:45:24> [Monitor] --> listening on port 25555
 Received NewRobot message from host: localhost, port: 25556
-Received NewRobot message from host: localhost, port: 25559
 Received NewRobot message from host: localhost, port: 25557
 Received NewRobot message from host: localhost, port: 25558
-Received NewRobot message from host: localhost, port: 25560
+<11:45:24> [Update Robot Pos] First instanciation for robot0
+<11:45:24> [Update Robot Pos] First instanciation for robot1
+<11:45:24> [Update Robot Pos] First instanciation for robot2
 Received NewRobot message from host: localhost, port: 25556
-Received NewRobot message from host: localhost, port: 25559
 Received NewRobot message from host: localhost, port: 25557
 Received NewRobot message from host: localhost, port: 25558
-<18:58:17> [NewRobotMessageHandler]: Received new task from web service.Broadcasting as task 1
-<18:58:21> [LeaderAliveMessageHandler] Received from 2 who is leading task 1. Completed: 0
-<18:58:21> [LeaderAliveMessageHandler] Received from 3 who is leading task 1. Completed: 0
-<18:58:24> [LeaderAliveMessageHandler] Received from 2 who is leading task 1. Completed: 0
-<18:58:24> [LeaderAliveMessageHandler] Received from 3 who is leading task 1. Completed: 0
-<18:58:27> [LeaderAliveMessageHandler] Received from 2 who is leading task 1. Completed: 0
-<18:58:27> [LeaderAliveMessageHandler] Received from 3 who is leading task 1. Completed: 0
-<18:58:30> [LeaderAliveMessageHandler] Received from 3 who is leading task 1. Completed: 0
-<18:58:30> [LeaderAliveMessageHandler] Received from 2 who is leading task 1. Completed: 0
-<18:58:33> [CheckRobotStatus]: Robot 1 is considered dead
-<18:58:33> [Monitor] <--- killed by SIGINT
+<11:45:40> [NewRobotMessageHandler]: Received new task from web service.Broadcasting as task 1
+<11:45:44> [LeaderAliveMessageHandler] Received from 1 who is leading task 1. Completed: 0
+<11:45:47> [LeaderAliveMessageHandler] Received from 1 who is leading task 1. Completed: 0
+<11:45:50> [LeaderAliveMessageHandler] Received from 1 who is leading task 1. Completed: 0
+<11:45:53> [LeaderAliveMessageHandler] Received from 1 who is leading task 1. Completed: 0
+<11:45:56> [LeaderAliveMessageHandler] Received from 1 who is leading task 1. Completed: 0
+<11:45:59> [LeaderAliveMessageHandler] Received from 1 who is leading task 1. Completed: 0
+<11:46:01> [KillRobotMessageHandler]: Received an order to kill robot 2
+<11:46:01> [KillRobotMessageHandler]: Sending kill robot to robot 2
+<11:46:02> [LeaderAliveMessageHandler] Received from 1 who is leading task 1. Completed: 0
+<11:46:05> [LeaderAliveMessageHandler] Received from 1 who is leading task 1. Completed: 0
+<11:46:08> [LeaderAliveMessageHandler] Received from 1 who is leading task 1. Completed: 0
+<11:46:11> [LeaderAliveMessageHandler] Received from 1 who is leading task 1. Completed: 0
+<11:46:14> [LeaderAliveMessageHandler] Received from 1 who is leading task 1. Completed: 0
+<11:46:17> [Monitor] <--- killed by SIGINT

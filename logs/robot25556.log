@@ -1,77 +1,50 @@
-<08:20:48> [Auction process] ---> Running
-<08:20:48> [wait_until_id] I'm waiting until I receive my ID
-<08:20:49> [wait_until_id] I'm waiting until I receive my ID
-<08:20:50> [wait_until_id] I'm waiting until I receive my ID
-<08:20:51> [wait_until_id] I'm waiting until I receive my ID
-<08:20:52> [wait_until_id] I'm waiting until I receive my ID
-<08:20:53> [wait_until_id] I'm waiting until I receive my ID
-<08:20:54> [wait_until_id] I'm waiting until I receive my ID
-<08:20:55> [wait_until_id] I'm waiting until I receive my ID
-<08:20:56> [wait_until_id] I'm waiting until I receive my ID
-<08:20:57> [wait_until_id] I'm waiting until I receive my ID
-<08:20:58> [wait_until_id] I'm waiting until I receive my ID
-<08:20:59> [wait_until_id] I'm waiting until I receive my ID
-<08:21:00> [wait_until_id] I'm waiting until I receive my ID
-<08:21:01> [wait_until_id] I'm waiting until I receive my ID
-<08:21:02> [wait_until_id] I'm waiting until I receive my ID
-<08:21:03> [wait_until_id] I'm waiting until I receive my ID
-<08:21:04> [wait_until_id] I'm waiting until I receive my ID
-<08:21:05> [wait_until_id] I'm waiting until I receive my ID
-<08:21:06> [wait_until_id] I'm waiting until I receive my ID
-<08:21:07> [wait_until_id] I'm waiting until I receive my ID
-<08:21:08> [wait_until_id] I'm waiting until I receive my ID
-<08:21:09> [wait_until_id] I'm waiting until I receive my ID
-<08:21:10> [wait_until_id] I'm waiting until I receive my ID
-<08:21:11> [wait_until_id] I'm waiting until I receive my ID
-<08:21:12> [wait_until_id] I'm waiting until I receive my ID
-<08:21:13> [wait_until_id] I'm waiting until I receive my ID
-<08:21:14> [wait_until_id] I'm waiting until I receive my ID
-<08:21:15> [wait_until_id] I'm waiting until I receive my ID
-<08:21:16> [wait_until_id] I'm waiting until I receive my ID
-<08:21:17> [wait_until_id] I'm waiting until I receive my ID
-<08:21:18> [wait_until_id] I'm waiting until I receive my ID
-<08:21:19> [wait_until_id] I'm waiting until I receive my ID
-<08:21:20> [wait_until_id] I'm waiting until I receive my ID
-<08:21:21> [wait_until_id] I'm waiting until I receive my ID
-<08:21:22> [wait_until_id] I'm waiting until I receive my ID
-<08:21:23> [wait_until_id] I'm waiting until I receive my ID
-<08:21:24> [wait_until_id] I'm waiting until I receive my ID
-<08:21:25> [wait_until_id] I'm waiting until I receive my ID
-<08:21:26> [wait_until_id] I'm waiting until I receive my ID
-<08:21:27> [wait_until_id] I'm waiting until I receive my ID
-<08:21:28> [wait_until_id] I'm waiting until I receive my ID
-<08:21:29> [wait_until_id] I'm waiting until I receive my ID
-<08:21:30> [wait_until_id] I'm waiting until I receive my ID
-<08:21:31> [wait_until_id] I'm waiting until I receive my ID
-<08:21:33> [wait_until_id] I'm waiting until I receive my ID
-<08:21:34> [wait_until_id] I'm waiting until I receive my ID
-<08:21:35> [wait_until_id] I'm waiting until I receive my ID
-<08:21:36> [wait_until_id] I'm waiting until I receive my ID
-<08:21:37> [wait_until_id] I'm waiting until I receive my ID
-<08:21:38> [wait_until_id] I'm waiting until I receive my ID
-<08:21:39> [wait_until_id] I'm waiting until I receive my ID
-<08:21:40> [wait_until_id] I'm waiting until I receive my ID
-<08:21:41> [wait_until_id] I'm waiting until I receive my ID
-<08:21:42> [wait_until_id] I'm waiting until I receive my ID
-<08:21:43> [wait_until_id] I'm waiting until I receive my ID
-<08:21:44> [wait_until_id] I'm waiting until I receive my ID
-<08:21:45> [wait_until_id] I'm waiting until I receive my ID
-<08:21:46> [wait_until_id] I'm waiting until I receive my ID
-<08:21:47> [wait_until_id] I'm waiting until I receive my ID
-<08:21:48> [wait_until_id] I'm waiting until I receive my ID
-<08:21:49> [wait_until_id] I'm waiting until I receive my ID
-<08:21:50> [wait_until_id] I'm waiting until I receive my ID
-<08:21:51> [wait_until_id] I'm waiting until I receive my ID
-<08:21:52> [wait_until_id] I'm waiting until I receive my ID
-<08:21:53> [wait_until_id] I'm waiting until I receive my ID
-<08:21:54> [wait_until_id] I'm waiting until I receive my ID
-<08:21:55> [wait_until_id] I'm waiting until I receive my ID
-<08:21:56> [wait_until_id] I'm waiting until I receive my ID
-<08:21:57> [wait_until_id] I'm waiting until I receive my ID
-<08:21:58> [wait_until_id] I'm waiting until I receive my ID
-<08:21:59> [wait_until_id] I'm waiting until I receive my ID
-<08:22:00> [wait_until_id] I'm waiting until I receive my ID
-<08:22:01> [wait_until_id] I'm waiting until I receive my ID
-<08:22:02> [wait_until_id] I'm waiting until I receive my ID
-<08:22:03> [wait_until_id] I'm waiting until I receive my ID
-<08:22:03> [RobotAuction]: Killed by SIGINT
+<11:45:23> [Auction process] ---> Running
+<11:45:23> [wait_until_id] I'm waiting until I receive my ID
+<11:45:24> [wait_until_id] I'm waiting until I receive my ID
+<11:45:25> [wait_until_id] I'm waiting until I receive my ID
+<11:45:25> [NewRobotHandler] Received my own id: 1
+<11:45:25> [NewRobotHandler] Received other robot profile: host: localhost, port: 25557, 2
+<11:45:25> [NewRobotHandler] Received other robot profile: host: localhost, port: 25558, 3
+<11:45:40> [NeTaskHandler] new task: 1
+<11:45:40> [LeaderAlgorithm] Starting a leader request process for task 1
+<11:45:40> [LeaderAlgorithm] Robot 1 requesting task 1, bid: 0.357143
+<11:45:40> [LeaderAlgorithm] Received bid 0.3, but mine is 0.357143, resuming... 
+<11:45:40> [LeaderAlgorithm] Received bid 0.333333, but mine is 0.357143, resuming... 
+<11:45:43> [LeaderAlgorithm] I'm the new leader for task 1
+<11:45:43> [TaskAuction] Starting auction round for task 1
+<11:45:43> [AuctionForTask - Round 1] Received bid from Robot 2, with a bid of 0.333333
+<11:45:43> [AuctionForTask - Round 1] Received bid from Robot 3, with a bid of 0.3
+<11:45:46> [AuctionForTask - Round 1] End of round 1
+Robot 3 WorkCapacity: 0.3
+Robot 2 WorkCapacity: 0.333333
+<11:45:46> [AuctionForTask - Round 2] ---> Selected group: 
+	Robot 3 | LoadCapacity: 3
+	Robot 2 | LoadCapacity: 2
+<11:45:46> [AuctionForTask - Round 2] Total group_work_capacity: 0.633333
+<11:45:46> [AuctionForTask - Round 2] Expected time: 15.7895s
+<11:45:46> [AuctionForTask - Round 2] Task deadline: 20s
+<11:45:46> [AuctionForTask - Round 2] TaskUtility(expected_deadline) <<Uj(DLgj)>>: 1
+<11:45:46> [Travels] I'll make a travel carrying 3kg
+<11:45:46> [Travels] Robot 3 will make a travel carrying 3kg
+<11:45:46> [Travels] Robot 2 will make a travel carrying 2kg
+<11:45:46> [Travels] I'll make a travel carrying 3kg
+<11:45:46> [AuctionForTask - Travels] Task workload: 10 kg
+<11:45:46> [AuctionForTask - Travels] Robot 1 is assigned with 2 travels
+<11:45:46> [AuctionForTask - Travels] Robot 2 is assigned with 1 travels
+<11:45:46> [AuctionForTask - Travels] Robot 3 is assigned with 1 travels
+<11:45:46> [NewTaskHandler] Setting goal with 2 travels
+<11:45:52> [RobotAliveMessageHandler] Robot 2 is not found in the group. Accepted as a new helper
+<11:45:52> [RobotAliveMessageHandler] Robot 3 is not found in the group. Accepted as a new helper
+<11:45:53> [HelperAliveMessageHandler] Robot 2 is in the group. Time elapsed: 792Load carried: 0. Completed: 0
+<11:45:53> [HelperAliveMessageHandler] Robot 3 is in the group. Time elapsed: 807Load carried: 0. Completed: 0
+<11:45:56> [HelperAliveMessageHandler] Robot 2 is in the group. Time elapsed: 3004Load carried: 0. Completed: 0
+<11:45:56> [HelperAliveMessageHandler] Robot 3 is in the group. Time elapsed: 2980Load carried: 0. Completed: 0
+<11:45:59> [HelperAliveMessageHandler] Robot 2 is in the group. Time elapsed: 3004Load carried: 0. Completed: 0
+<11:45:59> [HelperAliveMessageHandler] Robot 3 is in the group. Time elapsed: 3013Load carried: 0. Completed: 0
+<11:46:02> [HelperAliveMessageHandler] Robot 3 is in the group. Time elapsed: 2993Load carried: 0. Completed: 0
+<11:46:02> [CheckRobotStatus] Helper 2 is considered dead. Removing from group...
+<11:46:05> [HelperAliveMessageHandler] Robot 3 is in the group. Time elapsed: 3003Load carried: 0. Completed: 0
+<11:46:08> [HelperAliveMessageHandler] Robot 3 is in the group. Time elapsed: 3016Load carried: 0. Completed: 0
+<11:46:11> [HelperAliveMessageHandler] Robot 3 is in the group. Time elapsed: 2985Load carried: 0. Completed: 0
+<11:46:14> [HelperAliveMessageHandler] Robot 3 is in the group. Time elapsed: 3011Load carried: 0. Completed: 0
+<11:46:16> [RobotAuction]: Killed by SIGINT

@@ -16,6 +16,7 @@ struct Auction::RobotStatusInfo
 {
     RobotStatus current_status;
     RobotRole current_role;
+    int current_task = -1;
     std::chrono::time_point<std::chrono::system_clock> last_time_point;
     bool first_time_point;
 

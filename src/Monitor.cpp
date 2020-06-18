@@ -95,7 +95,6 @@ void Monitor::kill_robot_message_handler(Auction::SimpleMessage & kill_robot)
     {
         SimpleMessage new_kill_robot(Task::NULL_TASK, kill_robot.robot_src, Auction::MessageType::ROBOT_KILL);
         info_report << "[KillRobotMessageHandler]: Sending kill robot to robot "<< kill_robot.robot_src<<"\n";
-        info_report << "[KillRobotMessageHandler]: " << new_kill_robot.serialize() << "\n";
         message_system.send_message(new_kill_robot, new_kill_robot.robot_src);
         it_robot->second.current_status = RobotStatus::DEAD;
     }
@@ -121,6 +120,7 @@ void Monitor::leader_alive_message_handler(Auction::MonitoringMessage & leader_a
         << leader_alive.completed <<"\n";
 
     Auction::RobotStatusInfo & info = this->robot_status[leader_alive.robot_src];
+    info.current_task = leader_alive.task_id;
     info.update_last_time_point();   
     info.current_role = RobotRole::LEADING;
     info.first_time_point = false;
@@ -163,8 +163,11 @@ void Monitor::check_robot_status()
             info.current_status != Auction::RobotStatus::DEAD &&
             elapsed > (Auction::RobotStatusInfo::TIME_LEAD_ALIVE_MILLIS + Auction::RobotStatusInfo::TOLERANCE))
         {
+
+            info_report << "[CheckRobotStatus]: Robot "<< robot_id << " is considered dead ("
+                << info.current_role << ", " << info.current_task << "\n";
+
             info.current_status = Auction::RobotStatus::DEAD;
-            info_report << "[CheckRobotStatus]: Robot "<< robot_id << " is considered dead\n";
         }
 
     }

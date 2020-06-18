@@ -1,77 +1,19 @@
-<08:20:48> [Auction process] ---> Running
-<08:20:48> [wait_until_id] I'm waiting until I receive my ID
-<08:20:49> [wait_until_id] I'm waiting until I receive my ID
-<08:20:50> [wait_until_id] I'm waiting until I receive my ID
-<08:20:51> [wait_until_id] I'm waiting until I receive my ID
-<08:20:52> [wait_until_id] I'm waiting until I receive my ID
-<08:20:53> [wait_until_id] I'm waiting until I receive my ID
-<08:20:54> [wait_until_id] I'm waiting until I receive my ID
-<08:20:55> [wait_until_id] I'm waiting until I receive my ID
-<08:20:56> [wait_until_id] I'm waiting until I receive my ID
-<08:20:57> [wait_until_id] I'm waiting until I receive my ID
-<08:20:58> [wait_until_id] I'm waiting until I receive my ID
-<08:20:59> [wait_until_id] I'm waiting until I receive my ID
-<08:21:00> [wait_until_id] I'm waiting until I receive my ID
-<08:21:01> [wait_until_id] I'm waiting until I receive my ID
-<08:21:02> [wait_until_id] I'm waiting until I receive my ID
-<08:21:03> [wait_until_id] I'm waiting until I receive my ID
-<08:21:04> [wait_until_id] I'm waiting until I receive my ID
-<08:21:05> [wait_until_id] I'm waiting until I receive my ID
-<08:21:06> [wait_until_id] I'm waiting until I receive my ID
-<08:21:07> [wait_until_id] I'm waiting until I receive my ID
-<08:21:08> [wait_until_id] I'm waiting until I receive my ID
-<08:21:09> [wait_until_id] I'm waiting until I receive my ID
-<08:21:10> [wait_until_id] I'm waiting until I receive my ID
-<08:21:11> [wait_until_id] I'm waiting until I receive my ID
-<08:21:12> [wait_until_id] I'm waiting until I receive my ID
-<08:21:13> [wait_until_id] I'm waiting until I receive my ID
-<08:21:14> [wait_until_id] I'm waiting until I receive my ID
-<08:21:15> [wait_until_id] I'm waiting until I receive my ID
-<08:21:16> [wait_until_id] I'm waiting until I receive my ID
-<08:21:17> [wait_until_id] I'm waiting until I receive my ID
-<08:21:18> [wait_until_id] I'm waiting until I receive my ID
-<08:21:19> [wait_until_id] I'm waiting until I receive my ID
-<08:21:20> [wait_until_id] I'm waiting until I receive my ID
-<08:21:21> [wait_until_id] I'm waiting until I receive my ID
-<08:21:22> [wait_until_id] I'm waiting until I receive my ID
-<08:21:23> [wait_until_id] I'm waiting until I receive my ID
-<08:21:24> [wait_until_id] I'm waiting until I receive my ID
-<08:21:25> [wait_until_id] I'm waiting until I receive my ID
-<08:21:26> [wait_until_id] I'm waiting until I receive my ID
-<08:21:27> [wait_until_id] I'm waiting until I receive my ID
-<08:21:28> [wait_until_id] I'm waiting until I receive my ID
-<08:21:29> [wait_until_id] I'm waiting until I receive my ID
-<08:21:30> [wait_until_id] I'm waiting until I receive my ID
-<08:21:31> [wait_until_id] I'm waiting until I receive my ID
-<08:21:32> [wait_until_id] I'm waiting until I receive my ID
-<08:21:33> [wait_until_id] I'm waiting until I receive my ID
-<08:21:34> [wait_until_id] I'm waiting until I receive my ID
-<08:21:35> [wait_until_id] I'm waiting until I receive my ID
-<08:21:36> [wait_until_id] I'm waiting until I receive my ID
-<08:21:37> [wait_until_id] I'm waiting until I receive my ID
-<08:21:38> [wait_until_id] I'm waiting until I receive my ID
-<08:21:39> [wait_until_id] I'm waiting until I receive my ID
-<08:21:40> [wait_until_id] I'm waiting until I receive my ID
-<08:21:41> [wait_until_id] I'm waiting until I receive my ID
-<08:21:42> [wait_until_id] I'm waiting until I receive my ID
-<08:21:43> [wait_until_id] I'm waiting until I receive my ID
-<08:21:44> [wait_until_id] I'm waiting until I receive my ID
-<08:21:45> [wait_until_id] I'm waiting until I receive my ID
-<08:21:46> [wait_until_id] I'm waiting until I receive my ID
-<08:21:47> [wait_until_id] I'm waiting until I receive my ID
-<08:21:48> [wait_until_id] I'm waiting until I receive my ID
-<08:21:49> [wait_until_id] I'm waiting until I receive my ID
-<08:21:50> [wait_until_id] I'm waiting until I receive my ID
-<08:21:51> [wait_until_id] I'm waiting until I receive my ID
-<08:21:52> [wait_until_id] I'm waiting until I receive my ID
-<08:21:53> [wait_until_id] I'm waiting until I receive my ID
-<08:21:54> [wait_until_id] I'm waiting until I receive my ID
-<08:21:55> [wait_until_id] I'm waiting until I receive my ID
-<08:21:56> [wait_until_id] I'm waiting until I receive my ID
-<08:21:57> [wait_until_id] I'm waiting until I receive my ID
-<08:21:58> [wait_until_id] I'm waiting until I receive my ID
-<08:21:59> [wait_until_id] I'm waiting until I receive my ID
-<08:22:00> [wait_until_id] I'm waiting until I receive my ID
-<08:22:01> [wait_until_id] I'm waiting until I receive my ID
-<08:22:02> [wait_until_id] I'm waiting until I receive my ID
-<08:22:03> [RobotAuction]: Killed by SIGINT
+<11:45:23> [Auction process] ---> Running
+<11:45:23> [wait_until_id] I'm waiting until I receive my ID
+<11:45:24> [wait_until_id] I'm waiting until I receive my ID
+<11:45:25> [wait_until_id] I'm waiting until I receive my ID
+<11:45:25> [NewRobotHandler] Received other robot profile: host: localhost, port: 25556, 1
+<11:45:25> [NewRobotHandler] Received my own id: 2
+<11:45:25> [NewRobotHandler] Received other robot profile: host: localhost, port: 25558, 3
+<11:45:40> [NeTaskHandler] new task: 1
+<11:45:40> [LeaderAlgorithm] Starting a leader request process for task 1
+<11:45:40> [LeaderAlgorithm] Robot 2 requesting task 1, bid: 0.333333
+<11:45:40> [LeaderAlgorithm] Received bid 0.3, but mine is 0.333333, resuming... 
+<11:45:40> [LeaderAlgorithm] Received bid 0.357143, and mine is 0.333333, giving up... 
+<11:45:43> [LeaderOfTaskHandler] Robot 1 is the new leader of task 1
+<11:45:43> [BidRequestMessageHandler]: Received a bid request from Robot1 for task 1. Replying with bid: 0.333333
+<11:45:46> [NonLeaderAuction] Received bid from 1 for task 1 with a bid of 1
+<11:45:52> [NonLeaderAuction] Best option: task 1 from leader 1 whose bid is 1
+<11:45:52> [NonLeaderAuction] Sending refuse to
+<11:45:52> [BidForTaskMessageHandler] Setting 1 travels
+<11:46:01> [RobotAuction]: Killed by SIGINT
